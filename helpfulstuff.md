@@ -3,7 +3,7 @@
 ###### Brian's most frequently used snippets
 `ssh -NfL localhost:9000:localhost:8888 tombstone`
 
->open notebook using port 9000!
+###### open notebook using port 9000!
 
 `http://localhost:9000/?token=15a3ecc24a52ce62e21cd4879fbb2ca20ad089662c7298b3`
 
@@ -16,10 +16,11 @@ cd ~/.ssh
 ssh-keygen
 <enter>
 <enter>
-<enter>```
+<enter>
+```
 ###### (mash enter a few times)
 
-> Should see:
+###### Should see:
 ```
 ubuntu@ip-172-31-14-145:~/.ssh$ ssh-keygen
 Generating public/private rsa key pair.
@@ -45,6 +46,7 @@ The key's randomart image is:
 |                 |
 +----[SHA256]-----+
 ```
+
 ###### then do:
 more id_rsa.pub
 
@@ -114,11 +116,13 @@ df = pd.DataFrame(list(your_collection.find()))
 [More info](https://stackoverflow.com/questions/17805304/how-can-i-load-data-from-mongodb-collection-into-pandas-dataframe/17805626#17805626)
 
 ## Nginx config file
-/etc/nginx/sites-enabled/
+`/etc/nginx/sites-enabled/`
 
-config file is:  default
+config file is:  `default`
 
-the path to the server is under root /var/www/html; if it hasn't been changed
+therefore full path to nginx config file would be like:   `nano /etc/nginx/sites-enabled/default`
+
+the path to the server is under root `/var/www/html` if it hasn't been changed
 
 therefore you can modify the files in /var/www/html and the nginx will use that
 
@@ -132,14 +136,16 @@ location / {
                 proxy_pass http://localhost:5000;
         }
 ```
+
+#### Important! If you don't restart the service the changes won't take effect
 since we modified the config file we have to restart the nginx process
 
-sudo service nginx reload
+`sudo service nginx reload`
 
 # verify if flask is working
 
-######ssh -NfL localhost:9900:localhost:<flask port on web server> <ssh alias to webserver>
-######ex:
+`ssh -NfL localhost:9900:localhost:<flask port on web server> <ssh alias to webserver>`
+###### ex:
 `ssh -NfL localhost:9900:localhost:5000 webserver`
 
 ###### once that tunnel is established from your laptop to the EC2 in your laptop
@@ -154,11 +160,11 @@ sudo service nginx reload
 ###### make a new ssh tunnel to test nginx. the point of this is to bypass AWS
 ###### security profile rules which is a common failure mode (AWS security blocking ports)
 
-ssh -NfL localhost:9901:localhost:80 webserver
+`ssh -NfL localhost:9901:localhost:80 webserver`
 
 ###### once that tunnel is established from your laptop to the EC2 in your laptop
 ###### try opening a browser to
-http://localhost:9901
+`http://localhost:9901`
 ###### and see if that works. If yes then seems like nginx is good
 
 ###### if it doesn't work then nginx is trying to serve on a different port
@@ -168,13 +174,15 @@ http://localhost:9901
 
 ## tmux stuff #########
 
+#### Note: => means "then" control+b => %  in English means: press control and 'b' at the same time, then press '%'
+
 ###### Connect to tmux session
 ###### while logged in to remote AWS EC2 server
 ###### if tmux isn't running, start new session
-tmux
+`tmux`
 
 ###### if tmux is running attach to session
-tmux attach
+`tmux attach`
 
 
 ###### do stuff ie <jupyter notebook>
@@ -182,7 +190,7 @@ tmux attach
 
 ###### re-ssh to remote server
 
-tmux attach
+`tmux attach`
 
 ###### should reattach you to the jupyter notebook
 
@@ -190,10 +198,10 @@ tmux attach
 ###### Create window pane in tmux:
 
 ###### Horizontal slice
-ctrl/command + b => "
+`ctrl/command + b => "`
 
 ###### Vertical slice
-ctrl/command + b => %
+`ctrl/command + b => %`
 
 ###### Close current pane
-ctrl/command + b => x => y
+`ctrl/command + b => x => y`
