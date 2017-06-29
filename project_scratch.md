@@ -10,9 +10,25 @@ http://steamcommunity.com/app/582550/homecontent/?userreviewsoffset=40&p=5
 Review page url:
 view-source:http://steamcommunity.com/app/582550/reviews/?p=1
 
+http://steamspy.com/api.php
+
 probably use the 'userreviewoffset=40' as well as the 'p=5' to load in all of the pages
 
+Urls for possible steam scraping:
+
+http://steamcommunity.com/app/413150/reviews/
+http://steamcommunity.com/app/413150/reviews/?p=1&browsefilter=toprated
+http://steamcommunity.com/app/366090/reviews/?browsefilter=snr=1_5_reviews_
+
 https://steamcommunity.com/id/simplychen/games/?tab=all
+
+Output Formats
+All API calls take the form http://api.steampowered.com/<interface name>/<method name>/v<version>/?key=<api key>&format=<format>.
+Format can be any of:
+json - The output will be returned in the JSON format
+xml - Output is returned as an XML document
+vdf - Output is returned as a VDF file.
+If you do not specify a format, your results will be returns in the JSON format.
 
 #######################
 #####    IDEA   #######
