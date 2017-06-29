@@ -44,15 +44,15 @@ The key's randomart image is:
 |                 |
 +----[SHA256]-----+
 
-then do:
+######then do:
 more id_rsa.pub
 
-should see a bunch of random looking letters
+######should see a bunch of random looking letters
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC40QzD1oxqPf+9
 <snip>
 wd+j6gKh4/sseCBN ubuntu@ip-172-31-14-145
 
-copy and paste that into github (or whatever) public key
+######copy and paste that into github (or whatever) public key
 
 ## tmux stuff #########
 
@@ -78,15 +78,8 @@ bash Anaconda2-4.4.0-Linux-x86_64.sh
 
 https://www.howtoforge.com/tutorial/install-mongodb-on-ubuntu-16.04/
 
-Urls for possible steam scraping:
 
-http://steamcommunity.com/app/413150/reviews/
-http://steamcommunity.com/app/413150/reviews/?p=1&browsefilter=toprated
-http://steamcommunity.com/app/366090/reviews/?browsefilter=snr=1_5_reviews_
-
-http://steamspy.com/api.php
-
-## MONGO DB is irritating ######
+## MONGO DB is weird ######
 
 > db.users.save( {username:"mkyong"} )
 > db.users.find()
@@ -101,14 +94,6 @@ mkyongdb        0.03125GB
 
 ###### create new database collection
 db.createCollection("new_collection")
-
-Output Formats
-All API calls take the form http://api.steampowered.com/<interface name>/<method name>/v<version>/?key=<api key>&format=<format>.
-Format can be any of:
-json - The output will be returned in the JSON format
-xml - Output is returned as an XML document
-vdf - Output is returned as a VDF file.
-If you do not specify a format, your results will be returns in the JSON format.
 
 
 ## Nginx config file
@@ -134,31 +119,31 @@ since we modified the config file we have to restart the nginx process
 
 sudo service nginx reload
 
-######################################
 # verify if flask is working
-######################################
-ssh -NfL localhost:9900:localhost:<flask port on web server> <ssh alias to webserver>
-# ex ssh -NfL localhost:9900:localhost:5000 webserver
 
-# once that tunnel is established from your laptop to the EC2 in your laptop
-# try opening a browser to
+######ssh -NfL localhost:9900:localhost:<flask port on web server> <ssh alias to webserver>
+######ex:
+ssh -NfL localhost:9900:localhost:5000 webserver
+
+###### once that tunnel is established from your laptop to the EC2 in your laptop
+###### try opening a browser to
 http://localhost:9900
-# and see if that works. If yes then seems like flask is good
+###### and see if that works. If yes then seems like flask is good
 
 ######################################
 # verify if nginx is working
 ######################################
 
-# make a new ssh tunnel to test nginx. the point of this is to bypass AWS
-# security profile rules
+###### make a new ssh tunnel to test nginx. the point of this is to bypass AWS
+###### security profile rules which is a common failure mode (AWS security blocking ports)
 
 ssh -NfL localhost:9901:localhost:80 webserver
 
-# once that tunnel is established from your laptop to the EC2 in your laptop
-# try opening a browser to
+###### once that tunnel is established from your laptop to the EC2 in your laptop
+###### try opening a browser to
 http://localhost:9901
-# and see if that works. If yes then seems like nginx is good
+###### and see if that works. If yes then seems like nginx is good
 
-# if it doesn't work then nginx is trying to serve on a different port
-# or the process isn't running.  use stuff like ps aux or the lsof -i :8080
-# to try to figure out where it is running
+###### if it doesn't work then nginx is trying to serve on a different port
+###### or the process isn't running.  use stuff like ps aux or the lsof -i :8080
+###### to try to figure out where it is running
