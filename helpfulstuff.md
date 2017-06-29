@@ -1,4 +1,4 @@
-##   OPERATIONS CHEAT SHEAT 
+# OPERATIONS CHEAT SHEAT 
 
 ###### Brian's most frequently used snippets
 ssh -NfL localhost:9000:localhost:8888 tombstone
@@ -81,6 +81,32 @@ mkyongdb        0.03125GB
 ###### create new database collection
 db.createCollection("new_collection")
 
+## Python snippet for adding an item to an existing collection while attempting to avoid duplicates
+def insert(collection, dictionary, match_key):
+    '''
+    Abstracted insert method which, attempts to add the dictionary to the
+    provided collection in MongoDB.  
+
+    The method attempts to avoid duplicate inserts by checking the collection
+    to see if there's already an item who's key matches the one being inserted.
+    If there is a matching item then the new one is not inserted.
+    '''
+    if not collection.find_one({match_key: dictionary[match_key]}):
+        try:
+            collection.insert_one(dictionary)
+            print "inserted", dictionary[match_key]
+
+        except Exception, e:
+            print "Execption when attempting to insert into collection:", e
+
+    else:
+        print match_key, "already exists"
+
+## How to read in a MongoDB collection into a pandas DF (Credit Tim :-)  )
+import pandas as pd
+df = pd.DataFrame(list(your_collection.find()))
+
+https://stackoverflow.com/questions/17805304/how-can-i-load-data-from-mongodb-collection-into-pandas-dataframe/17805626#17805626
 
 ## Nginx config file
 /etc/nginx/sites-enabled/
