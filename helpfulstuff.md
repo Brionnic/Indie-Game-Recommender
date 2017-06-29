@@ -115,6 +115,68 @@ df = pd.DataFrame(list(your_collection.find()))
 
 [More info](https://stackoverflow.com/questions/17805304/how-can-i-load-data-from-mongodb-collection-into-pandas-dataframe/17805626#17805626)
 
+## MongoDB CLI stuff
+Enter mongo cli:
+`mongo`
+
+show databases:
+`> show dbs
+capstone  0.233GB
+local     0.000GB`
+
+check out database:
+`> use capstone
+switched to db capstone`
+
+show collections in database:
+`> show collections
+basic_game_review_scrape
+game_app_name_id
+game_list_scrape
+raw_game_scrape
+raw_scraping_data
+raw_user_scrape
+user_data_digest`
+
+create a collection in database:
+`> db.createCollection("test_col")
+{ "ok" : 1 }`
+
+verify new addition to database:
+`> show collections
+basic_game_review_scrape
+game_app_name_id
+game_list_scrape
+raw_game_scrape
+raw_scraping_data
+raw_user_scrape
+test_col            <----------
+user_data_digest`
+
+drop collection from database (you know what you're doing, right?):
+
+no really, you're really sure that you want to delete this stuff?
+`> db.test_col.drop()
+true
+> show collections
+basic_game_review_scrape
+game_app_name_id
+game_list_scrape
+raw_game_scrape
+raw_scraping_data
+raw_user_scrape
+user_data_digest
+`
+
+verify that collection has data (after you've entered stuff into it):
+`> db.game_app_name_id.findOne()
+{
+        "_id" : ObjectId("59519b2b421bd105fddcc3a3"),
+        "path" : "http://steamcommunity.com/app/367520/reviews/?p=",
+        "app_id" : "367520",
+        "title" : "Hollow_Knight"
+}`
+
 ## Nginx config file
 `/etc/nginx/sites-enabled/`
 
