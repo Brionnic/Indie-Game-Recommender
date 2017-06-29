@@ -1,4 +1,4 @@
-##   OPS    #######
+##   OPERATIONS CHEAT SHEAT 
 
 made AWS EC2 with mongoDB and scraped 656 pages of games tagged as indie
 
