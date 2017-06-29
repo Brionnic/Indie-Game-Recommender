@@ -137,11 +137,6 @@ http://localhost:9901
 
 ## tmux stuff #########
 
-###### Note if you see < > then the command is what is _inside_ the < >
-###### Ex:  <tmux attach>  means at the cli enter: tmux attach
-###### this is because some commands are not clear that you would type it
-###### on a given line, for example "  is actually <"> and then enter.
-
 ###### Connect to tmux session
 ###### while logged in to remote AWS EC2 server
 ###### if tmux isn't running, start new session
@@ -164,14 +159,10 @@ tmux attach
 ###### Create window pane in tmux:
 
 ###### Horizontal slice
-<ctrl/command + b> 
-<">
+ctrl/command + b => "
 
 ###### Vertical slice
-<ctrl/command + b>
-<%>
+ctrl/command + b => %
 
 ###### Close current pane
-<ctrl/command + b>
-<x>
-<y>
+ctrl/command + b => x => y
