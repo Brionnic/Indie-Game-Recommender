@@ -1,26 +1,26 @@
 # OPERATIONS CHEAT SHEAT 
 
 ###### Brian's most frequently used snippets
-ssh -NfL localhost:9000:localhost:8888 tombstone
+`ssh -NfL localhost:9000:localhost:8888 tombstone`
 
-http://localhost:9000/?token=d23ef16458d05119554bfa7af2a95efc273cee49494dc21e
+>open notebook using port 9000!
 
-open notebook using port 9000!
-
-http://localhost:9000/?token=15a3ecc24a52ce62e21cd4879fbb2ca20ad089662c7298b3
+`http://localhost:9000/?token=15a3ecc24a52ce62e21cd4879fbb2ca20ad089662c7298b3`
 
 # Get an EC2 ready to use as a data science/web server after it's been created and spun up
 
 ## Generate SSH Key ####
 ###### on AWS EC2 server:
+```
 cd ~/.ssh
 ssh-keygen
 <enter>
 <enter>
-<enter>
+<enter>```
 ###### (mash enter a few times)
 
-###### Should see:
+> Should see:
+```
 ubuntu@ip-172-31-14-145:~/.ssh$ ssh-keygen
 Generating public/private rsa key pair.
 Enter file in which to save the key (/home/ubuntu/.ssh/id_rsa):
@@ -32,6 +32,7 @@ Your public key has been saved in /home/ubuntu/.ssh/id_rsa.pub.
 The key fingerprint is:
 SHA256:hrNV5BthKwdEc5LbABl1hc/mQn1NOnLu0BCkZ2UigOU ubuntu@ip-172-31-14-145
 The key's randomart image is:
+
 +---[RSA 2048]----+
 |      oXXoB++ o  |
 |      o.oX.=.+  .|
@@ -43,26 +44,26 @@ The key's randomart image is:
 |              .  |
 |                 |
 +----[SHA256]-----+
-
+```
 ###### then do:
 more id_rsa.pub
 
 ###### should see a bunch of random looking letters
-ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC40QzD1oxqPf+9
+`ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC40QzD1oxqPf+9
 <snip>
-wd+j6gKh4/sseCBN ubuntu@ip-172-31-14-145
+wd+j6gKh4/sseCBN ubuntu@ip-172-31-14-145`
 
 ###### copy and paste that into github (or whatever) public key
 
 ## Anaconda installer  ###########
 
-wget https://repo.continuum.io/archive/Anaconda2-4.4.0-Linux-x86_64.sh
-bash Anaconda2-4.4.0-Linux-x86_64.sh
+`wget https://repo.continuum.io/archive/Anaconda2-4.4.0-Linux-x86_64.sh
+bash Anaconda2-4.4.0-Linux-x86_64.sh`
 
 
 ## Install MongoDB     ###########
 
-https://www.howtoforge.com/tutorial/install-mongodb-on-ubuntu-16.04/
+[Installation instructions](https://www.howtoforge.com/tutorial/install-mongodb-on-ubuntu-16.04/)
 
 
 ## MONGO DB is weird ######
@@ -82,7 +83,8 @@ mkyongdb        0.03125GB
 db.createCollection("new_collection")
 
 ## Python snippet for adding an item to an existing collection while attempting to avoid duplicates
-def insert(collection, dictionary, match_key):
+```python
+def insert_to_collection(collection, dictionary, match_key):
     '''
     Abstracted insert method which, attempts to add the dictionary to the
     provided collection in MongoDB.  
@@ -101,12 +103,15 @@ def insert(collection, dictionary, match_key):
 
     else:
         print match_key, "already exists"
+```
 
 ## How to read in a MongoDB collection into a pandas DF (Credit Tim :-)  )
+```python
 import pandas as pd
 df = pd.DataFrame(list(your_collection.find()))
+```
 
-https://stackoverflow.com/questions/17805304/how-can-i-load-data-from-mongodb-collection-into-pandas-dataframe/17805626#17805626
+[More info](https://stackoverflow.com/questions/17805304/how-can-i-load-data-from-mongodb-collection-into-pandas-dataframe/17805626#17805626)
 
 ## Nginx config file
 /etc/nginx/sites-enabled/
@@ -119,14 +124,14 @@ therefore you can modify the files in /var/www/html and the nginx will use that
 
 Proxy to redirect nginx to flask
 change default file here:
-
+```
 location / {
                 # First attempt to serve request as file, then
                 # as directory, then fall back to displaying a 404.
                 # try_files $uri $uri/ =404;
                 proxy_pass http://localhost:5000;
         }
-
+```
 since we modified the config file we have to restart the nginx process
 
 sudo service nginx reload
@@ -135,11 +140,11 @@ sudo service nginx reload
 
 ######ssh -NfL localhost:9900:localhost:<flask port on web server> <ssh alias to webserver>
 ######ex:
-ssh -NfL localhost:9900:localhost:5000 webserver
+`ssh -NfL localhost:9900:localhost:5000 webserver`
 
 ###### once that tunnel is established from your laptop to the EC2 in your laptop
 ###### try opening a browser to
-http://localhost:9900
+`http://localhost:9900`
 ###### and see if that works. If yes then seems like flask is good
 
 ######################################
