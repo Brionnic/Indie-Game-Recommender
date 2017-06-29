@@ -1,7 +1,6 @@
 ##   OPERATIONS CHEAT SHEAT 
 
-made AWS EC2 with mongoDB and scraped 656 pages of games tagged as indie
-
+###### Brian's most frequently used snippets
 ssh -NfL localhost:9000:localhost:8888 tombstone
 
 http://localhost:9000/?token=d23ef16458d05119554bfa7af2a95efc273cee49494dc21e
@@ -10,17 +9,18 @@ open notebook using port 9000!
 
 http://localhost:9000/?token=15a3ecc24a52ce62e21cd4879fbb2ca20ad089662c7298b3
 
+# Get an EC2 ready to use as a data science/web server after it's been created and spun up
 
 ## Generate SSH Key ####
-###on AWS EC2 server:
+###### on AWS EC2 server:
 cd ~/.ssh
 ssh-keygen
 <enter>
 <enter>
 <enter>
-(mash enter a few times)
+###### (mash enter a few times)
 
-Should see:
+###### Should see:
 ubuntu@ip-172-31-14-145:~/.ssh$ ssh-keygen
 Generating public/private rsa key pair.
 Enter file in which to save the key (/home/ubuntu/.ssh/id_rsa):
@@ -44,29 +44,15 @@ The key's randomart image is:
 |                 |
 +----[SHA256]-----+
 
-######then do:
+###### then do:
 more id_rsa.pub
 
-######should see a bunch of random looking letters
+###### should see a bunch of random looking letters
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC40QzD1oxqPf+9
 <snip>
 wd+j6gKh4/sseCBN ubuntu@ip-172-31-14-145
 
-######copy and paste that into github (or whatever) public key
-
-## tmux stuff #########
-
-### logged in to remote AWS EC2 server
-tmux new-session -s work
-
-###do stuff ie jupyter notebook
-###exit from terminal to drop back to local terminal
-
-###re-ssh to remote server
-
-tmux attach -t work
-
-###should reattach you to the jupyter notebook
+###### copy and paste that into github (or whatever) public key
 
 ## Anaconda installer  ###########
 
@@ -147,3 +133,45 @@ http://localhost:9901
 ###### if it doesn't work then nginx is trying to serve on a different port
 ###### or the process isn't running.  use stuff like ps aux or the lsof -i :8080
 ###### to try to figure out where it is running
+
+
+## tmux stuff #########
+
+###### Note if you see < > then the command is what is _inside_ the < >
+###### Ex:  <tmux attach>  means at the cli enter: tmux attach
+###### this is because some commands are not clear that you would type it
+###### on a given line, for example "  is actually <"> and then enter.
+
+###### Connect to tmux session
+###### while logged in to remote AWS EC2 server
+###### if tmux isn't running, start new session
+tmux
+
+###### if tmux is running attach to session
+tmux attach
+
+
+###### do stuff ie <jupyter notebook>
+###### exit from terminal to drop back to local terminal
+
+###### re-ssh to remote server
+
+tmux attach
+
+###### should reattach you to the jupyter notebook
+
+###### Extra tmux tips:
+###### Create window pane in tmux:
+
+###### Horizontal slice
+<ctrl/command + b> 
+<">
+
+###### Vertical slice
+<ctrl/command + b>
+<%>
+
+###### Close current pane
+<ctrl/command + b>
+<x>
+<y>
