@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# Script from:
+# https://gist.github.com/eladnava/96bd9771cd2e01fb4427230563991c8d
+# Credit to eladnava
+
 # Make sure to:
 # 1) Name this file `backup.sh` and place it in /home/ubuntu
 # 2) Run sudo apt-get install awscli to install the AWSCLI
