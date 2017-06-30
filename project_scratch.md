@@ -1,26 +1,30 @@
-http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=XXXXXXXXXXXXXXXXXXXXXXX&steamids=76561197960435530
+#### still looking for a good url to scrape review info from
+`http://store.steampowered.com/app/413150/Stardew_Valley/`
 
-http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=5DA6749271B3262B589F2980379B9AE2&steamids=76561197960435530
+
+`http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=XXXXXXXXXXXXXXXXXXXXXXX&steamids=76561197960435530`
+
+`http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=5DA6749271B3262B589F2980379B9AE2&steamids=76561197960435530`
 
 # Super special shiny unicorn rainbow URL
-http://steamcommunity.com/app/582550/homecontent/?userreviewsoffset=40&p=5&workshopitemspage=5&readytouseitemspage=5&mtxitemspage=5&itemspage=5&screenshotspage=5&videospage=5&artpage=5&allguidepage=5&webguidepage=5&integratedguidepage=5&discussionspage=5&numperpage=10&browsefilter=toprated&browsefilter=toprated&appid=582550&appHubSubSection=10&appHubSubSection=10&l=english&filterLanguage=default&searchText=
+`http://steamcommunity.com/app/582550/homecontent/?userreviewsoffset=40&p=5&workshopitemspage=5&readytouseitemspage=5&mtxitemspage=5&itemspage=5&screenshotspage=5&videospage=5&artpage=5&allguidepage=5&webguidepage=5&integratedguidepage=5&discussionspage=5&numperpage=10&browsefilter=toprated&browsefilter=toprated&appid=582550&appHubSubSection=10&appHubSubSection=10&l=english&filterLanguage=default&searchText=`
 
-http://steamcommunity.com/app/582550/homecontent/?userreviewsoffset=40&p=5
+`http://steamcommunity.com/app/582550/homecontent/?userreviewsoffset=40&p=5`
 
 Review page url:
-view-source:http://steamcommunity.com/app/582550/reviews/?p=1
+`view-source:http://steamcommunity.com/app/582550/reviews/?p=1`
 
-http://steamspy.com/api.php
+`http://steamspy.com/api.php`
 
 probably use the 'userreviewoffset=40' as well as the 'p=5' to load in all of the pages
 
 Urls for possible steam scraping:
 
-http://steamcommunity.com/app/413150/reviews/
-http://steamcommunity.com/app/413150/reviews/?p=1&browsefilter=toprated
-http://steamcommunity.com/app/366090/reviews/?browsefilter=snr=1_5_reviews_
+`http://steamcommunity.com/app/413150/reviews/`
+`http://steamcommunity.com/app/413150/reviews/?p=1&browsefilter=toprated`
+`http://steamcommunity.com/app/366090/reviews/?browsefilter=snr=1_5_reviews_`
 
-https://steamcommunity.com/id/simplychen/games/?tab=all
+`https://steamcommunity.com/id/simplychen/games/?tab=all`
 
 Output Formats
 All API calls take the form http://api.steampowered.com/<interface name>/<method name>/v<version>/?key=<api key>&format=<format>.
