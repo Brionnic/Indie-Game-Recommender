@@ -273,6 +273,6 @@ since we modified the config file we have to restart the nginx process
 ## Selenium Stuff
 
 #### Info on running headless (for use on EC2)
-(Install Chrome headless and Selenium for Python)[https://christopher.su/2015/selenium-chromedriver-ubuntu/]
+[Install Chrome headless and Selenium for Python](https://christopher.su/2015/selenium-chromedriver-ubuntu/)
 
 
