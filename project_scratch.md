@@ -1,7 +1,12 @@
+robomongo, use indexes in mongodb to speed things up
+
 #### still looking for a good url to scrape review info from
 `http://store.steampowered.com/app/413150/Stardew_Valley/`
 
+not really useful, game achievement stuff:
+'http://api.steampowered.com/ISteamUserStats/GetSchemaForGame/v2/?key=5DA6749271B3262B589F2980379B9AE2&appid=413150'
 
+not really useful, game info for a specific user and game
 `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=XXXXXXXXXXXXXXXXXXXXXXX&steamids=76561197960435530`
 
 `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=5DA6749271B3262B589F2980379B9AE2&steamids=76561197960435530`
