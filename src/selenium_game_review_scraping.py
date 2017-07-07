@@ -1,6 +1,10 @@
 # Author: Brian Hardenstein
 # pixelatedbrian@gmail.com
 
+# v0.51 detect the end of a page so if we don't get 1000 reviews (or whatever)
+# but we hit the end of page first, prevent scrolling for no reason (wasting
+# time)
+
 # v 0.50 add game list tracking so we can try to scrape all 8000+ games
 # (yeah, omg)
 # import paperbag
@@ -9,6 +13,7 @@
 #   writes exception to error file if it fails
 #
 
+# headless scraping that gets around javascript blocks? yes please
 from selenium import webdriver
 
 # import MongoDB modules
@@ -41,7 +46,12 @@ def update_completed_games(app_id):
 
     with open("games_we_have.txt", "a") as outfile:
         outfile.write(app_id + "\n")
-        print "added", app_id, "to games_we_have.txt"
+
+    temp = GameIndexer()
+
+    remaining = len(temp.return_list_of_all_apps()) - len(get_completed_games())
+    print "added {} to games_we_have.txt with {} remaining.".format(app_id,
+                                                            remaining)
 
 def make_list_of_games_to_scrape():
     '''
@@ -221,16 +231,28 @@ def strip_mine_path(path, count):
     # count // 10 because there's 10 reviews per page
     for x in range(count // 10):
         time.sleep(1)
+
+        if x == 0:
+            previous_page = len(driver.page_source)
+
         # try to get the before height
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
         # trying to scroll down
         time.sleep(1)
 
+        current_page = len(driver.page_source)
+
+        if current_page == previous_page:
+            print "seems like hit the end of the page, breaking now"
+            break
+        else:
+            previous_page = current_page
+
         # print on the same line for console log
         # print "{}th tab of reviews loading...\r".format(x) ,
         #print "{},".format(x),
-        sys.stdout.write("{} ,".format(x))
+        print "{}\r".format(x),
 
 
 
@@ -333,21 +355,28 @@ def scrape_to_db(collection, app_id_list, count):
     <collection>.
     '''
 
+    # get list of apps/titles so we can populate the database with more data
+    _gameindexer = GameIndexer()
+
     # step through each app in the list and try to scrape the reviews
     for app_id in app_id_list:
 
         # add try to make it more fault tolerant
         try:
-            game_results = get_game_reviews(app_id, count)
 
+            title = _gameindexer.return_game_title(app_id)
+
+
+
+            # go get the game reviews
+            game_results = get_game_reviews(app_id, 1150, title)
 
             insert(collection, game_results, "app_id")
 
         except Exception, e:
-            error = "############################ Exception", e, "occurred!"
-            error2 = "############################ Scrape of", app_id, "failed"
+            error = "############################ Exception {} occurred! \n \
+            ############################ Scrape of {} failed".format(e, app_id)
 
-            error += "\n" + error2
             print error
 
             with open("ERROR_selenium_game_review_scrape.txt", "w") as _file:
