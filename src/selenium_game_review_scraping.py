@@ -1,5 +1,10 @@
 # Author: Brian Hardenstein
 # pixelatedbrian@gmail.com
+
+# v 0.50 add game list tracking so we can try to scrape all 8000+ games
+# (yeah, omg)
+# import paperbag
+
 # v0.43 added basic error handling when attempting to scrape an app
 #   writes exception to error file if it fails
 #
@@ -12,8 +17,61 @@ from pymongo import MongoClient
 # we can always use more time
 import time
 
+# import our GameIndexer class to help out with things
+from game_indexer import GameIndexer
+
 #better console logging
 import sys
+
+def get_completed_games():
+    '''
+    Load in a hard coded filename that is simply a list of
+    app_id's where the review scraping has been completed.
+
+    return a list of completed app_ids
+    '''
+    with open("games_we_have.txt", "r") as infile:
+        return [app.strip("\n") for app in infile]
+
+def update_completed_games(app_id):
+    '''
+    Append to the log file an app_id that has completed
+    so that we don't waste time trying to scrape it again
+    '''
+
+    with open("games_we_have.txt", "a") as outfile:
+        outfile.write(app_id + "\n")
+        print "added", app_id, "to games_we_have.txt"
+
+def make_list_of_games_to_scrape():
+    '''
+    Returns the list of files to work on scraping.
+    '''
+
+    # make a list of pending requests starting with a list of all games
+    temp = GameIndexer()
+    pending_game_list = temp.return_list_of_all_apps()
+
+    # get list of completed games
+    completed_games = get_completed_games()
+
+    print
+    print "STARTING SIZE OF PENDING GAME LIST:", len(pending_game_list)
+    print
+
+    # remove completed games from pending game list
+    for game in completed_games:
+        # ensure this game is in the list (weirdly occurs sometimes)
+        count = pending_game_list.count(game)
+
+        if count != 0:
+            pending_game_list.pop(pending_game_list.index(game))
+
+    print
+    print "SCRUBBED SIZE OF PENDING GAME LIST:", len(pending_game_list)
+    print
+
+    return pending_game_list
 
 def extract_user_from_div(html):
     '''
@@ -259,6 +317,9 @@ def insert(collection, dictionary, _key):
             collection.insert_one(dictionary)
             print "inserted", dictionary[_key]
 
+            # add to completed lists
+            update_completed_games(str(dictionary["app_id"]))
+
         except Exception, e:
             print e
 
@@ -305,23 +366,33 @@ def main():
      # list_of_apps = ["413150", "367520", "286160", "246620", "257850", "105600", "211820", "311690", "233450", "250760"]
 
     # widen the pool with 90 games
-    big_app_list = ['427520', '371200', '398850', '264710', '219150', '431120',\
-     '252950', '210970', '290340', '281640', '475190', '261180', '322110', \
-     '274500', '204360', '107100', '554600', '425580', '474750', '296470', \
-     '405640', '220780', '595140', '234650', '222880', '26800', '251570',\
-      '433340', '308420', '212680', '265930', '239820', '312530', '294100',\
-       '221910', '356570', '247080', '470260', '383870', '231160', '421120', \
-       '65300', '230190', '318230', '9500', '387290', '231200', '265000', \
-       '304430', '469820', '365450', '253250', '435530', '250700', '361300', \
-       '219990', '367450', '326460', '206190', '391540', '527230', '48000', \
-       '505730', '364420', '251270', '271240', '275850', '504210', '387990',\
-        '95300', '568220', '4000', '205730', '237990', '329130', '242760', \
-        '457140', '239030', '538100', '241600', '322500', '394970', '396750', \
-        '305620', '282070', '437220', '258030', '22000', '248820', '224760']
+    # big_app_list = ['427520', '371200', '398850', '264710', '219150', '431120',\
+    #  '252950', '210970', '290340', '281640', '475190', '261180', '322110', \
+    #  '274500', '204360', '107100', '554600', '425580', '474750', '296470', \
+    #  '405640', '220780', '595140', '234650', '222880', '26800', '251570',\
+    #   '433340', '308420', '212680', '265930', '239820', '312530', '294100',\
+    #    '221910', '356570', '247080', '470260', '383870', '231160', '421120', \
+    #    '65300', '230190', '318230', '9500', '387290', '231200', '265000', \
+    #    '304430', '469820', '365450', '253250', '435530', '250700', '361300', \
+    #    '219990', '367450', '326460', '206190', '391540', '527230', '48000', \
+    #    '505730', '364420', '251270', '271240', '275850', '504210', '387990',\
+    #     '95300', '568220', '4000', '205730', '237990', '329130', '242760', \
+    #     '457140', '239030', '538100', '241600', '322500', '394970', '396750', \
+    #     '305620', '282070', '437220', '258030', '22000', '248820', '224760']
 
     #list_of_apps = big_app_list[:30]
     #list_of_apps = big_app_list[31:60]
-    list_of_apps = big_app_list[61:90]
+    #list_of_apps = big_app_list[61:90]
+
+    big_app_list = make_list_of_games_to_scrape()
+
+    # try to make the list break into pieces so we can multiprocess
+    # via tmux
+    chunk_size = len(big_app_list) // 3
+
+    #list_of_apps = big_app_list[:chunk_size]
+    #list_of_apps = big_app_list[chunk_size+1:chunk_size *2]
+    list_of_apps = big_app_list[chunk_size *2 +1:]
 
     # give slightly more size than desired target because some divs will lag
     # during load.  For the smaller set try to get about 1000. For the big
