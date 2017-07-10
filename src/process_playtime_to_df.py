@@ -289,3 +289,21 @@ if __name__ == "__main__":
     print
     print "predictions.head(20)"
     print predictions_df.head(20)
+
+    print
+    print "Try to figure out the squared error of predictions"
+    predictions_df['squared_error'] = (predictions_df['playtime_m'] - predictions_df['prediction'])**2
+
+    print
+    print "Print description of the predictions"
+    print predictions_df.describe()
+
+    print
+
+    print "Calculate RMSE:"
+    # Calculate RMSE
+    print np.sqrt(sum(predictions_df['squared_error']) / len(predictions_df))
+
+    # run  val
+    # 1    0.078012435752783327
+    # 2    0.079067974734729068
