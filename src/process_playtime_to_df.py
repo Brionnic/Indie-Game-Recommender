@@ -54,7 +54,12 @@ def load_game_reviews_into_table(collection):
                 #if re.search('[a-zA-Z]', user["user"]) == None:
                 # username was too big for int, oops. This crashed spark
                 # Making smaller...
-                _user = int(str(user["user"]).split("7656119")[1])
+
+                # integer val still too high, do a hack and just put the
+                # index of the loop in for now.  It's shit because can't reverse
+                # lookup the index back to the user but just get this working
+                #_user = int(str(user["user"]).split("7656119")[1])
+                _user = idx
 
                 _appid = int(review["appid"])
 
@@ -273,13 +278,13 @@ if __name__ == "__main__":
 
     # print the mean rating (1.0, uh... that's not good)
     #print "Mean rating:", train_df['rating'].mean()/predictions.count()
-    print "Mean rating:", train_df['rating'].mean()
+    print "Mean rating:", train_df['playtime_m'].mean()
     print
 
 
     print "Fill the n/a predictions with the mean rating for now"
     #predictions_df = predictions.toPandas().fillna(train_df['rating'].mean()/predictions.count())
-    predictions_df = predictions.toPandas().fillna(train_df['rating'].mean())
+    predictions_df = predictions.toPandas().fillna(train_df['playtime_m'].mean())
 
     print
     print "predictions.head(20)"
