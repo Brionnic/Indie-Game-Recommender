@@ -15,14 +15,15 @@ from pyspark.sql.types import *
 from pyspark.ml.tuning import TrainValidationSplit
 from pyspark.ml.recommendation import ALS
 from pyspark.ml.evaluation import RegressionEvaluator
+import pyspark.sql.functions as F
 
-class GameRecommender_v0():
+class Model_v0():
     '''
     Basic Spark ALS with no fancy anything
     '''
 
     def fit(self, training_df):
-        self.als = ALS(rank=100,
+        self.als = ALS(rank=10,
             maxIter=10,
             regParam=0.1,
             userCol="user",
@@ -37,7 +38,7 @@ class GameRecommender_v0():
         '''
         return (self.v0_model.transform(requests_df))
 
-class GameRecommender_v1():
+class Model_v1():
     '''
     Basic Spark ALS with NANs replace by mean of all game playtimes
     '''
@@ -46,7 +47,7 @@ class GameRecommender_v1():
         self.avg_ratings = training_df.select("app_id", "playtime_m")\
                                         .groupBy("app_id")\
                                         .agg(F.avg("playtime_m"))\
-                                        .withColumnRenamed("avg(playtime_m)")
+                                        .withColumnRenamed("avg(playtime_m)", "avg_playtime_m")
 
     def transform(self, requests_df):
         return (requests_df.join(self.avg_ratings, "app_id", "left"))\
@@ -63,8 +64,8 @@ class GameRecommender():
                     .appName("df lecture") \
                     .getOrCreate()
         self.sc = self.spark.sparkContext  # for the pre-2.0 sparkContext
-        self.gr_v0 = GameRecommender_v0()
-        self.gr_v1 = GameRecommender_v1()
+        self.gr_v0 = Model_v0()
+        self.gr_v1 = Model_v1()
 
         # load data to model
         self.core_data = self.load_dataframe(parquet_path)
@@ -143,7 +144,7 @@ class GameRecommender():
         self.gr_v0.fit(self.train)
 
         print
-        print "Starting fit model v0"
+        print "Starting fit model v1"
         self.gr_v1.fit(self.train)
 
         print
