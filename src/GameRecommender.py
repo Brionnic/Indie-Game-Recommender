@@ -18,9 +18,9 @@ from pyspark.ml.evaluation import RegressionEvaluator
 import pyspark.sql.functions as F
 
 class Model_v0():
-    '''
+    """
     Basic Spark ALS with no fancy anything
-    '''
+    """
 
     def fit(self, training_df):
         self.als = ALS(rank=10,
@@ -39,9 +39,9 @@ class Model_v0():
         return (self.v0_model.transform(requests_df))
 
 class Model_v1():
-    '''
+    """
     Basic Spark ALS with NANs replace by mean of all game playtimes
-    '''
+    """
 
     def fit(self, training_df):
         self.avg_ratings = training_df.select("app_id", "playtime_m")\
@@ -51,10 +51,11 @@ class Model_v1():
 
     def transform(self, requests_df):
         return (requests_df.join(self.avg_ratings, "app_id", "left"))\
-                            .withColumnRenamed("avg_rating", "prediction")
+                            .withColumnRenamed("avg_playtime_m", "prediction")
 
 class GameRecommender():
-    """Initialize class
+    """
+    Initialize class
 
     parquet_path so we can spark.read.parquet("game_user_playtimes.parquet")
     """
@@ -73,14 +74,17 @@ class GameRecommender():
         # split into train, test, eval
         self.train, self.test, self.eval = self.split_train_test_eval()
 
+        # make a holder for predictions which starts as None
+        self.predictions = None
+
     def split_train_test_eval(self):
-        '''
+        """
         Take in the core data frame and split into:
         train, test, and evaluate sets
 
         returns 3 spark dataframes:
         train, test, evals
-        '''
+        """
         # avoid fitting to final eval
         # set seed so we keep these out of the pool
         # (prob won't help as more data is added in the future and
@@ -98,9 +102,9 @@ class GameRecommender():
 
 
     def load_dataframe(self, parquet_path):
-        '''
+        """
         Loads in the dataframe and returns it
-        '''
+        """
 
         ########################################################################z
         ############ Read dataframe from disk after we've built it #############z
@@ -120,6 +124,11 @@ class GameRecommender():
         print "red_data.count() = ", red_data.count()
 
         return red_data
+
+    def evaluate_model(self):
+        '''
+
+        '''
 
     def fit(self):
         """
@@ -151,7 +160,7 @@ class GameRecommender():
         print "Finishing fit"
         return(self)
 
-    def transform(self, test_requests):
+    def transform(self):
         """
         Predicts the ratings for a given set of requests.
         Parameters
@@ -165,25 +174,47 @@ class GameRecommender():
                     column 'predicted_playtime_m' containing
                     the predicted rating
         """
-        self.logger.debug("starting predict")
-        self.logger.debug("request count: {}".format(test_requests.shape[0]))
+        print "\nStarting to predict"
+        #print("\nrequest count: {}".format(self.test.shape[0]))
 
-        self.requests = self.spark.createDataFrame(test_requests)
+        pred_loop_s1 = self.gr_v0.transform(self.test)\
+                        .withColumnRenamed('prediction','prediction_loop_s1')
 
-        pred_loop_v0 = self.gr_v0.transform(self.requests)\
-                        .withColumnRenamed('prediction','prediction_model_v0')
+        print "\nStarting to predict stage 2"
+        pred_loop_s2 = self.gr_v1.transform(pred_loop_s1)\
+                        .withColumnRenamed('prediction','prediction_loop_s2')
 
-        pred_loop_v1 = self.gr_v1.transform(pred_loop1)\
-                        .withColumnRenamed('prediction','prediction_model_v1')
+        print "\nDo some SQLey sparkdf stuff"
+        results_loop_s2 = pred_loop_s2.withColumn('prediction',
+                                        F.when(F.isnan('prediction_loop_s1'),
+                                        F.col('prediction_loop_s2'))\
+                                        .otherwise(F.col('prediction_loop_s1')))
 
-        results_loop_v1 = pred_loop_v1.withColumn('prediction',
-                                      F.when(F.isnan('prediction_model_v0'),
-                                             F.col('prediction_model_v1'))\
-                                             .otherwise(F.col('prediction_model_v0')))
+        print "\nSeems like spark SQLey stuff went through"
 
-        predictions = results_loop_v1.select('user', 'appid', 'prediction')\
-                                   .withColumnRenamed('prediction','rating')\
+        print "\nConverting to Pandas df"
+        predictions = results_loop_s2.select('user', 'app_id', 'prediction')\
+                                   .withColumnRenamed('prediction','playtime_m')\
                                    .toPandas()
 
-        self.logger.debug("finishing predict")
-        return(predictions)
+        print "Finishing predict"
+        self.predictions = predictions
+
+    def return_predictions(self):
+        """
+        Returns the predictions dataframe if it is needed for some reason.
+        """
+
+        return self.predictions
+
+    def evaluate(self):
+        """
+        Looks at predicted values vs actual values and figures out
+        RMSE
+
+        Prints out RMSE
+
+        Returns:
+        RMSE as a float
+        """
+        pass
