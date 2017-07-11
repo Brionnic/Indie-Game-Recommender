@@ -65,22 +65,27 @@ def load_game_reviews_into_table(collection):
 
                 # potentially modify this to log time because then the
                 # distribution is normal
-                _playtime_m = int(review["playtime_forever"])
 
+                # Goodnight sweet prince, going to log10 time now
+                # _playtime_m = int(review["playtime_forever"])
+                _log_playtime_m = int(review["playtime_forever"])
+
+                if _log_playtime_m != 0:
+                    _log_playtime_m = np.log10(_log_playtime_m + 0.0001)
 
                 _t = time.time() - start_time
                 _ts = "{:2.2f}".format(_t)[:6]
 
                 print "{}s ### {}th user of {} ### AppID:{} ###  {}\r".format(_ts, idx, num_users, _appid, ix),
 
-                data.append({"app_id":_appid, "user": _user, "playtime_m":_playtime_m})
+                data.append({"app_id":_appid, "user": _user, "log_playtime_m":_log_playtime_m})
             except Exception, e:
                 print
                 print
                 print "Something went wrong:", e
                 print "user:", repr(_user)
                 print "appid", repr(_appid)
-                print "playtime_m", repr(_playtime_m)
+                print "playtime_m", repr(_log_playtime_m)
 
     df = pd.DataFrame(data)
 
@@ -95,7 +100,7 @@ def df_to_spark(data):
 
     returns the spark dataframe
     '''
-    data = data[["app_id", "user", "playtime_m"]]
+    data = data[["app_id", "user", "log_playtime_m"]]
 
     # convert to Spark DataFrame
     game_ratings_df = spark.createDataFrame(data)
@@ -148,7 +153,7 @@ def prepare_dataframe():
             spark df to disk so we don't have to rebuilt it every time."
 
     # write the dataframe to disk to avoid having to rebuild constantly (~6min for 100 games)
-    spark_game_ratings.write.parquet("game_user_playtimes.parquet", mode="overwrite", compression="gzip")
+    spark_game_ratings.write.parquet("game_user_log_playtimes.parquet", mode="overwrite", compression="gzip")
 
     print
     print "Seems like the write completed, now just show a summary of the df"
@@ -194,116 +199,116 @@ if __name__ == "__main__":
     spark, sc
 
     # if uncommented then build the dataframe
-    # red_data = prepare_dataframe()
+    red_data = prepare_dataframe()
 
     # Get dataframe from disk instead of rebuilding it every time
-    red_data = load_dataframe(spark)
+    # red_data = load_dataframe(spark)
 
-    print
-    print "attempting to split data into train/test/eval"
-
-    # avoid fitting to final eval
-    # set seed so we keep these out of the pool
-    # (prob won't help as more data is added in the future and
-    # the pool changes but this is paranoia anyways)
-    train_test, final_eval = red_data.randomSplit([0.9, 0.1], seed=1337)
-
-    # break the non-held back into train/test split
-    train, test = train_test.randomSplit([0.8, 0.2])
-
-    print "Train set count:", train.count()
-    print "Test set count:", test.count()
-
-    print
-    print "Setting up model..."
-
-    als_model = ALS(userCol="user",
-               itemCol="app_id",
-               ratingCol="playtime_m",
-               nonnegative=True,
-               regParam=0.05,
-               rank=10,
-               implicitPrefs=True,
-               maxIter=20)
-
-    print "Attempting to fit model on training data..."
-    recommender = als_model.fit(train)
-
-    # make a single row DataFrame
-    temp = [(1, 413150)]
-    columns = ('user', 'app_id')
-    one_row_spark_df = spark.createDataFrame(temp, columns)
-
-    # get U/V for this particular user and app
-    user_factor_df = recommender.userFactors.filter('id = 1')
-    item_factor_df = recommender.itemFactors.filter('id = 413150')
-
-    # do more stuff?
-    user_factors = user_factor_df.collect()[0]['features']
-    item_factors = item_factor_df.collect()[0]['features']
-
-    # figure out dot product for user_factors/item_factors
-    print np.dot(user_factors, item_factors)
-    print
-
-    # get prediction for row
-    print recommender.transform(one_row_spark_df).show()
-    print
-
-    print recommender.userFactors.show()
-    print
-
-    print "Transform the test set via recommender.transform"
-    # make predictions on the whole test set
-    predictions = recommender.transform(test)
-
-    print
-    print "Convert results to pandas to make final calcs easier"
-    # dump the predictions to Pandas so the final calculations are easier to do
-
-    predictions_df = predictions.toPandas()
-    train_df = train.toPandas()
-
-    print
-    print "Pandas conversion should be complete, print out head of dataframe"
-    print
-    print predictions_df.head()
-    print
-    print
-
-    # Fill any missing values with the mean rating
-    # probably room for improvement here
-
-    print "predictions.count():", predictions.count()
-
-    # print the mean rating (1.0, uh... that's not good)
-    #print "Mean rating:", train_df['rating'].mean()/predictions.count()
-    print "Mean rating:", train_df['playtime_m'].mean()
-    print
-
-
-    print "Fill the n/a predictions with the mean rating for now"
-    #predictions_df = predictions.toPandas().fillna(train_df['rating'].mean()/predictions.count())
-    predictions_df = predictions.toPandas().fillna(train_df['playtime_m'].mean())
-
-    print
-    print "predictions.head(20)"
-    print predictions_df.head(20)
-
-    print
-    print "Try to figure out the squared error of predictions"
-    predictions_df['squared_error'] = (predictions_df['playtime_m'] - predictions_df['prediction'])**2
-
-    print
-    print "Print description of the predictions"
-    print predictions_df.describe()
-
-    print
-
-    print "Calculate RMSE:"
-    # Calculate RMSE
-    print np.sqrt(sum(predictions_df['squared_error']) / len(predictions_df))
-
-    # run  val
-    # 1    0.078012435752783327
-    # 2    0.079067974734729068
+    # print
+    # print "attempting to split data into train/test/eval"
+    #
+    # # avoid fitting to final eval
+    # # set seed so we keep these out of the pool
+    # # (prob won't help as more data is added in the future and
+    # # the pool changes but this is paranoia anyways)
+    # train_test, final_eval = red_data.randomSplit([0.9, 0.1], seed=1337)
+    #
+    # # break the non-held back into train/test split
+    # train, test = train_test.randomSplit([0.8, 0.2])
+    #
+    # print "Train set count:", train.count()
+    # print "Test set count:", test.count()
+    #
+    # print
+    # print "Setting up model..."
+    #
+    # als_model = ALS(userCol="user",
+    #            itemCol="app_id",
+    #            ratingCol="playtime_m",
+    #            nonnegative=True,
+    #            regParam=0.05,
+    #            rank=10,
+    #            implicitPrefs=True,
+    #            maxIter=20)
+    #
+    # print "Attempting to fit model on training data..."
+    # recommender = als_model.fit(train)
+    #
+    # # make a single row DataFrame
+    # temp = [(1, 413150)]
+    # columns = ('user', 'app_id')
+    # one_row_spark_df = spark.createDataFrame(temp, columns)
+    #
+    # # get U/V for this particular user and app
+    # user_factor_df = recommender.userFactors.filter('id = 1')
+    # item_factor_df = recommender.itemFactors.filter('id = 413150')
+    #
+    # # do more stuff?
+    # user_factors = user_factor_df.collect()[0]['features']
+    # item_factors = item_factor_df.collect()[0]['features']
+    #
+    # # figure out dot product for user_factors/item_factors
+    # print np.dot(user_factors, item_factors)
+    # print
+    #
+    # # get prediction for row
+    # print recommender.transform(one_row_spark_df).show()
+    # print
+    #
+    # print recommender.userFactors.show()
+    # print
+    #
+    # print "Transform the test set via recommender.transform"
+    # # make predictions on the whole test set
+    # predictions = recommender.transform(test)
+    #
+    # print
+    # print "Convert results to pandas to make final calcs easier"
+    # # dump the predictions to Pandas so the final calculations are easier to do
+    #
+    # predictions_df = predictions.toPandas()
+    # train_df = train.toPandas()
+    #
+    # print
+    # print "Pandas conversion should be complete, print out head of dataframe"
+    # print
+    # print predictions_df.head()
+    # print
+    # print
+    #
+    # # Fill any missing values with the mean rating
+    # # probably room for improvement here
+    #
+    # print "predictions.count():", predictions.count()
+    #
+    # # print the mean rating (1.0, uh... that's not good)
+    # #print "Mean rating:", train_df['rating'].mean()/predictions.count()
+    # print "Mean rating:", train_df['playtime_m'].mean()
+    # print
+    #
+    #
+    # print "Fill the n/a predictions with the mean rating for now"
+    # #predictions_df = predictions.toPandas().fillna(train_df['rating'].mean()/predictions.count())
+    # predictions_df = predictions.toPandas().fillna(train_df['playtime_m'].mean())
+    #
+    # print
+    # print "predictions.head(20)"
+    # print predictions_df.head(20)
+    #
+    # print
+    # print "Try to figure out the squared error of predictions"
+    # predictions_df['squared_error'] = (predictions_df['playtime_m'] - predictions_df['prediction'])**2
+    #
+    # print
+    # print "Print description of the predictions"
+    # print predictions_df.describe()
+    #
+    # print
+    #
+    # print "Calculate RMSE:"
+    # # Calculate RMSE
+    # print np.sqrt(sum(predictions_df['squared_error']) / len(predictions_df))
+    #
+    # # run  val
+    # # 1    0.078012435752783327
+    # # 2    0.079067974734729068
