@@ -16,6 +16,6 @@ if __name__ == "__main__":
 
     recommender = GameRecommender()
 
-    recommender.fit()
+    model = recommender.fit()
 
     predictions = recommender.transform()

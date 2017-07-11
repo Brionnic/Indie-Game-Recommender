@@ -17,7 +17,7 @@ from pyspark.ml.recommendation import ALS
 from pyspark.ml.evaluation import RegressionEvaluator
 import pyspark.sql.functions as F
 
-class Model_v0():
+class Model_s1():
     """
     Basic Spark ALS with no fancy anything
     """
@@ -30,15 +30,15 @@ class Model_v0():
             itemCol="app_id",
             ratingCol="playtime_m")
 
-        self.v0_model = self.als.fit(training_df)
+        self.s1_model = self.als.fit(training_df)
 
     def transform(self, requests_df):
         '''
         Return predictions from model
         '''
-        return (self.v0_model.transform(requests_df))
+        return (self.s1_model.transform(requests_df))
 
-class Model_v1():
+class Model_s2():
     """
     Basic Spark ALS with NANs replace by mean of all game playtimes
     """
@@ -65,8 +65,8 @@ class GameRecommender():
                     .appName("df lecture") \
                     .getOrCreate()
         self.sc = self.spark.sparkContext  # for the pre-2.0 sparkContext
-        self.gr_v0 = Model_v0()
-        self.gr_v1 = Model_v1()
+        self.model_stage_1 = Model_s1()
+        self.model_stage_2 = Model_s2()
 
         # load data to model
         self.core_data = self.load_dataframe(parquet_path)
@@ -76,6 +76,15 @@ class GameRecommender():
 
         # make a holder for predictions which starts as None
         self.predictions = None
+
+        # make holders for user factor dataframe and item factor dataframe
+        # essentially U and V matrices coming from the transform via NMF/ALS
+
+        # user factors
+        self.U = None
+
+        # item factors
+        self.V = None
 
     def split_train_test_eval(self):
         """
@@ -150,14 +159,25 @@ class GameRecommender():
         print
         print "Starting fit model v0"
 
-        self.gr_v0.fit(self.train)
+        self.model_stage_1.fit(self.train)
 
         print
         print "Starting fit model v1"
-        self.gr_v1.fit(self.train)
+        self.model_stage_2.fit(self.train)
 
-        print
-        print "Finishing fit"
+        #import pdb; pdb.set_trace()
+
+        # print "\nStoring calculated U/V matrices"
+        # self.U = self.model_stage_1.userFactors
+        # self.V = self.model_stage_1.itemFactors
+        #
+        # print "\n\nShow first five of U"
+        # print self.U.show(5)
+        #
+        # print "\n\nShow first five of V"
+        # print self.V.show(5)
+
+        print "\nFinishing fit"
         return(self)
 
     def transform(self):
@@ -177,11 +197,11 @@ class GameRecommender():
         print "\nStarting to predict"
         #print("\nrequest count: {}".format(self.test.shape[0]))
 
-        pred_loop_s1 = self.gr_v0.transform(self.test)\
+        pred_loop_s1 = self.model_stage_1.transform(self.test)\
                         .withColumnRenamed('prediction','prediction_loop_s1')
 
         print "\nStarting to predict stage 2"
-        pred_loop_s2 = self.gr_v1.transform(pred_loop_s1)\
+        pred_loop_s2 = self.model_stage_2.transform(pred_loop_s1)\
                         .withColumnRenamed('prediction','prediction_loop_s2')
 
         print "\nDo some SQLey sparkdf stuff"
@@ -218,3 +238,31 @@ class GameRecommender():
         RMSE as a float
         """
         pass
+
+    def predict(self, U_o, num_predictions=10):
+        """
+        Takes in a new user row and makes predictions on it.
+
+        ALS is a form of NMF dimensionality reduction.  NMF gives us two
+        matrices:  U and V   from a 2d matrix that is (M x N) ie (users * apps)
+
+        U is the decomposed user factors
+        V is the decomposed application factors
+
+        U_o * V.T => U_ov sort of synthetic entry in U for the U_o data
+            ^ Dot product
+
+        Then to get the actual predictions we want from the model:
+        U_ov * V => predictions
+             ^ Dot product
+
+        ############## Stretch goal ######################
+        Can optimize this some by taking the subset of V.T that matches the
+        apps that have been rated in U_o.  This should speed things up a lot.
+        ##################################################
+
+        Sort the predictions in order descending and return the k amount of
+        predictions
+
+        Returns a list of predictions sorted in order from highest to lowest
+        """
