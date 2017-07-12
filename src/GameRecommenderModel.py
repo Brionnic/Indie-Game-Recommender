@@ -68,7 +68,7 @@ class GameRecommenderModel():
         self.trained_model = self.model.fit(training_data)
 
         print "\nFit complete, returning fitted model to caller."
-        return result
+        return self.trained_model
 
     def transform(self, test_data):
         """
