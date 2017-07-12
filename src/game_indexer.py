@@ -8,7 +8,7 @@ class GameIndexer(object):
         '''
         self.game_info_dict = self.load_game_info_csv("../data/game_info.csv")
 
-    def return_game_title(self, app_id):
+    def return_game_title(self, app_id, limit_len=0):
         '''
         Takes in app_id, if it's not a string convert to string
         then look for the title that corresponds to that app_id
@@ -21,7 +21,8 @@ class GameIndexer(object):
 
         _dict = self.game_info_dict[app_id]
 
-        return _dict["title"]
+        if limit_len != 0:
+            return _dict["title"][:limit_len]
 
 #         if app_id in self.game_info_dict:
 #             return self.game_info_dict[app_id]["title"]

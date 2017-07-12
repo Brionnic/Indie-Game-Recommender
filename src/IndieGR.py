@@ -224,5 +224,5 @@ class IndieGR():
         lookup = GameIndexer()
 
         for idx, result in enumerate(self.sorted_predictions):
-            title = lookup.return_game_title(int(result[1])).replace("_", " ")
+            title = lookup.return_game_title(int(result[1]), 40).replace("_", " ")
             print "Rank: {:2d} Prediction: {:2.2f} Game: {}".format(idx +1, result[0], title)

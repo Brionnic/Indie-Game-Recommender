@@ -48,8 +48,8 @@ if __name__ == '__main__':
         lookup = GameIndexer()
 
         print "\nmake new column for the title of the games so it's human readable"
-        test_pd["title"] = [lookup.return_game_title(app).replace("_", " ") for app in test_pd["app_id"]]
-        train_pd["title"] = [lookup.return_game_title(app).replace("_", " ") for app in train_pd["app_id"]]
+        test_pd["title"] = [lookup.return_game_title(app, 30).replace("_", " ") for app in test_pd["app_id"]]
+        train_pd["title"] = [lookup.return_game_title(app, 30).replace("_", " ") for app in train_pd["app_id"]]
 
         # sort the data so it makes more sense for humans
         print "\nsorting dataframes by playtimes"
