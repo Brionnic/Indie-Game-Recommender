@@ -41,7 +41,7 @@ class GameRecommenderModel():
             .getOrCreate()
         self.sc = self.spark.sparkContext
 
-        self.model = ALS(rank=10,
+        self.model = ALS(rank=75,
                     maxIter=10,
                     regParam=0.1,
                     userCol="user",
@@ -50,7 +50,7 @@ class GameRecommenderModel():
 
         # start the model at None so if we try to transform before training
         # the model we can detect and throw an error
-        self.trained_model = None
+        self.recommender = None
 
         # this might be a waste of space
         self.trained_model = None
@@ -65,10 +65,10 @@ class GameRecommenderModel():
 
 
         print "\nStarting to fit training data to model:"
-        self.trained_model = self.model.fit(training_data)
+        self.recommender = self.model.fit(training_data)
 
         print "\nFit complete, returning fitted model to caller."
-        return self.trained_model
+        return self.recommender
 
     def transform(self, test_data):
         """
@@ -76,8 +76,8 @@ class GameRecommenderModel():
         """
 
         # if the trained model isn't None then we can work with it
-        if self.trained_model != None:
-            return self.result.transform(test_data)
+        if self.recommender != None:
+            return self.recommender.transform(test_data)
         else:
             # the trained_model is None so we haven't yet trained the model
             # print an error (prob should throw an exception)

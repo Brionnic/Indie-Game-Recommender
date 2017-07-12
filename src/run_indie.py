@@ -22,6 +22,9 @@ if __name__ == '__main__':
     # train the model on the training data
     igr.train_model()
 
+    # comment out when we don't care
+    rmse = igr.evaluate_RMSE()
+
     get_more = True
 
     while get_more == True:

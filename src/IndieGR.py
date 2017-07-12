@@ -226,3 +226,61 @@ class IndieGR():
         for idx, result in enumerate(self.sorted_predictions):
             title = lookup.return_game_title(int(result[1]), 40).replace("_", " ")
             print "Rank: {:2d} Prediction: {:2.2f} Game: {}".format(idx +1, result[0], title)
+
+    def evaluate_RMSE(self):
+        """
+        Attempt to score the model using the RSME method
+
+        prints out RSME
+
+        Returns:
+        RSME as float val
+        """
+        predictions = self.recommender.transform(self.test_data)
+
+        print "\nPredictions DF:"
+        print predictions.show(5)
+
+        print "\nConvert predictions spark to pandas"
+        pred_df = predictions.toPandas()
+
+        print "\nConvert train_data spark to pandas"
+        train_df = self.train_data.toPandas()
+
+        print "\nFill missing values with mean rating"
+        pred_df = predictions.toPandas().fillna(train_df["log_playtime_m"].mean())
+
+        pred_df["squared_error"] = (pred_df["log_playtime_m"] - pred_df["prediction"])**2
+
+        print "\nDo a describe on the predictions df"
+        print pred_df.describe()
+
+        # calculate the RSME
+        rmse = np.sqrt(sum(pred_df["squared_error"]) / (len(pred_df) * 1.0))
+
+        print "sum of squared_error", sum(pred_df["squared_error"])
+        print "sum of s_e / len(pred_Df)", sum(pred_df["squared_error"]) / (len(pred_df) * 1.0)
+        print "other rmse", (sum(pred_df["squared_error"]) / (len(pred_df) * 1.0))**0.5
+
+        print "\nRMSE:", rmse
+
+        return rmse
+
+        # totally untuned with rank 10, average values replacing nan
+        # RMSE: 0.889612280955
+
+        # just changed rank to 75
+        # RMSE: 0.876617437231  (-0.013)
+
+        # ran rank 75 again
+        # RMSE: 0.877823176352
+
+        # evaluator = RegressionEvaluator(metricName="rmse",
+        #                                 labelCol="log_playtime_m",
+        #                                 predictionCol="prediction")
+        #
+        # rmse = evaluator.evaluate(predictions)
+
+        print "RMSE:", rmse
+
+        return rmse
