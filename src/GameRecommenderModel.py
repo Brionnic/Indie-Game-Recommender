@@ -41,7 +41,7 @@ class GameRecommenderModel():
             .getOrCreate()
         self.sc = self.spark.sparkContext
 
-        self.model = ALS(rank=10,
+        self.model = ALS(rank=75,
                     maxIter=10,
                     regParam=0.1,
                     userCol="user",

@@ -23,7 +23,7 @@ class Model_s1():
     """
 
     def fit(self, training_df):
-        self.als = ALS(rank=10,
+        self.als = ALS(rank=50,
             maxIter=10,
             regParam=0.1,
             userCol="user",

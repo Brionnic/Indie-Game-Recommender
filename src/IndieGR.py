@@ -138,6 +138,9 @@ class IndieGR():
         id_list = np.array([row["id"] for row in self.recommender.itemFactors.collect()]).astype(int)
 
         print "Shape of V:", self.V.shape
+        print "Shape of ex_user_training_df", ex_user_training_df.count, ",", len(ex_user_training_df.columns)
+        print "Shape of ex_user_test_df", ex_user_test_df.count, ",", len(ex_user_test_df.columns)
+        print "Shape of filtered_item_factors:", filtered_item_factors.shape
         print "shape of new_user_factors:", new_user_factors.shape
         print "shape of item_ratings:", item_ratings.shape
         print "shape of id_list:", id_list.shape
@@ -167,7 +170,7 @@ class IndieGR():
 
         self.train_data.registerTempTable("train")
 
-        new_user_df = spark.sql(
+        new_user_df = self.spark.sql(
             '''
             SELECT user,
                 app_id,
@@ -185,7 +188,7 @@ class IndieGR():
 
         self.test_data.registerTempTable("test")
 
-        new_user_df = spark.sql(
+        new_user_df = self.spark.sql(
             '''
             SELECT user,
                 app_id,
@@ -223,7 +226,3 @@ class IndieGR():
         for idx, result in enumerate(self.sorted_predictions):
             title = lookup.return_game_title(int(result[1])).replace("_", " ")
             print "Rank: {:2d} Prediction: {:2.2f} Game: {}".format(idx +1, result[0], title)
-
-
-
-        

@@ -22,31 +22,52 @@ if __name__ == '__main__':
     # train the model on the training data
     igr.train_model()
 
-    print "\nGet predictions on current user_id entered"
-    results = igr.predict_existing_user(104)
-    test = igr.grab_existing_user_test(104)
-    train = igr.grab_existing_user_train(104)
+    get_more = True
 
-    print "\nconverting results to Pandas DF"
-    # prepare for looking at test/train/predicted data
-    test_pd = test.toPandas()
-    train_pd = train.toPandas()
-    lookup = GameIndexer()
+    while get_more == True:
 
-    print "\nmake new column for the title of the games so it's human readable"
-    test_pd["title"] = [lookup.return_game_title(app).replace("_", " ") for app in test_pd["app_id"]]
-    train_pd["title"] = [lookup.return_game_title(app).replace("_", " ") for app in train_pd["app_id"]]
+        print "Enter user_id to get data on: (ex: 104)"
+        print "if you enter other stuff it's going to hang, you break it you bought it"
+        user_id = int(raw_input("user_id="))
 
-    # sort the data so it makes more sense for humans
-    print "\nsorting dataframes by playtimes"
-    sort_train_df = train_pd.sort_values("log_playtime_m", ascending=False)
-    test_pd = test_pd.sort_values("log_playtime_m", ascending=False)
+        print "##############################################"
+        print
+        print "User_ID:", repr(user_id)
+        print
+        print "##############################################"
 
-    print "\nSorted Train DataFrame:"
-    print sort_train_df.head(100)
-    print
-    print
-    print "\nSorted Test DataFrame:"
-    print test_pd.head(20)
-    print
-    igr.print_sorted_predictions()
+        print "\nGet predictions on user_id {}".format(user_id)
+        results = igr.predict_existing_user(user_id)
+        test = igr.grab_existing_user_test(user_id)
+        train = igr.grab_existing_user_train(user_id)
+
+        print "\nconverting results to Pandas DF"
+        # prepare for looking at test/train/predicted data
+        test_pd = test.toPandas()
+        train_pd = train.toPandas()
+        lookup = GameIndexer()
+
+        print "\nmake new column for the title of the games so it's human readable"
+        test_pd["title"] = [lookup.return_game_title(app).replace("_", " ") for app in test_pd["app_id"]]
+        train_pd["title"] = [lookup.return_game_title(app).replace("_", " ") for app in train_pd["app_id"]]
+
+        # sort the data so it makes more sense for humans
+        print "\nsorting dataframes by playtimes"
+        sort_train_df = train_pd.sort_values("log_playtime_m", ascending=False)
+        test_pd = test_pd.sort_values("log_playtime_m", ascending=False)
+
+        print "\nSorted Train DataFrame:"
+        print sort_train_df.head(100)
+        print
+        print
+        print "\nSorted Test DataFrame:"
+        print test_pd.head(20)
+        print
+        igr.print_sorted_predictions()
+
+        result = raw_input("Do another? (y/n)")
+
+        if result.lower() == "n":
+            get_more = False
+        elif result.lower() == "y":
+            get_more = True
