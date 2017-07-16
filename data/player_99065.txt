@@ -1,0 +1,82 @@
+base model, rank 50
+
+##############################################
+
+User_ID: 99065
+
+##############################################
+
+Get predictions on user_id 99065
+
+loaded 8720 games into index.
+
+make new column for the title of the games so it's human readable
+
+sorting dataframes by playtimes
+
+Sorted Train DataFrame:
+    user  app_id  log_playtime_m                           title
+3  99065  244850        3.190051                 Space Engineers
+7  99065  360940        2.589950  The Mean Greens  Plastic Warfa
+0  99065  105600        2.403121                        Terraria
+5  99065  324810        0.778158                          TOXIKK
+4  99065  258010        0.602071  Ring Runner Flight of the Sage
+1  99065  105700        0.000000        Tobes Vertical Adventure
+2  99065  206610        0.000000                       3SwitcheD
+6  99065  343360        0.000000                       Particula
+
+
+
+Sorted Test DataFrame:
+    user  app_id  log_playtime_m       title
+0  99065  222880        2.396200  Insurgency
+1  99065  242860        2.089905      Verdun
+
+attemping to load game data...
+loaded 8720 games into index.
+Rank:  1 Prediction: 2.95 Game: Insurgency
+Rank:  2 Prediction: 2.41 Game: Verdun
+Rank:  3 Prediction: 2.18 Game: Mall Empire
+Rank:  4 Prediction: 2.12 Game: Geology Business
+Rank:  5 Prediction: 1.88 Game: Ancient Planet Tower Defense
+Rank:  6 Prediction: 1.88 Game: Super Night Riders
+Rank:  7 Prediction: 1.74 Game: VERSUS SQUAD
+Rank:  8 Prediction: 1.71 Game: Out of the Park Baseball 18
+Rank:  9 Prediction: 1.68 Game: Shardlight
+Rank: 10 Prediction: 1.68 Game: Doom  Destiny
+Do another? (y/n)
+
+################################
+lpm_b0s1
+################################
+
+Sorted Train DataFrame:
+    user  app_id  lpm_b0s1                           title
+4  99065  244850  3.190051                 Space Engineers
+0  99065  105600  2.403121                        Terraria
+3  99065  242860  2.089905                          Verdun
+5  99065  258010  0.602071  Ring Runner Flight of the Sage
+1  99065  105700  0.000000        Tobes Vertical Adventure
+2  99065  206610  0.000000                       3SwitcheD
+6  99065  343360  0.000000                       Particula
+
+
+
+Sorted Test DataFrame:
+    user  app_id  lpm_b0s1                           title
+2  99065  360940  2.589950  The Mean Greens  Plastic Warfa
+0  99065  222880  2.396200                      Insurgency
+1  99065  324810  0.778158                          TOXIKK
+
+attemping to load game data...
+loaded 8720 games into index.
+Rank:  1 Prediction: 2.26 Game: The Mean Greens  Plastic Warfare
+Rank:  2 Prediction: 2.13 Game: Insurgency
+Rank:  3 Prediction: 1.86 Game: Shadowrun Chronicles INFECTED Directors
+Rank:  4 Prediction: 1.86 Game: Seven Seas Solitaire
+Rank:  5 Prediction: 1.81 Game: NightCry
+Rank:  6 Prediction: 1.80 Game: Gem Forge
+Rank:  7 Prediction: 1.71 Game: Notch  The Innocent LunA Eclipsed Sinner
+Rank:  8 Prediction: 1.66 Game: Massive Cleavage vs Zombies Awesome Edit
+Rank:  9 Prediction: 1.60 Game: The Incredible Adventures of Van Helsing
+Rank: 10 Prediction: 1.58 Game: Party Panic

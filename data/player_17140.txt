@@ -1,0 +1,229 @@
+##############################################
+
+User_ID: 17140
+
+##############################################
+
+Get predictions on user_id 17140
+
+make new column for the title of the games so it's human readable
+
+sorting dataframes by playtimes
+
+Sorted Train DataFrame:
+      user  app_id  log_playtime_m                           title
+106  17140  281640        3.143327               The Banner Saga 2
+91   17140  257510        3.031409             The Talos Principle
+115  17140  304410        3.015779               Hexcells Infinite
+4    17140    3590        2.986772  Plants vs Zombies GOTY Edition
+44   17140  212680        2.966142           FTL Faster Than Light
+107  17140  289130        2.883093                  Endless Legend
+80   17140  245470        2.797960                     Democracy 3
+102  17140  271900        2.796574                   Hexcells Plus
+51   17140  219890        2.776701                     Antichamber
+6    17140   18040        2.758912                      DeathSpank
+145  17140  398850        2.740363     Epistory  Typing Chronicles
+132  17140  351090        2.735599               Regency Solitaire
+36   17140  115100        2.720159                   Costume Quest
+159  17140  517130        2.677607                     Soundboxing
+32   17140  107100        2.625313                         Bastion
+112  17140  300060        2.598791                          ADR1FT
+53   17140  220200        2.596597            Kerbal Space Program
+96   17140  261470        2.567026         Distant Worlds Universe
+150  17140  413150        2.527630                  Stardew Valley
+72   17140  239030        2.515874                   Papers Please
+16   17140   37400        2.495544  Time Gentlemen Please and Ben
+43   17140  212050        2.481443                       Resonance
+86   17140  251430        2.457882                 The Inner World
+142  17140  380150        2.448706                          STASIS
+134  17140  356400        2.444045                         Thumper
+42   17140  210970        2.411620                     The Witness
+144  17140  391540        2.411620                       Undertale
+18   17140   40700        2.409933                     Machinarium
+97   17140  261570        2.408240        Ori and the Blind Forest
+7    17140   18500        2.397940      Defense Grid The Awakening
+..     ...     ...             ...                             ...
+68   17140  234650        1.832510               Shadowrun Returns
+108  17140  290340        1.806181                         Armello
+99   17140  262470        1.799341            Rollers of the Realm
+56   17140  221910        1.799341             The Stanley Parable
+11   17140   22230        1.792392                    Rock of Ages
+148  17140  408520        1.792392                            FORM
+46   17140  214700        1.770853        Thirty Flights of Loving
+65   17140  233150        1.755876                     LUFTRAUSERS
+114  17140  300570        1.755876                   Infinifactory
+123  17140  319910        1.740363  Trine 3 The Artifacts of Power
+104  17140  274190        1.740363                        Broforce
+57   17140  222730        1.707571                            Reus
+151  17140  416770        1.698971                     SquareCells
+14   17140   35700        1.690197         Trine Enchanted Edition
+154  17140  466560        1.681242                       Northgard
+59   17140  227300        1.653213          Euro Truck Simulator 2
+77   17140  242920        1.643454                        Banished
+129  17140  336240        1.643454                         Typoman
+121  17140  313630        1.633469               The Solus Project
+78   17140  243120        1.633469                        Betrayer
+87   17140  252410        1.602061                  SteamWorld Dig
+85   17140  250260        1.602061          Jazzpunk Directors Cut
+47   17140  214770        1.591066         Guacamelee Gold Edition
+63   17140  231160        1.579785                     The Swapper
+84   17140  248610        1.568203                    Door Kickers
+126  17140  323380        1.568203                The Magic Circle
+92   17140  257850        1.556304             Hyper Light Drifter
+117  17140  304650        1.556304                     SUNLESS SEA
+28   17140   91600        1.531480                         Sanctum
+155  17140  475190        1.518515                  Scanner Sombre
+
+[100 rows x 4 columns]
+
+
+
+Sorted Test DataFrame:
+     user  app_id  log_playtime_m                           title
+27  17140  319630        2.921687      Life is Strange  Episode 1
+15  17140  233450        2.897077                Prison Architect
+16  17140  237990        2.773055                 The Banner Saga
+22  17140  271240        2.700704        Offworld Trading Company
+10  17140  219150        2.638489                   Hotline Miami
+30  17140  373970        2.552668  Letter Quest Grimms Journey Re
+8   17140  115800        2.537819                          Owlboy
+26  17140  307670        2.518514                       Hard West
+9   17140  206440        2.322220                     To the Moon
+18  17140  240760        1.913814       Wasteland 2 Directors Cut
+14  17140  232430        1.869232                       Gone Home
+28  17140  341800        1.838850  Keep Talking and Nobody Explod
+1   17140   12900        1.819545                       AudioSurf
+6   17140   80310        1.812914                      Gemini Rue
+24  17140  287600        1.785331                          Sunset
+12  17140  224760        1.653213                             FEZ
+17  17140  240440        1.633469            Quadrilateral Cowboy
+11  17140  220780        1.591066                Thomas Was Alone
+4   17140   46750        1.579785            Dark Fall Lost Souls
+20  17140  250380        1.518515                      Knockknock
+
+attemping to load game data...
+loaded 8720 games into index.
+Rank:  1 Prediction: 1.03 Game: The Silver Case
+Rank:  2 Prediction: 0.91 Game: Life is Strange  Episode 1
+Rank:  3 Prediction: 0.87 Game: JiPS
+Rank:  4 Prediction: 0.86 Game: Don Bradman Cricket 14
+Rank:  5 Prediction: 0.86 Game: Grandpas Table
+Rank:  6 Prediction: 0.85 Game: Sky Force Anniversary
+Rank:  7 Prediction: 0.84 Game: Pixel Puzzles 2 Anime
+Rank:  8 Prediction: 0.83 Game: SQR
+Rank:  9 Prediction: 0.81 Game: The Banner Saga
+Rank: 10 Prediction: 0.80 Game: Hard West
+
+
+
+
+
+
+###############################
+lpm_b0s1
+###############################
+
+
+Sorted Train DataFrame:
+      user  app_id  lpm_b0s1                           title
+106  17140  281640  3.143327               The Banner Saga 2
+90   17140  257510  3.031409             The Talos Principle
+115  17140  304410  3.015779               Hexcells Infinite
+3    17140    3590  2.986772  Plants vs Zombies GOTY Edition
+44   17140  212680  2.966142           FTL Faster Than Light
+66   17140  233450  2.897077                Prison Architect
+108  17140  289130  2.883093                  Endless Legend
+81   17140  245470  2.797960                     Democracy 3
+102  17140  271900  2.796574                   Hexcells Plus
+50   17140  219890  2.776701                     Antichamber
+70   17140  237990  2.773055                 The Banner Saga
+8    17140   18040  2.758912                      DeathSpank
+34   17140  115100  2.720159                   Costume Quest
+101  17140  271240  2.700704        Offworld Trading Company
+156  17140  517130  2.677607                     Soundboxing
+31   17140  107100  2.625313                         Bastion
+52   17140  220200  2.596597            Kerbal Space Program
+95   17140  261470  2.567026         Distant Worlds Universe
+35   17140  115800  2.537819                          Owlboy
+149  17140  413150  2.527630                  Stardew Valley
+119  17140  307670  2.518514                       Hard West
+17   17140   37400  2.495544  Time Gentlemen Please and Ben
+43   17140  212050  2.481443                       Resonance
+142  17140  380150  2.448706                          STASIS
+134  17140  356400  2.444045                         Thumper
+42   17140  210970  2.411620                     The Witness
+145  17140  391540  2.411620                       Undertale
+9    17140   18500  2.397940      Defense Grid The Awakening
+146  17140  400110  2.390935                 Else HeartBreak
+72   17140  239200  2.385606      Amnesia A Machine for Pigs
+..     ...     ...       ...                             ...
+46   17140  214700  1.770853        Thirty Flights of Loving
+114  17140  300570  1.755876                   Infinifactory
+65   17140  233150  1.755876                     LUFTRAUSERS
+104  17140  274190  1.740363                        Broforce
+123  17140  319910  1.740363  Trine 3 The Artifacts of Power
+57   17140  222730  1.707571                            Reus
+150  17140  416770  1.698971                     SquareCells
+15   17140   35700  1.690197         Trine Enchanted Edition
+152  17140  466560  1.681242                       Northgard
+58   17140  224760  1.653213                             FEZ
+129  17140  336240  1.643454                         Typoman
+78   17140  242920  1.643454                        Banished
+79   17140  243120  1.633469                        Betrayer
+121  17140  313630  1.633469               The Solus Project
+74   17140  240440  1.633469            Quadrilateral Cowboy
+86   17140  252410  1.602061                  SteamWorld Dig
+53   17140  220780  1.591066                Thomas Was Alone
+47   17140  214770  1.591066         Guacamelee Gold Edition
+23   17140   46750  1.579785            Dark Fall Lost Souls
+62   17140  231160  1.579785                     The Swapper
+126  17140  323380  1.568203                The Magic Circle
+117  17140  304650  1.556304                     SUNLESS SEA
+91   17140  257850  1.556304             Hyper Light Drifter
+153  17140  475190  1.518515                  Scanner Sombre
+147  17140  404540  1.462399                     Nex Machina
+18   17140   40400  1.447160            AI War Fleet Command
+158  17140  518580  1.431365                      Accounting
+20   17140   41000  1.414975  Serious Sam HD The First Encou
+127  17140  323580  1.414975          Jotun Valhalla Edition
+19   17140   40930  1.397942  The Misadventures of PB Winter
+
+[100 rows x 4 columns]
+
+
+
+Sorted Test DataFrame:
+     user  app_id  lpm_b0s1                           title
+27  17140  319630  2.921687      Life is Strange  Episode 1
+31  17140  398850  2.740363     Epistory  Typing Chronicles
+28  17140  351090  2.735599               Regency Solitaire
+11  17140  219150  2.638489                   Hotline Miami
+25  17140  300060  2.598791                          ADR1FT
+30  17140  373970  2.552668  Letter Quest Grimms Journey Re
+17  17140  239030  2.515874                   Papers Please
+21  17140  251430  2.457882                 The Inner World
+3   17140   40700  2.409933                     Machinarium
+22  17140  261570  2.408240        Ori and the Blind Forest
+14  17140  232790  2.334454                      Broken Age
+2   17140   26800  2.322220                           Braid
+24  17140  296070  2.296665  MIND Path to Thalamus Enhanced
+36  17140  491950  2.201397                          Orwell
+15  17140  233470  2.161368                         Evoland
+32  17140  405640  2.117272                     Pony Island
+16  17140  237930  1.977724                      Transistor
+34  17140  435400  1.944483                    Hidden Folks
+33  17140  412740  1.832510                     Audioshield
+5   17140   80310  1.812914                      Gemini Rue
+
+attemping to load game data...
+loaded 8720 games into index.
+Rank:  1 Prediction: 1.06 Game: Avalon Legends Solitaire 2
+Rank:  2 Prediction: 1.01 Game: JiPS
+Rank:  3 Prediction: 0.96 Game: Arizona Rose and the Pirates Riddles
+Rank:  4 Prediction: 0.94 Game: Dead Mans Draw
+Rank:  5 Prediction: 0.94 Game: Broken Age
+Rank:  6 Prediction: 0.93 Game: Lucadian Chronicles
+Rank:  7 Prediction: 0.92 Game: Amulet of Dreams
+Rank:  8 Prediction: 0.92 Game: Legends of Solitaire Curse of the Dragon
+Rank:  9 Prediction: 0.91 Game: Crystal Story II
+Rank: 10 Prediction: 0.89 Game: Faerie Solitaire

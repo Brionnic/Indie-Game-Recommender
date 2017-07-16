@@ -1,0 +1,109 @@
+rank 50, default model
+
+##############################################
+
+User_ID: 81611
+
+##############################################
+
+Get predictions on user_id 81611
+
+make new column for the title of the games so it's human readable
+
+sorting dataframes by playtimes
+
+Sorted Train DataFrame:
+     user  app_id  log_playtime_m                           title
+8   81611  289130        3.862072                  Endless Legend
+6   81611  269210        3.366423                      Hero Siege
+4   81611  234650        3.359646               Shadowrun Returns
+13  81611  359920        3.272306                       Highlands
+5   81611  251470        3.244277             TowerFall Ascension
+11  81611  308420        2.835691                        Ziggurat
+12  81611  342980        2.530200                 Destination Sol
+2   81611  212680        2.468347           FTL Faster Than Light
+3   81611  225080        2.247974    Brothers  A Tale of Two Sons
+14  81611  369400        2.053079                  Let the Cat in
+7   81611  278360        1.838850          A Story About My Uncle
+17  81611  468530        1.623250              A Date in the Park
+16  81611  461560        1.579785                        MANDAGON
+0   81611   35720        1.568203          Trine 2 Complete Story
+15  81611  404410        1.000004                     Endless Sky
+10  81611  300550        0.000000  Shadowrun Dragonfall  Director
+1   81611   98400        0.000000     Hard Reset Extended Edition
+9   81611  298180        0.000000               The Desolate Hope
+
+
+
+Sorted Test DataFrame:
+    user  app_id  log_playtime_m                          title
+2  81611  201790        2.869818                Orcs Must Die 2
+1  81611  107100        2.604226                        Bastion
+5  81611  251730        2.523747           Legend of Grimrock 2
+0  81611   39800        2.212188                     Nation Red
+6  81611  424280        2.178977                     Iron Snout
+4  81611  237930        2.033424                     Transistor
+3  81611  219640        0.477136      Chivalry Medieval Warfare
+7  81611  439190        0.000000  Stories The Path of Destinies
+
+attemping to load game data...
+loaded 8720 games into index.
+Rank:  1 Prediction: 1.71 Game: Orcs Must Die 2
+Rank:  2 Prediction: 1.62 Game: Legend of Grimrock 2
+Rank:  3 Prediction: 1.45 Game: Zen vs Zombie Achievment Hunter
+Rank:  4 Prediction: 1.44 Game: Bastion
+Rank:  5 Prediction: 1.40 Game: Ballistic Overkill
+Rank:  6 Prediction: 1.39 Game: Stellar Interface
+Rank:  7 Prediction: 1.34 Game: Chasing Dead
+Rank:  8 Prediction: 1.34 Game: Deathsmiles
+Rank:  9 Prediction: 1.33 Game: Pictopix
+Rank: 10 Prediction: 1.27 Game: Evil Defenders
+
+
+
+Sorted Train DataFrame:
+     user  app_id  lpm_b0s1                           title
+12  81611  289130  3.862072                  Endless Legend
+11  81611  269210  3.366423                      Hero Siege
+17  81611  359920  3.272306                       Highlands
+9   81611  251470  3.244277             TowerFall Ascension
+4   81611  201790  2.869818                 Orcs Must Die 2
+15  81611  308420  2.835691                        Ziggurat
+3   81611  107100  2.604226                         Bastion
+16  81611  342980  2.530200                 Destination Sol
+10  81611  251730  2.523747            Legend of Grimrock 2
+5   81611  212680  2.468347           FTL Faster Than Light
+7   81611  225080  2.247974    Brothers  A Tale of Two Sons
+1   81611   39800  2.212188                      Nation Red
+20  81611  424280  2.178977                      Iron Snout
+18  81611  369400  2.053079                  Let the Cat in
+8   81611  237930  2.033424                      Transistor
+23  81611  468530  1.623250              A Date in the Park
+22  81611  461560  1.579785                        MANDAGON
+0   81611   35720  1.568203          Trine 2 Complete Story
+19  81611  404410  1.000004                     Endless Sky
+6   81611  219640  0.477136       Chivalry Medieval Warfare
+14  81611  300550  0.000000  Shadowrun Dragonfall  Director
+13  81611  298180  0.000000               The Desolate Hope
+2   81611   98400  0.000000     Hard Reset Extended Edition
+21  81611  439190  0.000000   Stories The Path of Destinies
+
+
+
+Sorted Test DataFrame:
+    user  app_id  lpm_b0s1                   title
+0  81611  234650  3.359646       Shadowrun Returns
+1  81611  278360  1.838850  A Story About My Uncle
+
+attemping to load game data...
+loaded 8720 games into index.
+Rank:  1 Prediction: 4.44 Game: Shadowrun Returns
+Rank:  2 Prediction: 2.62 Game: Sentinels of the Multiverse
+Rank:  3 Prediction: 2.51 Game: Pixel Puzzles 2 RADical ROACH
+Rank:  4 Prediction: 2.50 Game: Spooky Bonus
+Rank:  5 Prediction: 2.40 Game: How to Take Off Your Mask
+Rank:  6 Prediction: 2.22 Game: eRiver Cabin Journal
+Rank:  7 Prediction: 2.21 Game: Pixel Fodder
+Rank:  8 Prediction: 2.20 Game: Dead Inside
+Rank:  9 Prediction: 2.17 Game: Celestian Tales Old North
+Rank: 10 Prediction: 2.15 Game: Christmas Adventure Candy Storm

@@ -1,0 +1,122 @@
+Base Model, rank 50
+
+##############################################
+
+User_ID: 85936
+
+##############################################
+
+Get predictions on user_id 85936
+
+make new column for the title of the games so it's human readable
+
+sorting dataframes by playtimes
+
+Sorted Train DataFrame:
+     user  app_id  log_playtime_m                           title
+8   85936  206370        3.269980  Tales From Space Mutant Blobs
+5   85936  108500        3.210853                          Vessel
+23  85936  275390        3.083861  Guacamelee Super Turbo Champio
+17  85936  236090        2.981366            Dust An Elysian Tail
+25  85936  305050        2.923244                         Outland
+20  85936  255870        2.916454               PixelJunk Shooter
+30  85936  387290        2.869232  Ori and the Blind Forest Defin
+12  85936  214770        2.830589         Guacamelee Gold Edition
+3   85936  107600        2.800029                           Waves
+18  85936  239800        2.689309                           Bleed
+24  85936  300580        2.637490                          GALAKZ
+4   85936  107800        2.585461                         Rochard
+15  85936  225080        2.525045    Brothers  A Tale of Two Sons
+9   85936  207080        2.439333            Indie Game The Movie
+10  85936  211180        2.369216                    Unmechanical
+2   85936   48000        2.204120                           LIMBO
+28  85936  360740        1.944483                        Downwell
+29  85936  365300        1.913814       Transmissions Element 120
+16  85936  232790        1.903091                      Broken Age
+26  85936  317400        1.748189              Portal Stories Mel
+0   85936   20820        0.845104                         Shatter
+27  85936  319630        0.698979      Life is Strange  Episode 1
+1   85936   22000        0.602071                    World of Goo
+13  85936  219150        0.477136                   Hotline Miami
+6   85936  201790        0.000000                 Orcs Must Die 2
+7   85936  206190        0.000000                        Gunpoint
+14  85936  219890        0.000000                     Antichamber
+21  85936  261570        0.000000        Ori and the Blind Forest
+19  85936  242820        0.000000                             140
+11  85936  214700        0.000000        Thirty Flights of Loving
+22  85936  262120        0.000000           Toy Soldiers Complete
+
+
+
+Sorted Test DataFrame:
+    user  app_id  log_playtime_m                        title
+0  85936    8400        0.954247  Geometry Wars Retro Evolved
+
+attemping to load game data...
+loaded 8720 games into index.
+Rank:  1 Prediction: 3.27 Game: Geometry Wars Retro Evolved
+Rank:  2 Prediction: 2.70 Game: Franchise Hockey Manager 3
+Rank:  3 Prediction: 2.53 Game: Borderless Gaming
+Rank:  4 Prediction: 2.29 Game: Affairs of the Court Choice of Romance
+Rank:  5 Prediction: 2.04 Game: Siralim
+Rank:  6 Prediction: 2.00 Game: Congresswolf
+Rank:  7 Prediction: 1.99 Game:  Arcane preRaise
+Rank:  8 Prediction: 1.97 Game: BLUE REVOLVER
+Rank:  9 Prediction: 1.94 Game: Choice of the Pirate
+Rank: 10 Prediction: 1.93 Game: Jack Nicklaus Perfect Golf
+Do another? (y/n)
+
+
+
+Sorted Train DataFrame:
+     user  app_id  lpm_b0s1                           title
+7   85936  206370  3.269980  Tales From Space Mutant Blobs
+4   85936  108500  3.210853                          Vessel
+15  85936  236090  2.981366            Dust An Elysian Tail
+21  85936  305050  2.923244                         Outland
+18  85936  255870  2.916454               PixelJunk Shooter
+25  85936  387290  2.869232  Ori and the Blind Forest Defin
+10  85936  214770  2.830589         Guacamelee Gold Edition
+16  85936  239800  2.689309                           Bleed
+13  85936  225080  2.525045    Brothers  A Tale of Two Sons
+8   85936  211180  2.369216                    Unmechanical
+3   85936   48000  2.204120                           LIMBO
+24  85936  360740  1.944483                        Downwell
+14  85936  232790  1.903091                      Broken Age
+22  85936  317400  1.748189              Portal Stories Mel
+0   85936    8400  0.954247     Geometry Wars Retro Evolved
+1   85936   20820  0.845104                         Shatter
+23  85936  319630  0.698979      Life is Strange  Episode 1
+2   85936   22000  0.602071                    World of Goo
+11  85936  219150  0.477136                   Hotline Miami
+20  85936  262120  0.000000           Toy Soldiers Complete
+9   85936  214700  0.000000        Thirty Flights of Loving
+19  85936  261570  0.000000        Ori and the Blind Forest
+5   85936  201790  0.000000                 Orcs Must Die 2
+6   85936  206190  0.000000                        Gunpoint
+12  85936  219890  0.000000                     Antichamber
+17  85936  242820  0.000000                             140
+
+
+
+Sorted Test DataFrame:
+    user  app_id  lpm_b0s1                           title
+3  85936  275390  3.083861  Guacamelee Super Turbo Champio
+0  85936  107600  2.800029                           Waves
+4  85936  300580  2.637490                          GALAKZ
+1  85936  107800  2.585461                         Rochard
+2  85936  207080  2.439333            Indie Game The Movie
+5  85936  365300  1.913814       Transmissions Element 120
+
+attemping to load game data...
+loaded 8720 games into index.
+Rank:  1 Prediction: 1.60 Game: Indie Game The Movie
+Rank:  2 Prediction: 1.38 Game: Rochard
+Rank:  3 Prediction: 1.36 Game: On Rusty Trails
+Rank:  4 Prediction: 1.25 Game: IcarusX Tides of Fire
+Rank:  5 Prediction: 1.21 Game: Sweezy Gunner
+Rank:  6 Prediction: 1.20 Game: Guacamelee Super Turbo Championship Edit
+Rank:  7 Prediction: 1.18 Game: The Last Tinker City of Colors
+Rank:  8 Prediction: 1.18 Game: Lucadian Chronicles
+Rank:  9 Prediction: 1.18 Game: Space Pirates and Zombies
+Rank: 10 Prediction: 1.15 Game: I Know a Tale

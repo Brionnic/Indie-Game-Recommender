@@ -1,0 +1,90 @@
+##############################################
+
+User_ID: 107598
+
+##############################################
+
+Get predictions on user_id 107598
+
+make new column for the title of the games so it's human readable
+
+sorting dataframes by playtimes
+
+Sorted Train DataFrame:
+     user  app_id  log_playtime_m                           title
+1  107598  200210        2.750508            Realm of the Mad God
+2  107598  204300        2.382017       Awesomenauts  the 2D moba
+5  107598  282800        1.949390                100 Orange Juice
+7  107598  341800        0.301052  Keep Talking and Nobody Explod
+0  107598   37400        0.000000  Time Gentlemen Please and Ben
+3  107598  218640        0.000000                          Lucius
+4  107598  233250        0.000000          Planetary Annihilation
+6  107598  293840        0.000000                Cult of the Wind
+
+Sorted Test DataFrame:
+     user  app_id  log_playtime_m                   title
+1  107598  248650        2.448706    Draw a Stickman EPIC
+4  107598  322330        2.012838    Dont Starve Together
+3  107598  291550        1.602061              Brawlhalla
+0  107598   48000        0.000000                   LIMBO
+2  107598  285840        0.000000              Enemy Mind
+5  107598  344910        0.000000  Sun Blast Star Fighter
+6  107598  382490        0.000000      Relic Hunters Zero
+
+attemping to load game data...
+loaded 8720 games into index.
+Rank:  1 Prediction: 2.19 Game: Dont Starve Together
+Rank:  2 Prediction: 2.07 Game: Don Bradman Cricket 14
+Rank:  3 Prediction: 1.53 Game: Avalon Legends Solitaire 2
+Rank:  4 Prediction: 1.42 Game: Academagia The Making of Mages
+Rank:  5 Prediction: 1.37 Game: Cave Coaster
+Rank:  6 Prediction: 1.36 Game: Celestian Tales Old North
+Rank:  7 Prediction: 1.34 Game: Legend of Merchant
+Rank:  8 Prediction: 1.33 Game: Battle Group 2
+Rank:  9 Prediction: 1.32 Game: Soul Locus
+Rank: 10 Prediction: 1.32 Game: Mayjasmine Episode01  What is God
+
+
+################################3
+lpm_b0s1      nan? fuck
+##################################
+
+make new column for the title of the games so it's human readable
+
+sorting dataframes by playtimes
+
+Sorted Train DataFrame:
+      user  app_id  lpm_b0s1                           title
+1   107598  200210  2.750508            Realm of the Mad God
+5   107598  248650  2.448706            Draw a Stickman EPIC
+2   107598  204300  2.382017       Awesomenauts  the 2D moba
+9   107598  322330  2.012838            Dont Starve Together
+6   107598  282800  1.949390                100 Orange Juice
+8   107598  291550  1.602061                      Brawlhalla
+10  107598  341800  0.301052  Keep Talking and Nobody Explod
+0   107598   37400  0.000000  Time Gentlemen Please and Ben
+3   107598  218640  0.000000                          Lucius
+4   107598  233250  0.000000          Planetary Annihilation
+7   107598  285840  0.000000                      Enemy Mind
+11  107598  344910  0.000000          Sun Blast Star Fighter
+12  107598  382490  0.000000              Relic Hunters Zero
+
+
+
+Sorted Test DataFrame:
+     user  app_id  lpm_b0s1             title
+0  107598   48000       0.0             LIMBO
+1  107598  293840       0.0  Cult of the Wind
+
+attemping to load game data...
+loaded 8720 games into index.
+Rank:  1 Prediction: nan Game: Hegemony III Clash of the Ancients
+Rank:  2 Prediction: nan Game: Nightfall Escape
+Rank:  3 Prediction: nan Game: The Mean Greens  Plastic Warfare
+Rank:  4 Prediction: nan Game: Descent Underground
+Rank:  5 Prediction: nan Game: Ongaku
+Rank:  6 Prediction: nan Game: Doom  Destiny Advanced
+Rank:  7 Prediction: nan Game: Card Dungeon
+Rank:  8 Prediction: nan Game: Sparkle 3 Genesis
+Rank:  9 Prediction: nan Game: Turmoil
+Rank: 10 Prediction: nan Game: Mother Russia Bleeds

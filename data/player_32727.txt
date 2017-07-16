@@ -1,0 +1,225 @@
+Rank 50 base model
+
+##############################################
+
+User_ID: 32727
+
+##############################################
+
+Get predictions on user_id 32727
+
+sorting dataframes by playtimes
+
+Sorted Train DataFrame:
+     user  app_id  log_playtime_m                           title
+38  32727  266210        4.199755                 One Way Heroics
+42  32727  282070        3.989895                This War of Mine
+63  32727  383230        3.826528                   Dungeon Souls
+68  32727  413150        3.768046                  Stardew Valley
+17  32727  212680        3.530072           FTL Faster Than Light
+69  32727  416680        3.517592             Zombie Night Terror
+62  32727  373420        3.485153  Divinity Original Sin  Enhance
+16  32727  211820        3.359646                       Starbound
+1   32727    3590        3.288249  Plants vs Zombies GOTY Edition
+22  32727  233310        3.241297         Avadon 2 The Corruption
+26  32727  241600        3.161068                    Rogue Legacy
+66  32727  400630        3.154120                           Wuppo
+6   32727  102600        3.100026                   Orcs Must Die
+87  32727  588650        3.070407                      Dead Cells
+9   32727  115800        3.049993                          Owlboy
+77  32727  460340        3.026533                          Guards
+13  32727  201790        2.997386                 Orcs Must Die 2
+72  32727  423620        2.965202                    HERO DEFENSE
+39  32727  271970        2.961421               Hero and Daughter
+33  32727  252110        2.916980  Lovers in a Dangerous Spacetim
+73  32727  434650        2.898177                     Lost Castle
+75  32727  439190        2.835056   Stories The Path of Destinies
+2   32727   26800        2.824126                           Braid
+64  32727  391540        2.822822                       Undertale
+50  32727  318130        2.791691                   Doom  Destiny
+36  32727  257850        2.713491             Hyper Light Drifter
+19  32727  218410        2.667453  Defenders Quest Valley of the
+65  32727  398850        2.632457     Epistory  Typing Chronicles
+49  32727  296570        2.623249                 Lords of Xulima
+52  32727  322330        2.612784            Dont Starve Together
+..    ...     ...             ...                             ...
+37  32727  265470        1.556304                  Even the Ocean
+48  32727  294440        1.556304                 Shadowgate 2014
+67  32727  407900        1.531480  Princess Remedy in a World of
+71  32727  421810        1.505151                          OH RPG
+20  32727  224760        1.397942                             FEZ
+21  32727  232790        1.380213                      Broken Age
+3   32727   29160        1.322221                Blueberry Garden
+51  32727  319480        1.176094           Odallus The Dark Call
+84  32727  567800        1.146131  12 Labours of Hercules VI Race
+47  32727  293440        1.041397                    Elliot Quest
+41  32727  274350        0.903095                          Dropsy
+59  32727  347630        0.301052                    16 Bit Arena
+79  32727  496920        0.301052                          Moirai
+85  32727  577910        0.000000                  Ghost Blade HD
+81  32727  511800        0.000000                          ONRAID
+82  32727  530020        0.000000               World to the West
+86  32727  586030        0.000000                      Shardbound
+0   32727    1520        0.000000                          DEFCON
+70  32727  420740        0.000000                        The Deed
+61  32727  368340        0.000000                       CrossCode
+58  32727  343800        0.000000    Shadowgate MacVenture Series
+56  32727  332200        0.000000                     Axiom Verge
+55  32727  331440        0.000000                  bit Dungeon II
+30  32727  250380        0.000000                      Knockknock
+27  32727  246760        0.000000            Legends of Eisenwald
+24  32727  236110        0.000000            Dungeon Defenders II
+18  32727  214830        0.000000  Half Minute Hero Super Mega Ne
+7   32727  107310        0.000000         Cthulhu Saves the World
+4   32727   92800        0.000000                       SpaceChem
+44  32727  286100        0.000000        You Have to Win the Game
+
+[89 rows x 4 columns]
+
+
+
+Sorted Test DataFrame:
+     user  app_id  log_playtime_m                           title
+34  32727  494230        3.665393   Hearts Medicine  Time to Heal
+29  32727  449960        3.511616                  Book of Demons
+5   32727  113200        3.315340            The Binding of Isaac
+9   32727  239030        3.309843                   Papers Please
+12  32727  247020        3.290925            Cook Serve Delicious
+16  32727  265610        3.050766           Epic Battle Fantasy 4
+20  32727  311690        2.859138               Enter the Gungeon
+25  32727  379210        2.720986                         Wayward
+19  32727  296970        2.705008  Renowned Explorers Internation
+8   32727  237930        2.661813                      Transistor
+10  32727  240970        2.618048  Half Minute Hero The Second Co
+24  32727  359310        2.495544                       Evoland 2
+30  32727  454160        2.481443                       Dark Fear
+22  32727  345820        2.481443   Shantae and the Pirates Curse
+27  32727  397060        2.474216                          Faeria
+31  32727  460970        2.369216           Soulcaster Part I  II
+7   32727  222730        2.357935                            Reus
+6   32727  203510        2.303196               Fortune Summoners
+14  32727  249330        2.178977                  Unholy Heights
+32  32727  486720        2.167318                   Bastard Bonds
+
+attemping to load game data...
+loaded 8720 games into index.
+Rank:  1 Prediction: 1.16 Game: Epic Battle Fantasy 4
+Rank:  2 Prediction: 1.09 Game: Cook Serve Delicious
+Rank:  3 Prediction: 1.02 Game: Hearts Medicine  Time to Heal
+Rank:  4 Prediction: 0.99 Game: Fairies vs Darklings Arcane Edition
+Rank:  5 Prediction: 0.98 Game: Renowned Explorers International Society
+Rank:  6 Prediction: 0.96 Game: ReignMaker
+Rank:  7 Prediction: 0.96 Game: Hieroglyphika
+Rank:  8 Prediction: 0.96 Game: Regency Solitaire
+Rank:  9 Prediction: 0.95 Game: Marble Duel
+Rank: 10 Prediction: 0.95 Game: Mystery Castle
+
+
+
+
+
+
+
+Sorted Train DataFrame:
+      user  app_id  lpm_b0s1                           title
+46   32727  266210  4.199755                 One Way Heroics
+72   32727  383230  3.826528                   Dungeon Souls
+91   32727  494230  3.665393   Hearts Medicine  Time to Heal
+21   32727  212680  3.530072           FTL Faster Than Light
+78   32727  416680  3.517592             Zombie Night Terror
+85   32727  449960  3.511616                  Book of Demons
+20   32727  211820  3.359646                       Starbound
+12   32727  113200  3.315340            The Binding of Isaac
+27   32727  239030  3.309843                   Papers Please
+33   32727  247020  3.290925            Cook Serve Delicious
+1    32727    3590  3.288249  Plants vs Zombies GOTY Edition
+24   32727  233310  3.241297         Avadon 2 The Corruption
+30   32727  241600  3.161068                    Rogue Legacy
+8    32727  102600  3.100026                   Orcs Must Die
+45   32727  265610  3.050766           Epic Battle Fantasy 4
+13   32727  115800  3.049993                          Owlboy
+87   32727  460340  3.026533                          Guards
+16   32727  201790  2.997386                 Orcs Must Die 2
+47   32727  271970  2.961421               Hero and Daughter
+40   32727  252110  2.916980  Lovers in a Dangerous Spacetim
+81   32727  434650  2.898177                     Lost Castle
+59   32727  311690  2.859138               Enter the Gungeon
+83   32727  439190  2.835056   Stories The Path of Destinies
+3    32727   26800  2.824126                           Braid
+74   32727  391540  2.822822                       Undertale
+58   32727  296970  2.705008  Renowned Explorers Internation
+26   32727  237930  2.661813                      Transistor
+76   32727  398850  2.632457     Epistory  Typing Chronicles
+57   32727  296570  2.623249                 Lords of Xulima
+29   32727  240970  2.618048  Half Minute Hero The Second Co
+..     ...     ...       ...                             ...
+31   32727  242760  1.447160                      The Forest
+4    32727   42910  1.447160                         Magicka
+94   32727  506870  1.414975                      Unexplored
+22   32727  224760  1.397942                             FEZ
+23   32727  232790  1.380213                      Broken Age
+60   32727  319480  1.176094           Odallus The Dark Call
+98   32727  567800  1.146131  12 Labours of Hercules VI Race
+55   32727  293440  1.041397                    Elliot Quest
+73   32727  387860  1.000004       the static speaks my name
+68   32727  347630  0.301052                    16 Bit Arena
+92   32727  496920  0.301052                          Moirai
+2    32727   24420  0.000000                         Aquaria
+100  32727  586030  0.000000                      Shardbound
+99   32727  577910  0.000000                  Ghost Blade HD
+5    32727   92800  0.000000                       SpaceChem
+95   32727  511800  0.000000                          ONRAID
+96   32727  530020  0.000000               World to the West
+6    32727   98100  0.000000                          Trauma
+32   32727  246760  0.000000            Legends of Eisenwald
+10   32727  107310  0.000000         Cthulhu Saves the World
+25   32727  236110  0.000000            Dungeon Defenders II
+80   32727  420740  0.000000                        The Deed
+35   32727  249050  0.000000          Dungeon of the Endless
+37   32727  250380  0.000000                      Knockknock
+43   32727  263980  0.000000             Out There Somewhere
+71   32727  368340  0.000000                       CrossCode
+49   32727  282100  0.000000                Fearless Fantasy
+50   32727  283080  0.000000              Super Chibi Knight
+66   32727  343820  0.000000         Dj Vu MacVenture Series
+65   32727  343800  0.000000    Shadowgate MacVenture Series
+
+[100 rows x 4 columns]
+
+
+
+Sorted Test DataFrame:
+     user  app_id  lpm_b0s1                           title
+10  32727  282070  3.989895                This War of Mine
+18  32727  413150  3.768046                  Stardew Valley
+15  32727  373420  3.485153  Divinity Original Sin  Enhance
+17  32727  400630  3.154120                           Wuppo
+22  32727  588650  3.070407                      Dead Cells
+20  32727  423620  2.965202                    HERO DEFENSE
+11  32727  318130  2.791691                   Doom  Destiny
+16  32727  379210  2.720986                         Wayward
+8   32727  257850  2.713491             Hyper Light Drifter
+4   32727  218410  2.667453  Defenders Quest Valley of the
+5   32727  222730  2.357935                            Reus
+6   32727  234650  2.307496               Shadowrun Returns
+2   32727  200210  1.929419            Realm of the Mad God
+7   32727  247080  1.851259        Crypt of the NecroDancer
+14  32727  351640  1.579785                   Eternal Senia
+19  32727  421810  1.505151                          OH RPG
+1   32727   65400  1.491363                  Archon Classic
+0   32727   29160  1.322221                Blueberry Garden
+9   32727  274350  0.903095                          Dropsy
+12  32727  331440  0.000000                  bit Dungeon II
+
+attemping to load game data...
+loaded 8720 games into index.
+Rank:  1 Prediction: 1.10 Game: Don Bradman Cricket 14
+Rank:  2 Prediction: 1.06 Game: Alwas Awakening
+Rank:  3 Prediction: 1.01 Game: Renowned Explorers International Society
+Rank:  4 Prediction: 0.95 Game: Wuppo
+Rank:  5 Prediction: 0.94 Game: Monster Slayers
+Rank:  6 Prediction: 0.94 Game: Hoggy 2
+Rank:  7 Prediction: 0.94 Game: Hero and Daughter
+Rank:  8 Prediction: 0.94 Game: Naval Action
+Rank:  9 Prediction: 0.93 Game: Chaos Town
+Rank: 10 Prediction: 0.92 Game: Card Quest

@@ -1,0 +1,148 @@
+Base Model, rank 50
+
+##############################################
+
+User_ID: 33291
+
+##############################################
+
+Get predictions on user_id 33291
+
+Sorted Train DataFrame:
+     user  app_id  log_playtime_m                           title
+13  33291  337320        3.622939              Paint the Town Red
+4   33291  219640        3.041393       Chivalry Medieval Warfare
+24  33291  434570        3.023253                 Blood and Bacon
+15  33291  363970        2.898725                  Clicker Heroes
+1   33291  208090        2.826075                         Loadout
+29  33291  578310        2.822168                      BRAIN  OUT
+16  33291  382490        2.577492              Relic Hunters Zero
+0   33291   17570        2.558709  Pirates Vikings and Knights II
+6   33291  253530        2.507856                Fortress Forever
+12  33291  302590        2.330414           Of Guards And Thieves
+23  33291  424280        2.264818                      Iron Snout
+5   33291  225840        2.100371                       Sven Coop
+20  33291  395200        2.071882                      Ben and Ed
+8   33291  270630        2.025306      Haunt the House Terrortown
+3   33291  214420        2.008601                         Gear Up
+26  33291  511800        1.903091                          ONRAID
+21  33291  417860        1.863323                   Emily is Away
+17  33291  389570        1.724277                Mitosis The Game
+9   33291  291550        1.690197                      Brawlhalla
+18  33291  393530        1.518515                Insanity Clicker
+22  33291  417890        1.462399                  Apotheon Arena
+27  33291  513000        1.447160                          KUBOOM
+10  33291  295710        1.414975          Darkwind War on Wheels
+19  33291  393930        1.342425                        RoShamBo
+30  33291  594960        1.322221          8Bit Armies Arena Free
+2   33291  212800        1.322221                 Super Crate Box
+25  33291  505750        1.000004                  Trimmer Tycoon
+31  33291  653220        0.954247                    Chroma Blast
+11  33291  298240        0.954247          Red Crucible Firestorm
+28  33291  546390        0.602071            Brief Karate Foolish
+7   33291  260410        0.000000                 Get Off My Lawn
+14  33291  354900        0.000000                 Headcrab Frenzy
+
+
+
+Sorted Test DataFrame:
+     user  app_id  log_playtime_m                        title
+1   33291  263060        3.182700                   Blockstorm
+0   33291  250340        3.171141                    Blockland
+2   33291  265630        2.802774             Fistful of Frags
+9   33291  385770        2.149219                Time Clickers
+5   33291  312990        1.716004              The Expendabros
+8   33291  380840        1.662759                    Teeworlds
+6   33291  340460        1.633469  Spartans Vs Zombies Defense
+3   33291  280790        1.477123                  Creativerse
+4   33291  301520        1.322221                    Robocraft
+10  33291  571350        0.301052                          DED
+7   33291  374570        0.000000                    Kung Fury
+
+attemping to load game data...
+loaded 8720 games into index.
+Rank:  1 Prediction: 1.51 Game: Time Clickers
+Rank:  2 Prediction: 1.09 Game: Blockland
+Rank:  3 Prediction: 1.08 Game: Tap Tap Infinity
+Rank:  4 Prediction: 1.05 Game: Blockstorm
+Rank:  5 Prediction: 1.04 Game: Out of the Park Baseball 18
+Rank:  6 Prediction: 1.03 Game: RUMP  Its a Jump and Rump
+Rank:  7 Prediction: 1.03 Game: Typoman
+Rank:  8 Prediction: 0.99 Game: Everyday Genius SquareLogic
+Rank:  9 Prediction: 0.98 Game: Wuppo
+Rank: 10 Prediction: 0.96 Game: Phoning Home
+
+
+
+
+
+
+
+
+
+
+
+
+Sorted Train DataFrame:
+     user  app_id  lpm_b0s1                           title
+6   33291  263060  3.182700                      Blockstorm
+25  33291  434570  3.023253                 Blood and Bacon
+15  33291  363970  2.898725                  Clicker Heroes
+1   33291  208090  2.826075                         Loadout
+30  33291  578310  2.822168                      BRAIN  OUT
+7   33291  265630  2.802774                Fistful of Frags
+0   33291   17570  2.558709  Pirates Vikings and Knights II
+4   33291  253530  2.507856                Fortress Forever
+12  33291  302590  2.330414           Of Guards And Thieves
+18  33291  385770  2.149219                   Time Clickers
+22  33291  395200  2.071882                      Ben and Ed
+8   33291  270630  2.025306      Haunt the House Terrortown
+3   33291  214420  2.008601                         Gear Up
+26  33291  511800  1.903091                          ONRAID
+23  33291  417860  1.863323                   Emily is Away
+19  33291  389570  1.724277                Mitosis The Game
+10  33291  291550  1.690197                      Brawlhalla
+17  33291  380840  1.662759                       Teeworlds
+13  33291  340460  1.633469     Spartans Vs Zombies Defense
+20  33291  393530  1.518515                Insanity Clicker
+9   33291  280790  1.477123                     Creativerse
+24  33291  417890  1.462399                  Apotheon Arena
+27  33291  513000  1.447160                          KUBOOM
+21  33291  393930  1.342425                        RoShamBo
+2   33291  212800  1.322221                 Super Crate Box
+31  33291  653220  0.954247                    Chroma Blast
+11  33291  298240  0.954247          Red Crucible Firestorm
+28  33291  546390  0.602071            Brief Karate Foolish
+29  33291  571350  0.301052                             DED
+14  33291  354900  0.000000                 Headcrab Frenzy
+5   33291  260410  0.000000                 Get Off My Lawn
+16  33291  374570  0.000000                       Kung Fury
+
+
+
+Sorted Test DataFrame:
+     user  app_id  lpm_b0s1                      title
+6   33291  337320  3.622939         Paint the Town Red
+2   33291  250340  3.171141                  Blockland
+0   33291  219640  3.041393  Chivalry Medieval Warfare
+7   33291  382490  2.577492         Relic Hunters Zero
+8   33291  424280  2.264818                 Iron Snout
+1   33291  225840  2.100371                  Sven Coop
+5   33291  312990  1.716004            The Expendabros
+3   33291  295710  1.414975     Darkwind War on Wheels
+4   33291  301520  1.322221                  Robocraft
+10  33291  594960  1.322221     8Bit Armies Arena Free
+9   33291  505750  1.000004             Trimmer Tycoon
+
+attemping to load game data...
+loaded 8720 games into index.
+Rank:  1 Prediction: 1.05 Game: Relic Hunters Zero
+Rank:  2 Prediction: 1.04 Game: Road Redemption
+Rank:  3 Prediction: 1.04 Game: Scanner Sombre
+Rank:  4 Prediction: 1.03 Game: Clockwork Empires
+Rank:  5 Prediction: 1.03 Game: The Hero Project Redemption Season
+Rank:  6 Prediction: 0.98 Game: Psycho Starship Rampage
+Rank:  7 Prediction: 0.98 Game: Chivalry Medieval Warfare
+Rank:  8 Prediction: 0.97 Game: Monster Trucks Nitro
+Rank:  9 Prediction: 0.96 Game: Aven Colony
+Rank: 10 Prediction: 0.95 Game: Blockland

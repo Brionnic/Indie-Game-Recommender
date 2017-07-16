@@ -1,0 +1,220 @@
+##############################################
+
+User_ID: 75792
+
+##############################################
+
+Get predictions on user_id 75792
+
+sorting dataframes by playtimes
+
+Sorted Train DataFrame:
+     user  app_id  log_playtime_m                           title
+46  75792  264200        3.939819          One Finger Death Punch
+19  75792  219740        3.764176                     Dont Starve
+34  75792  247080        3.736397        Crypt of the NecroDancer
+38  75792  251630        3.291369             The Impossible Game
+0   75792   12900        3.178689                       AudioSurf
+30  75792  238460        3.132580             BattleBlock Theater
+36  75792  248970        3.125481                          Vector
+9   75792  107100        3.074816                         Bastion
+31  75792  241600        3.069298                    Rogue Legacy
+28  75792  236090        3.035430            Dust An Elysian Tail
+44  75792  261570        2.987666        Ori and the Blind Forest
+72  75792  332200        2.966142                     Axiom Verge
+22  75792  221810        2.855519                        The Cave
+61  75792  305050        2.810233                         Outland
+60  75792  303550        2.741939               Adventures of Pip
+39  75792  252130        2.718502                 Divide By Sheep
+12  75792  200900        2.715167                      Cave Story
+15  75792  207140        2.715167                    SpeedRunners
+51  75792  274230        2.597695                           RONIN
+33  75792  244870        2.583199            Electronic Super Joy
+50  75792  272330        2.575188             Shadow Blade Reload
+64  75792  311930        2.564666                        Tinertia
+40  75792  252410        2.552668                  SteamWorld Dig
+20  75792  219890        2.534026                     Antichamber
+71  75792  322330        2.519828            Dont Starve Together
+2   75792   65300        2.474216                    Dustforce DX
+58  75792  297130        2.453318                     Titan Souls
+85  75792  512250        2.434569      OhSir The Insult Simulator
+27  75792  235820        2.434569                       Element4l
+83  75792  412660        2.357935                           Klang
+..    ...     ...             ...                             ...
+23  75792  225600        1.477123                  Blade Symphony
+76  75792  341800        1.447160  Keep Talking and Nobody Explod
+41  75792  255370        1.230451          KickBeat Steam Edition
+68  75792  317710        1.041397                       Velocibox
+1   75792   40800        0.698979                  Super Meat Boy
+75  75792  340280        0.301052                           Cubot
+74  75792  338190        0.000000                Just Get Through
+70  75792  321920        0.000000                          Schein
+79  75792  368730        0.000000   No Time To Explain Remastered
+80  75792  385770        0.000000                   Time Clickers
+84  75792  428550        0.000000  Momodora Reverie Under the Moo
+69  75792  321560        0.000000                The Sun and Moon
+57  75792  290320        0.000000             Project Temporality
+67  75792  315430        0.000000                        Polarity
+14  75792  204360        0.000000                 Castle Crashers
+25  75792  233980        0.000000                          UnEpic
+32  75792  243970        0.000000                   Invisible Inc
+24  75792  233720        0.000000          Surgeon Simulator 2013
+18  75792  219150        0.000000                   Hotline Miami
+16  75792  210770        0.000000                       Sanctum 2
+42  75792  257510        0.000000             The Talos Principle
+13  75792  204180        0.000000                        Waveform
+62  75792  308040        0.000000                     Back to Bed
+48  75792  270450        0.000000  Robot RollerDerby Disco Dodgeb
+10  75792  108500        0.000000                          Vessel
+54  75792  278360        0.000000          A Story About My Uncle
+29  75792  236130        0.000000                         Horizon
+59  75792  301520        0.000000                       Robocraft
+7   75792   91600        0.000000                         Sanctum
+43  75792  260160        0.000000  The Last Tinker City of Colors
+
+[86 rows x 4 columns]
+
+
+
+Sorted Test DataFrame:
+     user  app_id  log_playtime_m                           title
+17  75792  311690        4.121593               Enter the Gungeon
+22  75792  413150        4.033705                  Stardew Valley
+20  75792  365450        2.908485                         Hacknet
+7   75792  237930        2.831230                      Transistor
+1   75792  115800        2.656098                          Owlboy
+3   75792  225080        2.509203    Brothers  A Tale of Two Sons
+4   75792  227000        2.507856                       Primordia
+11  75792  251430        2.494155                 The Inner World
+2   75792  209190        2.155336          Stealth Bastard Deluxe
+8   75792  239800        2.079182                           Bleed
+9   75792  248820        2.012838                    Risk of Rain
+18  75792  319550        1.000004                    The Collider
+10  75792  249990        0.000000  FORCED Slightly Better Edition
+6   75792  234650        0.000000               Shadowrun Returns
+12  75792  261180        0.000000                   Lethal League
+13  75792  266490        0.000000  Lili Child of Geos  Complete E
+14  75792  281750        0.000000                           Munin
+15  75792  290770        0.000000                        The Fall
+16  75792  291550        0.000000                      Brawlhalla
+5   75792  232430        0.000000                       Gone Home
+
+attemping to load game data...
+loaded 8720 games into index.
+Rank:  1 Prediction: 1.42 Game: Owlboy
+Rank:  2 Prediction: 1.22 Game: Stardew Valley
+Rank:  3 Prediction: 1.17 Game: Liftoff
+Rank:  4 Prediction: 1.14 Game: Environmental Station Alpha
+Rank:  5 Prediction: 1.09 Game: Abomination Tower
+Rank:  6 Prediction: 1.08 Game: Mystery Castle
+Rank:  7 Prediction: 1.07 Game: Bad Dream Coma
+Rank:  8 Prediction: 1.06 Game: Flat Kingdom Papers Cut Edition
+Rank:  9 Prediction: 1.05 Game: Primordia
+Rank: 10 Prediction: 1.04 Game: Fighter of Evil
+
+
+###################################
+lpm_b0s1
+####################################
+
+Sorted Train DataFrame:
+     user  app_id  lpm_b0s1                           title
+88  75792  413150  4.033705                  Stardew Valley
+51  75792  264200  3.939819          One Finger Death Punch
+20  75792  219740  3.764176                     Dont Starve
+38  75792  247080  3.736397        Crypt of the NecroDancer
+43  75792  251630  3.291369             The Impossible Game
+0   75792   12900  3.178689                       AudioSurf
+34  75792  238460  3.132580             BattleBlock Theater
+40  75792  248970  3.125481                          Vector
+9   75792  107100  3.074816                         Bastion
+32  75792  236090  3.035430            Dust An Elysian Tail
+49  75792  261570  2.987666        Ori and the Blind Forest
+77  75792  332200  2.966142                     Axiom Verge
+82  75792  365450  2.908485                         Hacknet
+23  75792  221810  2.855519                        The Cave
+67  75792  303550  2.741939               Adventures of Pip
+44  75792  252130  2.718502                 Divide By Sheep
+13  75792  200900  2.715167                      Cave Story
+15  75792  207140  2.715167                    SpeedRunners
+12  75792  115800  2.656098                          Owlboy
+37  75792  244870  2.583199            Electronic Super Joy
+55  75792  272330  2.575188             Shadow Blade Reload
+70  75792  311930  2.564666                        Tinertia
+45  75792  252410  2.552668                  SteamWorld Dig
+21  75792  219890  2.534026                     Antichamber
+76  75792  322330  2.519828            Dont Starve Together
+24  75792  225080  2.509203    Brothers  A Tale of Two Sons
+42  75792  251430  2.494155                 The Inner World
+2   75792   65300  2.474216                    Dustforce DX
+65  75792  297130  2.453318                     Titan Souls
+90  75792  512250  2.434569      OhSir The Insult Simulator
+..    ...     ...       ...                             ...
+1   75792   40800  0.698979                  Super Meat Boy
+79  75792  340280  0.301052                           Cubot
+27  75792  233720  0.000000          Surgeon Simulator 2013
+83  75792  365770  0.000000                          Volume
+85  75792  385770  0.000000                   Time Clickers
+26  75792  232430  0.000000                       Gone Home
+75  75792  321920  0.000000                          Schein
+74  75792  321560  0.000000                The Sun and Moon
+89  75792  428550  0.000000  Momodora Reverie Under the Moo
+19  75792  219150  0.000000                   Hotline Miami
+68  75792  308040  0.000000                     Back to Bed
+6   75792   91600  0.000000                         Sanctum
+36  75792  243970  0.000000                   Invisible Inc
+17  75792  210770  0.000000                       Sanctum 2
+33  75792  236130  0.000000                         Horizon
+14  75792  204180  0.000000                        Waveform
+46  75792  257510  0.000000             The Talos Principle
+47  75792  260160  0.000000  The Last Tinker City of Colors
+48  75792  261180  0.000000                   Lethal League
+10  75792  108500  0.000000                          Vessel
+53  75792  266490  0.000000  Lili Child of Geos  Complete E
+7   75792   92000  0.000000            Hydrophobia Prophecy
+29  75792  234650  0.000000               Shadowrun Returns
+58  75792  278360  0.000000          A Story About My Uncle
+59  75792  281750  0.000000                           Munin
+63  75792  290770  0.000000                        The Fall
+64  75792  291550  0.000000                      Brawlhalla
+28  75792  233980  0.000000                          UnEpic
+66  75792  301520  0.000000                       Robocraft
+62  75792  290320  0.000000             Project Temporality
+
+[91 rows x 4 columns]
+
+
+
+Sorted Test DataFrame:
+     user  app_id  lpm_b0s1                           title
+11  75792  311690  4.121593               Enter the Gungeon
+4   75792  241600  3.069298                    Rogue Legacy
+3   75792  237930  2.831230                      Transistor
+10  75792  305050  2.810233                         Outland
+9   75792  274230  2.597695                           RONIN
+2   75792  227000  2.507856                       Primordia
+17  75792  412660  2.357935                           Klang
+0   75792   80350  2.212188           Blackwell Convergence
+5   75792  248820  2.012838                    Risk of Rain
+7   75792  255370  1.230451          KickBeat Steam Edition
+13  75792  317710  1.041397                       Velocibox
+8   75792  270450  0.000000  Robot RollerDerby Disco Dodgeb
+1   75792  204360  0.000000                 Castle Crashers
+6   75792  249990  0.000000  FORCED Slightly Better Edition
+12  75792  315430  0.000000                        Polarity
+14  75792  332500  0.000000                            GRAV
+15  75792  338190  0.000000                Just Get Through
+16  75792  368730  0.000000   No Time To Explain Remastered
+
+attemping to load game data...
+loaded 8720 games into index.
+Rank:  1 Prediction: 1.24 Game: Abomination Tower
+Rank:  2 Prediction: 1.21 Game: Lucadian Chronicles
+Rank:  3 Prediction: 1.17 Game: Salt and Sanctuary
+Rank:  4 Prediction: 1.13 Game: Risk of Rain
+Rank:  5 Prediction: 1.13 Game: Heroes of the Monkey Tavern
+Rank:  6 Prediction: 1.13 Game: Crypt of the NecroDancer
+Rank:  7 Prediction: 1.13 Game: Ascendant
+Rank:  8 Prediction: 1.07 Game: BADASS
+Rank:  9 Prediction: 1.07 Game: Parallels Cross
+Rank: 10 Prediction: 1.05 Game: Enter the Gungeon

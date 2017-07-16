@@ -1,0 +1,160 @@
+default model, rank 50
+
+##############################################
+
+User_ID: 94373
+
+##############################################
+
+Get predictions on user_id 94373
+
+make new column for the title of the games so it's human readable
+
+sorting dataframes by playtimes
+
+Sorted Train DataFrame:
+     user  app_id  log_playtime_m                           title
+32  94373  247730        4.088490              Nether Resurrected
+18  94373  211820        3.168792                       Starbound
+35  94373  313340        2.887617                        Mountain
+36  94373  516750        2.720986                   My Summer Car
+22  94373  224760        2.499687                             FEZ
+31  94373  242760        2.496930                      The Forest
+1   94373   26800        2.440909                           Braid
+26  94373  235540        2.298853  Warhammer End Times  Vermintid
+3   94373   40800        2.292256                  Super Meat Boy
+30  94373  238960        2.123852                   Path of Exile
+19  94373  214360        1.919079                      Tower Wars
+9   94373  104900        1.880814                   ORION Prelude
+29  94373  238320        1.643454                         Outlast
+33  94373  251570        1.462399                   7 Days to Die
+21  94373  219890        1.278756                     Antichamber
+16  94373  208090        1.204123                         Loadout
+2   94373   33950        1.176094                  Fish Fillets 2
+15  94373  207170        1.113947              Legend of Grimrock
+4   94373   41070        1.113947               Serious Sam 3 BFE
+10  94373  105600        0.845104                        Terraria
+34  94373  301520        0.000000                       Robocraft
+25  94373  233740        0.000000       Organ Trail Directors Cut
+28  94373  237950        0.000000                  UFO Afterlight
+27  94373  236090        0.000000            Dust An Elysian Tail
+0   94373    4920        0.000000             Natural Selection 2
+24  94373  230150        0.000000                     Incredipede
+23  94373  224860        0.000000                    Arma Tactics
+20  94373  214770        0.000000         Guacamelee Gold Edition
+17  94373  210770        0.000000                       Sanctum 2
+14  94373  204220        0.000000                        Snapshot
+13  94373  113200        0.000000            The Binding of Isaac
+12  94373  113020        0.000000      Monaco Whats Yours Is Mine
+11  94373  107100        0.000000                         Bastion
+8   94373  102840        0.000000                         Shank 2
+7   94373   91600        0.000000                         Sanctum
+6   94373   72000        0.000000                         Closure
+5   94373   42910        0.000000                         Magicka
+37  94373  564310        0.000000    Serious Sam Fusion 2017 beta
+
+
+
+Sorted Test DataFrame:
+     user  app_id  log_playtime_m                           title
+10  94373  242920        3.534153                        Banished
+11  94373  427520        3.153815                        Factorio
+0   94373   91100        2.214844                        SkyDrift
+8   94373  231160        2.004322                     The Swapper
+5   94373  219640        1.556304       Chivalry Medieval Warfare
+3   94373  204360        1.544069                 Castle Crashers
+1   94373   96200        1.361730  Steel Storm Burning Retributio
+9   94373  234900        1.146131                         Anodyne
+2   94373  108200        0.000000                  Ticket to Ride
+4   94373  207080        0.000000            Indie Game The Movie
+6   94373  223220        0.000000    Giana Sisters Twisted Dreams
+7   94373  230980        0.000000                Starseed Pilgrim
+
+attemping to load game data...
+loaded 8720 games into index.
+Rank:  1 Prediction: 1.33 Game: Factorio
+Rank:  2 Prediction: 1.31 Game: Tap Heroes
+Rank:  3 Prediction: 1.26 Game: Banished
+Rank:  4 Prediction: 1.17 Game: Cryptocracy
+Rank:  5 Prediction: 1.15 Game: Higurashi When They Cry Hou  Ch2 Watanag
+Rank:  6 Prediction: 1.15 Game: Swapperoo
+Rank:  7 Prediction: 1.14 Game: Out of the Park Baseball 18
+Rank:  8 Prediction: 1.12 Game: Everyday Genius SquareLogic
+Rank:  9 Prediction: 1.09 Game: Tahira Echoes of the Astral Empire
+Rank: 10 Prediction: 1.07 Game: Train Fever
+
+
+##################################################
+lpm_b0s1
+###########################################
+
+Sorted Train DataFrame:
+     user  app_id  lpm_b0s1                           title
+29  94373  247730  4.088490              Nether Resurrected
+17  94373  211820  3.168792                       Starbound
+32  94373  427520  3.153815                        Factorio
+33  94373  516750  2.720986                   My Summer Car
+21  94373  224760  2.499687                             FEZ
+1   94373   26800  2.440909                           Braid
+25  94373  235540  2.298853  Warhammer End Times  Vermintid
+3   94373   40800  2.292256                  Super Meat Boy
+23  94373  231160  2.004322                     The Swapper
+18  94373  214360  1.919079                      Tower Wars
+8   94373  104900  1.880814                   ORION Prelude
+28  94373  238320  1.643454                         Outlast
+13  94373  204360  1.544069                 Castle Crashers
+30  94373  251570  1.462399                   7 Days to Die
+7   94373   96200  1.361730  Steel Storm Burning Retributio
+15  94373  208090  1.204123                         Loadout
+2   94373   33950  1.176094                  Fish Fillets 2
+24  94373  234900  1.146131                         Anodyne
+4   94373   41070  1.113947               Serious Sam 3 BFE
+9   94373  105600  0.845104                        Terraria
+31  94373  301520  0.000000                       Robocraft
+27  94373  237950  0.000000                  UFO Afterlight
+26  94373  236090  0.000000            Dust An Elysian Tail
+0   94373    4920  0.000000             Natural Selection 2
+22  94373  230150  0.000000                     Incredipede
+20  94373  223220  0.000000    Giana Sisters Twisted Dreams
+19  94373  214770  0.000000         Guacamelee Gold Edition
+16  94373  210770  0.000000                       Sanctum 2
+14  94373  207080  0.000000            Indie Game The Movie
+12  94373  204220  0.000000                        Snapshot
+11  94373  113200  0.000000            The Binding of Isaac
+10  94373  113020  0.000000      Monaco Whats Yours Is Mine
+6   94373   91600  0.000000                         Sanctum
+5   94373   42910  0.000000                         Magicka
+34  94373  564310  0.000000    Serious Sam Fusion 2017 beta
+
+
+
+Sorted Test DataFrame:
+     user  app_id  lpm_b0s1                      title
+13  94373  242920  3.534153                   Banished
+14  94373  313340  2.887617                   Mountain
+12  94373  242760  2.496930                 The Forest
+1   94373   91100  2.214844                   SkyDrift
+11  94373  238960  2.123852              Path of Exile
+6   94373  219640  1.556304  Chivalry Medieval Warfare
+7   94373  219890  1.278756                Antichamber
+5   94373  207170  1.113947         Legend of Grimrock
+0   94373   72000  0.000000                    Closure
+2   94373  102840  0.000000                    Shank 2
+3   94373  107100  0.000000                    Bastion
+4   94373  108200  0.000000             Ticket to Ride
+8   94373  224860  0.000000               Arma Tactics
+9   94373  230980  0.000000           Starseed Pilgrim
+10  94373  233740  0.000000  Organ Trail Directors Cut
+
+attemping to load game data...
+loaded 8720 games into index.
+Rank:  1 Prediction: 1.51 Game: Mountain
+Rank:  2 Prediction: 1.47 Game: Don Bradman Cricket 14
+Rank:  3 Prediction: 1.39 Game: Zombie Parking
+Rank:  4 Prediction: 1.38 Game: Franchise Hockey Manager 2
+Rank:  5 Prediction: 1.31 Game: TRANSFORMERS Rise of the Dark Spark
+Rank:  6 Prediction: 1.26 Game: Out of the Park Baseball 18
+Rank:  7 Prediction: 1.22 Game: Banished
+Rank:  8 Prediction: 1.14 Game: Divergence Online
+Rank:  9 Prediction: 1.13 Game: Streets of Fury EX
+Rank: 10 Prediction: 1.11 Game: Path of Exile

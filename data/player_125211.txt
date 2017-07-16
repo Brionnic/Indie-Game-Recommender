@@ -1,0 +1,134 @@
+default model, rank 50
+
+##############################################
+
+User_ID: 125211
+
+##############################################
+
+Get predictions on user_id 125211
+
+make new column for the title of the games so it's human readable
+
+sorting dataframes by playtimes
+
+Sorted Train DataFrame:
+      user  app_id  log_playtime_m                          title
+3   125211  222880        4.207042                     Insurgency
+7   125211  242760        3.284431                     The Forest
+29  125211  447820        3.142702                  Day of Infamy
+15  125211  286040        2.929419                    Dead Effect
+0   125211   48000        2.888741                          LIMBO
+5   125211  234650        2.506505              Shadowrun Returns
+2   125211   98400        2.457882    Hard Reset Extended Edition
+4   125211  232770        2.374749                         POSTAL
+27  125211  431240        2.374749         Golf With Your Friends
+13  125211  281920        2.296665    Splatter  Zombie Apocalypse
+10  125211  259870        2.274158                    OMG Zombies
+19  125211  307230        2.201397                       I Zombie
+9   125211  251570        2.187521                  7 Days to Die
+25  125211  350810        1.863323          Pixel Puzzles 2 Anime
+31  125211  519140        1.643454                     Minds Eyes
+6   125211  238960        1.633469                  Path of Exile
+18  125211  306040        1.491363                     The Howler
+26  125211  351490        1.322221          Intergalactic Bubbles
+1   125211   57300        1.204123       Amnesia The Dark Descent
+30  125211  461560        1.000004                       MANDAGON
+20  125211  315430        1.000004                       Polarity
+17  125211  302380        0.954247                 Floating Point
+8   125211  250600        0.903095                       The Plan
+23  125211  324810        0.778158                         TOXIKK
+28  125211  436110        0.000000              Medusas Labyrinth
+14  125211  282140        0.000000                           SOMA
+11  125211  262410        0.000000  World of Guns Gun Disassembly
+24  125211  344410        0.000000           Magnetic Cage Closed
+22  125211  319230        0.000000          Gold Rush Anniversary
+21  125211  318100        0.000000                          AXYOS
+12  125211  265630        0.000000               Fistful of Frags
+16  125211  301520        0.000000                      Robocraft
+
+
+
+Sorted Test DataFrame:
+     user  app_id  log_playtime_m                       title
+4  125211  361190        2.181844           Sparkle 3 Genesis
+1  125211  319630        1.544069  Life is Strange  Episode 1
+2  125211  338530        1.230451        Trouble In The Manor
+3  125211  360380        0.477136      Tiny Bridge Ratventure
+0  125211  239200        0.000000  Amnesia A Machine for Pigs
+
+attemping to load game data...
+loaded 8720 games into index.
+Rank:  1 Prediction: 2.11 Game: Solitaire Beach Season
+Rank:  2 Prediction: 2.08 Game: Knights of Pen and Paper 2
+Rank:  3 Prediction: 1.99 Game: Shadowrun Chronicles INFECTED Directors
+Rank:  4 Prediction: 1.95 Game: Life is Strange  Episode 1
+Rank:  5 Prediction: 1.78 Game: Sparkle 3 Genesis
+Rank:  6 Prediction: 1.78 Game: Gridworld
+Rank:  7 Prediction: 1.77 Game: Tisnart Tiles
+Rank:  8 Prediction: 1.72 Game: Sweven
+Rank:  9 Prediction: 1.71 Game: Forgotten Tales Day of the Dead
+Rank: 10 Prediction: 1.69 Game: Samsa and the Knights of Light
+
+###########################
+lpm_b0s1
+##########################
+
+
+Sorted Train DataFrame:
+      user  app_id  lpm_b0s1                        title
+2   125211  222880  4.207042                   Insurgency
+7   125211  242760  3.284431                   The Forest
+12  125211  286040  2.929419                  Dead Effect
+0   125211   48000  2.888741                        LIMBO
+4   125211  234650  2.506505            Shadowrun Returns
+1   125211   98400  2.457882  Hard Reset Extended Edition
+3   125211  232770  2.374749                       POSTAL
+25  125211  431240  2.374749       Golf With Your Friends
+14  125211  307230  2.201397                     I Zombie
+9   125211  251570  2.187521                7 Days to Die
+24  125211  361190  2.181844            Sparkle 3 Genesis
+21  125211  350810  1.863323        Pixel Puzzles 2 Anime
+28  125211  519140  1.643454                   Minds Eyes
+5   125211  238960  1.633469                Path of Exile
+18  125211  319630  1.544069   Life is Strange  Episode 1
+13  125211  306040  1.491363                   The Howler
+22  125211  351490  1.322221        Intergalactic Bubbles
+19  125211  338530  1.230451         Trouble In The Manor
+15  125211  315430  1.000004                     Polarity
+27  125211  461560  1.000004                     MANDAGON
+8   125211  250600  0.903095                     The Plan
+23  125211  360380  0.477136       Tiny Bridge Ratventure
+6   125211  239200  0.000000   Amnesia A Machine for Pigs
+16  125211  318100  0.000000                        AXYOS
+17  125211  319230  0.000000        Gold Rush Anniversary
+10  125211  265630  0.000000             Fistful of Frags
+20  125211  344410  0.000000         Magnetic Cage Closed
+11  125211  282140  0.000000                         SOMA
+26  125211  436110  0.000000            Medusas Labyrinth
+
+
+
+Sorted Test DataFrame:
+     user  app_id  lpm_b0s1                          title
+7  125211  447820  3.142702                  Day of Infamy
+3  125211  281920  2.296665    Splatter  Zombie Apocalypse
+1  125211  259870  2.274158                    OMG Zombies
+0  125211   57300  1.204123       Amnesia The Dark Descent
+5  125211  302380  0.954247                 Floating Point
+6  125211  324810  0.778158                         TOXIKK
+2  125211  262410  0.000000  World of Guns Gun Disassembly
+4  125211  301520  0.000000                      Robocraft
+
+attemping to load game data...
+loaded 8720 games into index.
+Rank:  1 Prediction: 1.79 Game: OMG Zombies
+Rank:  2 Prediction: 1.56 Game: Roche Fusion
+Rank:  3 Prediction: 1.40 Game: Football Tactics
+Rank:  4 Prediction: 1.36 Game: Royal Bounty HD
+Rank:  5 Prediction: 1.32 Game: Lords of Xulima
+Rank:  6 Prediction: 1.28 Game: Day of Infamy
+Rank:  7 Prediction: 1.27 Game: Tales of the Orient The Rising Sun
+Rank:  8 Prediction: 1.24 Game: A Midsummer Nights Choice
+Rank:  9 Prediction: 1.18 Game: World of One
+Rank: 10 Prediction: 1.16 Game: Xbird
