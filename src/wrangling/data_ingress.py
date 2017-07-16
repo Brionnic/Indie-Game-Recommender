@@ -12,6 +12,8 @@ import time
 # not tormented enough? try regex
 import re
 
+from game_indexer import GameIndexer
+
 # import all of the spark stuff
 import pyspark
 from pyspark.sql.types import *
@@ -51,7 +53,7 @@ def load_weights_to_dict(column, data):
     returns dictionary with key=app_id, value=weight
     """
     #convert weights to a dictionary for hopefully faster lookup
-    apps = np.array(data["app_id"].values).astype(int)
+    apps = np.array(data["appind"].values).astype(int)
     weights = np.array(data[column].values)
 
     # combine into a 2d matrix
@@ -100,9 +102,8 @@ def load_game_reviews_into_table(collection):
     user | app_id | rating (positive)
     '''
     start_time = time.time()
-    data = []
 
-    game_avgs = load_pandas_df("app_means_v2.csv")
+    game_avgs = load_pandas_df("app_means_v3.csv")
     user_avgs = load_pandas_df("user_avgs.csv")
 
     ##############################################################
@@ -124,7 +125,13 @@ def load_game_reviews_into_table(collection):
     user_lookup_table = {}
     user_reverse_lookup_table = {}
 
+    # get a GameIndexer ready for lookups
+    indexer = GameIndexer()
+
     num_users = collection.find().count()
+
+    # list to hold dictionaries before conversion to df
+    data = []
 
     for idx, user in enumerate(collection.find()):
 
@@ -149,12 +156,12 @@ def load_game_reviews_into_table(collection):
         #if idx % 100 == 0:
         print "{}s ### {}th user of {} ###### \r".format(_ts, idx, num_users),
 
-        for idy, review in enumerate(user["data"]):
+        for idy, playtime in enumerate(user["data"]):
             # if idy > 1000:
             #     break
 
 
-            _appid = int(review["appid"])
+            _appid = indexer.app_id_to_game_index(int(playtime["appid"]))
 
             #get weighting of app from game_avgs dataframe.
             # get weighting of a certain app
@@ -194,7 +201,7 @@ def load_game_reviews_into_table(collection):
 
             # Goodnight sweet prince, going to log10 time now
             # _playtime_m = int(review["playtime_forever"])
-            _log_playtime_m = int(review["playtime_forever"])
+            _log_playtime_m = int(playtime["playtime_forever"])
 
             if _log_playtime_m > 1:
                 _log_playtime_m = np.log10(_log_playtime_m + 0.0001)
@@ -209,12 +216,12 @@ def load_game_reviews_into_table(collection):
             # or very high user counts
             _log_playtime_m
 
-            data.append({"app_id":_appid,
+            data.append({"appind":_appid,
                         "user": _user,
-                        "log_playtime_m":_log_playtime_m,
-                        "lpm_b0s1": _lpm_b0s1,
-                        "lpm_b0s2": _lpm_b0s2,
-                        "lpm_b0s3": _lpm_b0s3})
+                        "lpm_b0_s0":_log_playtime_m,
+                        "lpm_b0_s1": _lpm_b0s1,
+                        "lpm_b0_s2": _lpm_b0s2,
+                        "lpm_b0_s3": _lpm_b0s3})
 
         # except Exception, e:
         #     print
@@ -232,29 +239,35 @@ def load_game_reviews_into_table(collection):
     # find the mean of the whole df and use that to calulate ratings
     # with the biases removed
 
-    # print "##################################################################"
-    # print "##################################################################"
-    # print "##################################################################"
-    #
-    # print df.head()
-    #
-    # mu = df.log_playtime_m.mean()
-    # print "mu", mu
-    #
-    #
-    # df["o_user"] = df["user"].apply(lambda x: user_lookup_table[x])
-    #
-    # #import pdb; pdb.set_trace()
-    #
-    # df["annie"] = df["o_user"].apply(lambda x: mu - try_dict(user_avg_dict, int(x), mu))
+    print "##################################################################"
+    print "##################################################################"
+    print "##################################################################"
 
-    # df["b1_s1"] = df["log_playtime_m"] - \
-    #         df["o_user"].apply(lambda x: user_avg_dict[int(x)]) -\
-    #         df["app_id"].apply(lambda y: game_avg_dict[y])
+    print df.head()
+
+    mu = df["lbm_b0_s0"].mean()
+    print "mu", mu
+
+
+    df["o_user"] = df["user"].apply(lambda x: user_lookup_table[x])
+
+    #import pdb; pdb.set_trace()
+
+    df["annie"] = df["o_user"].apply(lambda x: mu - try_dict(user_avg_dict, int(x), mu))
+
+    df["b1_s0"] = df["lbm_b0_s0"] - \
+            df["o_user"].apply(lambda x: user_avg_dict[x) -\
+            df["appind"].apply(lambda y: game_avg_dict[y])
 
 
     print
     print "Completed."
+
+    print "##################################################################"
+    print "##################################################################"
+    print "##################################################################"
+
+    print df.head(20)
 
     return df
 
@@ -279,7 +292,7 @@ def df_to_spark(data):
 
     # reorder the columns because we built the dataframe from a dictionary
     # that had no concept of order
-    data = data[["app_id", "user", "log_playtime_m", "lpm_b0s1", "lpm_b0s2", "lpm_b0s3"]]
+    data = data[["appind", "user", "lpm_b0_s0", "lpm_b0_s1", "lpm_b0_s2", "lpm_b0_s3"]]
     #print repr(data.keys())
     #data = data[[data.keys()]]
 
@@ -289,69 +302,99 @@ def df_to_spark(data):
     start_time = time.time()
     print "\nStarting to process pandas DF to spark DF..."
 
-    # convert to Spark DataFrame
-    #
-    #   Simple old way
-    #
-    #game_ratings_df = spark.createDataFrame(data)
+    # make list of columns that we're going to turn into distinct dataframes
+    cols = ["lpm_b0_s0", "lpm_b0_s1", "lpm_b0_s2", "lpm_b0_s3"]
 
-    # convert to Spark Dataframe via sharding in order to try to speed things
-    # up a lot
-    #
-    #   Sharding:
-    #
+    # we're going to repeat the process of making a data frame four times total
+    # to try to make the DFs smaller so spark doesn't crash
+    for col in cols:
 
-    # figure out the length of the source dataframe
-    # subtract 1 because we're going to start out with a spark dataframe
-    # that is seeded with the last row of data
-    num_items = len(data)
+        # create a temporary dataframe that consists of the 3 columns that we're
+        # going to use to make a distinct spark dataframe
 
-    # declare how many shards to break the data into, has to be enough to make
-    # the shards easier for spark to process, but not so small to make it
-    # actually take longer. For testing just try 10
-    steps = 1000
+        print "\nCreating a temporary dataframe..."
 
-    # figure out how many rows per step
-    step_width = num_items // steps
+        temp = data[["appind", "user", col]]
 
-    # figure out how big the last, leftover step is:
-    remainder = num_items % step_width
 
-    # arrays/lists are 0 indexed so len of items is the last index
-    print "\nCreate the seed of the spark dataframe"
+        # convert to Spark DataFrame
+        #
+        #   Simple old way
+        #
+        #game_ratings_df = spark.createDataFrame(data)
 
-    print data[num_items-5:]
-    print
-    print
+        # convert to Spark Dataframe via sharding in order to try to speed things
+        # up a lot
+        #
+        #   Sharding:
+        #
 
-    spark_df = spark.createDataFrame(data[num_items-5:num_items])
+        # figure out the length of the source dataframe
+        # subtract 1 because we're going to start out with a spark dataframe
+        # that is seeded with the last row of data
+        num_items = len(temp)
 
-    # compensate for the seed
-    num_items -= 5
+        # declare how many shards to break the data into, has to be enough to make
+        # the shards easier for spark to process, but not so small to make it
+        # actually take longer. For testing just try 10
+        steps = 100
 
-    # iterate through for loop to take each step
-    for step in xrange(steps):
-        print "{:4.2f} Starting shard {:2d}/{:2d}\r".format(time.time() - start_time, step+1, steps),
+        # figure out how many rows per step
+        step_width = num_items // steps
 
-        # see if a light sleep makes the logging to console smoother
-        time.sleep(0.01)
-        # create a temp dataframe from the shard
-        temp_df = spark.createDataFrame(data[step_width * step: step_width * (step+1)])
+        # figure out how big the last, leftover step is:
+        remainder = num_items % step_width
 
+        # arrays/lists are 0 indexed so len of items is the last index
+        print "\nCreate the seed of the spark dataframe"
+
+        print temp[num_items-5:]
+        print
+        print
+
+        spark_df = spark.createDataFrame(temp[num_items-5:num_items])
+
+        # compensate for the seed
+        num_items -= 5
+
+        # iterate through for loop to take each step
+        for step in xrange(steps):
+            print "{:4.2f} Starting shard {:2d}/{:2d}\r".format(time.time() - start_time, step+1, steps),
+
+            # see if a light sleep makes the logging to console smoother
+            time.sleep(0.01)
+            # create a temp dataframe from the shard
+            temp_df = spark.createDataFrame(temp[step_width * step: step_width * (step+1)])
+
+            # concatenate the existing spark_df and the new temp
+            spark_df = spark_df.unionAll(temp_df)
+
+        # take care of the remainder items
+        temp_df = spark.createDataFrame(temp[step_width * steps + 1:])
         # concatenate the existing spark_df and the new temp
         spark_df = spark_df.unionAll(temp_df)
 
-    # take care of the remainder items
-    temp_df = spark.createDataFrame(data[step_width * steps + 1:])
-    # concatenate the existing spark_df and the new temp
-    spark_df = spark_df.unionAll(temp_df)
+        print
+        print "\nlength of data:", len(temp)
+        print "\nlength of spark_df:", spark_df.count()
 
-    print
-    print "\nlength of data:", len(data)
-    print "\nlength of spark_df:", spark_df.count()
+        print "\n Completed operation in {:3.2f}s".format(time.time()-start_time)
 
-    print "\n Completed operation in {:3.2f}s".format(time.time()-start_time)
-    return spark_df
+
+        print "\nAttempting to write dataframe as parquet..."
+
+        # write the dataframe to disk to avoid having to rebuild constantly (~6min for 100 games)
+        # write the dataframe to disk using a lame sort of file system to indicate
+        # what kind of weights and bias have been used to generate that file
+        #
+        # b0 = no bias implemented      b1 = "netflix bias" has been implemented
+        # s1 = weighting stage 1 (only low unique player games weighted)
+        # s2 = weighting stage 2 (low unique players weighted and very high players weighted linearly)
+        # s3 = weighting stage 3 (low unique players weighted and very high players weighted exponentially)
+        filename = "v_matrix_" + col + ".parquet"
+        spark_df.write.parquet(filename, mode="overwrite", compression="gzip")
+
+        print "\nWrite completed!"
 
 
 
@@ -380,29 +423,10 @@ def prepare_dataframe():
     print "Size of pandas df:", len(data)
     print "now convert to spark df"
 
-    spark_game_ratings = df_to_spark(data)
+    print data.head(20)
 
-    print
-    print "Conversion to spark df complete. Now attempting to write \
-            spark df to disk so we don't have to rebuilt it every time."
+    df_to_spark(data)
 
-    # write the dataframe to disk to avoid having to rebuild constantly (~6min for 100 games)
-    # write the dataframe to disk using a lame sort of file system to indicate
-    # what kind of weights and bias have been used to generate that file
-    #
-    # b0 = no bias implemented      b1 = "netflix bias" has been implemented
-    # s1 = weighting stage 1 (only low unique player games weighted)
-    # s2 = weighting stage 2 (low unique players weighted and very high players weighted linearly)
-    # s3 = weighting stage 3 (low unique players weighted and very high players weighted exponentially)
-    spark_game_ratings.write.parquet("test_v_matrix_b0s1.parquet", mode="overwrite", compression="gzip")
-
-    print
-    print "Seems like the write completed, now just show a summary of the df"
-    print
-
-    print spark_game_ratings.show(20)
-
-    return spark_game_ratings
 
 def load_dataframe(spark):
     '''
@@ -444,116 +468,4 @@ if __name__ == "__main__":
     time.sleep(2)
 
     # if uncommented then build the dataframe
-    red_data = prepare_dataframe()
-
-    # Get dataframe from disk instead of rebuilding it every time
-    # red_data = load_dataframe(spark)
-
-    # print
-    # print "attempting to split data into train/test/eval"
-    #
-    # # avoid fitting to final eval
-    # # set seed so we keep these out of the pool
-    # # (prob won't help as more data is added in the future and
-    # # the pool changes but this is paranoia anyways)
-    # train_test, final_eval = red_data.randomSplit([0.9, 0.1], seed=1337)
-    #
-    # # break the non-held back into train/test split
-    # train, test = train_test.randomSplit([0.8, 0.2])
-    #
-    # print "Train set count:", train.count()
-    # print "Test set count:", test.count()
-    #
-    # print
-    # print "Setting up model..."
-    #
-    # als_model = ALS(userCol="user",
-    #            itemCol="app_id",
-    #            ratingCol="playtime_m",
-    #            nonnegative=True,
-    #            regParam=0.05,
-    #            rank=10,
-    #            implicitPrefs=True,
-    #            maxIter=20)
-    #
-    # print "Attempting to fit model on training data..."
-    # recommender = als_model.fit(train)
-    #
-    # # make a single row DataFrame
-    # temp = [(1, 413150)]
-    # columns = ('user', 'app_id')
-    # one_row_spark_df = spark.createDataFrame(temp, columns)
-    #
-    # # get U/V for this particular user and app
-    # user_factor_df = recommender.userFactors.filter('id = 1')
-    # item_factor_df = recommender.itemFactors.filter('id = 413150')
-    #
-    # # do more stuff?
-    # user_factors = user_factor_df.collect()[0]['features']
-    # item_factors = item_factor_df.collect()[0]['features']
-    #
-    # # figure out dot product for user_factors/item_factors
-    # print np.dot(user_factors, item_factors)
-    # print
-    #
-    # # get prediction for row
-    # print recommender.transform(one_row_spark_df).show()
-    # print
-    #
-    # print recommender.userFactors.show()
-    # print
-    #
-    # print "Transform the test set via recommender.transform"
-    # # make predictions on the whole test set
-    # predictions = recommender.transform(test)
-    #
-    # print
-    # print "Convert results to pandas to make final calcs easier"
-    # # dump the predictions to Pandas so the final calculations are easier to do
-    #
-    # predictions_df = predictions.toPandas()
-    # train_df = train.toPandas()
-    #
-    # print
-    # print "Pandas conversion should be complete, print out head of dataframe"
-    # print
-    # print predictions_df.head()
-    # print
-    # print
-    #
-    # # Fill any missing values with the mean rating
-    # # probably room for improvement here
-    #
-    # print "predictions.count():", predictions.count()
-    #
-    # # print the mean rating (1.0, uh... that's not good)
-    # #print "Mean rating:", train_df['rating'].mean()/predictions.count()
-    # print "Mean rating:", train_df['playtime_m'].mean()
-    # print
-    #
-    #
-    # print "Fill the n/a predictions with the mean rating for now"
-    # #predictions_df = predictions.toPandas().fillna(train_df['rating'].mean()/predictions.count())
-    # predictions_df = predictions.toPandas().fillna(train_df['playtime_m'].mean())
-    #
-    # print
-    # print "predictions.head(20)"
-    # print predictions_df.head(20)
-    #
-    # print
-    # print "Try to figure out the squared error of predictions"
-    # predictions_df['squared_error'] = (predictions_df['playtime_m'] - predictions_df['prediction'])**2
-    #
-    # print
-    # print "Print description of the predictions"
-    # print predictions_df.describe()
-    #
-    # print
-    #
-    # print "Calculate RMSE:"
-    # # Calculate RMSE
-    # print np.sqrt(sum(predictions_df['squared_error']) / len(predictions_df))
-    #
-    # # run  val
-    # # 1    0.078012435752783327
-    # # 2    0.079067974734729068
+    prepare_dataframe()
