@@ -14,7 +14,12 @@ from game_indexer import GameIndexer
 from IndieGR import IndieGR
 
 if __name__ == '__main__':
-    igr = IndieGR()
+    columns = ["log_playtime_m", "lpm_b0s1", "lpm_b0s2", "lpm_b0s3"]
+    column = columns[1]
+
+    # try to load test matrix
+    igr = IndieGR(column, "test_v_matrix_b0s1.parquet")
+    # igr = IndieGR(column, "v_matrix_b0s1.parquet")
 
     # shard for cross validation
     igr.split_train_test_eval()
@@ -56,11 +61,11 @@ if __name__ == '__main__':
 
         # sort the data so it makes more sense for humans
         print "\nsorting dataframes by playtimes"
-        sort_train_df = train_pd.sort_values("log_playtime_m", ascending=False)
-        test_pd = test_pd.sort_values("log_playtime_m", ascending=False)
+        sort_train_df = train_pd.sort_values(column, ascending=False)
+        test_pd = test_pd.sort_values(column, ascending=False)
 
         print "\nSorted Train DataFrame:"
-        print sort_train_df.head(100)
+        print sort_train_df.head(20)
         print
         print
         print "\nSorted Test DataFrame:"

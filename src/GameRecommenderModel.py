@@ -33,17 +33,14 @@ class GameRecommenderModel():
 
     # this should be done by the calling context/class
     # def __init__(self, parquet_path="game_user_log_playtimes.parquet"):
-    def __init__(self):
+    def __init__(self, spark, rank=10):
         # initialize spark stuff
-        self.spark = ps.sql.SparkSession.builder \
-            .master("local[4]") \
-            .appName("IGR") \
-            .getOrCreate()
+        self.spark = spark
         self.sc = self.spark.sparkContext
 
-        self.model = ALS(rank=75,
+        self.model = ALS(rank=rank,
                     maxIter=10,
-                    regParam=0.1,
+                    regParam=0.01,
                     userCol="user",
                     itemCol="app_id",
                     ratingCol="log_playtime_m")

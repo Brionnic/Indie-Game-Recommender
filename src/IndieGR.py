@@ -14,7 +14,7 @@ from game_indexer import GameIndexer
 
 class IndieGR():
 
-    def __init__(self, path="game_user_log_playtimes.parquet"):
+    def __init__(self, column, path="v_matrix_b0s1.parquet"):
         # sort of like __name__ == "__main__":
 
         self.spark = ps.sql.SparkSession.builder \
@@ -35,7 +35,7 @@ class IndieGR():
         self.test_data = None
         self.eval_data = None
 
-        self.model = GameRecommenderModel()
+        self.model = GameRecommenderModel(self.spark, 50)
         self.recommender = None
 
         self.predictions = None
@@ -49,6 +49,8 @@ class IndieGR():
         # store the most recent predictions (this should really be done
         # in the calling method but just for testing)
         self.sorted_predictions = None
+
+        self.column_tag = "lpm_b0s1"
 
 
     def split_train_test_eval(self):
@@ -170,14 +172,24 @@ class IndieGR():
 
         self.train_data.registerTempTable("train")
 
+        # original
+        # new_user_df = self.spark.sql(
+        #     '''
+        #     SELECT user,
+        #         app_id,
+        #         log_playtime_m
+        #     FROM train
+        #     WHERE user = {}
+        #     '''.format(user_id))
+
         new_user_df = self.spark.sql(
             '''
             SELECT user,
                 app_id,
-                log_playtime_m
+                {}
             FROM train
             WHERE user = {}
-            '''.format(user_id))
+            '''.format(self.column_tag, user_id))
 
         return new_user_df
 
@@ -188,14 +200,25 @@ class IndieGR():
 
         self.test_data.registerTempTable("test")
 
+        # original
+        #
+        # new_user_df = self.spark.sql(
+        #     '''
+        #     SELECT user,
+        #         app_id,
+        #         log_playtime_m
+        #     FROM test
+        #     WHERE user = {}
+        #     '''.format(user_id))
+
         new_user_df = self.spark.sql(
             '''
             SELECT user,
                 app_id,
-                log_playtime_m
+                {}
             FROM test
             WHERE user = {}
-            '''.format(user_id))
+            '''.format(self.column_tag, user_id))
 
         return new_user_df
 
@@ -213,7 +236,7 @@ class IndieGR():
 
         for row in filtered_item_factors_df.collect():
             filtered_item_factors.append(row["features"])
-            item_ratings.append(row["log_playtime_m"])
+            item_ratings.append(row[self.column_tag])
 
         return np.array(filtered_item_factors), np.array(item_ratings)
 
@@ -226,6 +249,35 @@ class IndieGR():
         for idx, result in enumerate(self.sorted_predictions):
             title = lookup.return_game_title(int(result[1]), 40).replace("_", " ")
             print "Rank: {:2d} Prediction: {:2.2f} Game: {}".format(idx +1, result[0], title)
+
+    def get_squared_error(self):
+        """
+            Returns a list of the squared error
+        """
+        predictions = self.recommender.transform(self.test_data)
+
+        print "\nPredictions DF:"
+        print predictions.show(5)
+
+        print "\nConvert predictions spark to pandas"
+        pred_df = predictions.toPandas()
+
+        print "\nConvert train_data spark to pandas"
+        train_df = self.train_data.toPandas()
+
+        print "\nFill missing values with mean rating"
+        # fill with mean
+        # pred_df = predictions.toPandas().fillna(train_df["log_playtime_m"].mean())
+        # fill with zeros
+        pred_df = predictions.toPandas().fillna(0)
+
+        pred_df["real_squared_error"] = (pred_df[self.column_tag] - pred_df["prediction"])**2
+
+        print "other rmse", (sum(pred_df["real_squared_error"]) / (len(pred_df) * 1.0))**0.5
+
+        pred_df["squared_error"] = pred_df[self.column_tag] - pred_df["prediction"]
+
+        return pred_df.pop("squared_error")
 
     def evaluate_RMSE(self):
         """
@@ -248,9 +300,10 @@ class IndieGR():
         train_df = self.train_data.toPandas()
 
         print "\nFill missing values with mean rating"
-        pred_df = predictions.toPandas().fillna(train_df["log_playtime_m"].mean())
+        #pred_df = predictions.toPandas().fillna(train_df["log_playtime_m"].mean())
+        pred_df = predictions.toPandas().fillna(0)
 
-        pred_df["squared_error"] = (pred_df["log_playtime_m"] - pred_df["prediction"])**2
+        pred_df["squared_error"] = (pred_df[self.column_tag] - pred_df["prediction"])**2
 
         print "\nDo a describe on the predictions df"
         print pred_df.describe()
@@ -269,11 +322,26 @@ class IndieGR():
         # totally untuned with rank 10, average values replacing nan
         # RMSE: 0.889612280955
 
+        # rank 10 default others mean values into nans
+        # rmse 0.889249337621
+
+        # rank 10 zeros replacing nan
+        # other rmse 0.888550601469
+
         # just changed rank to 75
         # RMSE: 0.876617437231  (-0.013)
 
         # ran rank 75 again
         # RMSE: 0.877823176352
+
+        # ran with rank 10, maxIter=20, regParam=0.2 and got the horrible
+        # RMSE: 0.931727052283
+
+        # ran with rank 10, maxIter=20, regParam=0.1 and nan replaced by 0
+        # RMSE: 0.887799907012
+
+        # rank with rank 100, maxIter=20, regparam=0.1 and nan replaced by 0
+
 
         # evaluator = RegressionEvaluator(metricName="rmse",
         #                                 labelCol="log_playtime_m",

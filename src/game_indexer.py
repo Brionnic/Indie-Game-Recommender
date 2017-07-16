@@ -1,4 +1,6 @@
 import csv
+import pandas as pd
+import numpy as np
 
 class GameIndexer(object):
 
@@ -6,7 +8,65 @@ class GameIndexer(object):
         '''
         Load in the data with a baked in path
         '''
+
+        print "attemping to load game data..."
         self.game_info_dict = self.load_game_info_csv("../data/game_info.csv")
+
+        # load in the game indices
+        self.game_indices = self.load_game_indices()
+
+        # build a reverse lookup dictionary so we can also go from
+        # app_id to index when needed
+        self.reverse_game_indices = self.build_index_reverse_lookup()
+
+        print "loaded {} games into index.".format(len(self.game_info_dict))
+
+    def app_id_to_game_index(self, app_id):
+        '''
+        Take in an app_id and
+
+        return an index value
+        '''
+        return self.reverse_game_indices[app_id]
+
+    def game_index_to_app_id(self, index):
+        '''
+        Take in game index and
+
+        return a app_id
+        '''
+        return self.game_indices[index, 1]
+
+    def game_index_to_title(self, index, title_len=0):
+        '''
+        Take in a game index and
+
+        return the title of the matching game
+        '''
+        app_id = self.game_index_to_app_id(index)
+
+        if title_len == 0:
+            return self.return_game_title(app_id)
+        else:
+            return self.return_game_title(app_id, title_len)
+
+    def build_index_reverse_lookup(self):
+        '''
+        We need a dictionary so we can convert an app_id into an index quicky
+        '''
+
+        # game[0] = index, game[1] = app_id
+        return {game[1]:game[0] for game in self.game_indices}
+
+    def load_game_indices(self, path="wrangling/app_indices.csv"):
+        '''
+        Load in a dataframe from CSV and convert it to a numpy array
+        as well as a dictionary for reverse lookup
+        '''
+        data = pd.read_csv(path)
+        data.columns = ["junk", "index", "game"]
+        data.pop("junk")
+        return data.values
 
     def return_game_title(self, app_id, limit_len=0):
         '''
@@ -19,10 +79,12 @@ class GameIndexer(object):
         if type(app_id) != str:
             app_id = str(app_id)
 
-        _dict = self.game_info_dict[app_id]
+        _title = self.game_info_dict[app_id]["title"].replace("_", " ")
 
         if limit_len != 0:
-            return _dict["title"][:limit_len]
+            return _title[limit_len]
+        else:
+            return _title
 
 #         if app_id in self.game_info_dict:
 #             return self.game_info_dict[app_id]["title"]
