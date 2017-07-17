@@ -337,8 +337,6 @@ class IndieGR():
         pred_df = test_predictions.toPandas()
 
         print "\nConvert train_data spark to pandas"
-        # keep this as train_data because we're not supposed to see/know
-        # what the test data looks like
         train_df = self.train_data.toPandas()
 
         print "\nFill missing values with mean rating"
@@ -399,102 +397,136 @@ class IndieGR():
         return rmse
 
     def evaluate_average_RMSE(self):
-        """
-        Attempt to score the model using the RSME method
+                """
+                Attempt to score the model using the RSME method
 
-        prints out RSME
+                prints out RSME
 
-        Returns:
-        RSME as float val
-        """
+                Returns:
+                RSME as float val
+                """
 
-        #######################3
-        #########   Eval train model RMSE for overfitting examination
-        ########################
-        train_predictions = self.recommender.transform(self.train_data)
+                if train_predict==1:
+                    #######################3
+                    #########   Eval train model RMSE for overfitting examination
+                    ########################
+                    train_predictions = self.recommender.transform(self.train_data)
 
-        print "\ntrain_predictions DF:"
-        print train_predictions.show(5)
+                    print "\ntrain_predictions DF:"
+                    print train_predictions.show(5)
 
-        print "\nConvert train_predictions spark to pandas"
-        train_pred_df = train_predictions.toPandas()
+                    print "\nConvert train_predictions spark to pandas"
+                    train_pred_df = train_predictions.toPandas()
 
-        print "\nConvert train_data spark to pandas"
-        train_df = self.train_data.toPandas()
+                    print "\nConvert train_data spark to pandas"
+                    train_df = self.train_data.toPandas()
 
-        print "\nFill missing all values with mean rating"
-        train_pred_df = train_predictions.toPandas()
+                    print "\nFill missing all values with mean rating"
+                    train_pred_df = train_predictions.toPandas()
 
-        temp_panda = self.train_data.toPandas()
+                    mu = train_pred_df["predictions"].mean()
 
-        mu = temp_panda[self.column_tag].mean()
+                    train_pred_df["predictions"] = mu
+                    #train_pred_df = train_predictions.toPandas().fillna(0)
 
-        train_pred_df["predictions"] = mu
-        #train_pred_df = train_predictions.toPandas().fillna(0)
+                    print "\n\n\n"
+                    print train_pred_df.describe()
+                    print
+                    print
 
-        print "\n\n\n"
-        print train_pred_df.describe()
-        print
-        print
+                    train_pred_df["squared_error"] = (train_pred_df[self.column_tag] - train_pred_df["prediction"])**2
 
-        train_pred_df["squared_error"] = (train_pred_df[self.column_tag] - train_pred_df["prediction"])**2
+                    print "\nDo a describe on the train_predictions df"
+                    print train_pred_df.describe()
 
-        print "\nDo a describe on the train_predictions df"
-        print train_pred_df.describe()
+                    # calculate the RSME
+                    train_rmse = np.sqrt(sum(train_pred_df["squared_error"]) / (len(train_pred_df) * 1.0))
 
-        # calculate the RSME
-        train_rmse = np.sqrt(sum(train_pred_df["squared_error"]) / (len(train_pred_df) * 1.0))
+                    # print "sum of squared_error", sum(train_pred_df["squared_error"])
+                    # print "sum of s_e / len(train_pred_df)", sum(train_pred_df["squared_error"]) / (len(train_pred_df) * 1.0)
+                    # print "other rmse", (sum(train_pred_df["squared_error"]) / (len(train_pred_df) * 1.0))**0.5
 
-        # print "sum of squared_error", sum(train_pred_df["squared_error"])
-        # print "sum of s_e / len(train_pred_df)", sum(train_pred_df["squared_error"]) / (len(train_pred_df) * 1.0)
-        # print "other rmse", (sum(train_pred_df["squared_error"]) / (len(train_pred_df) * 1.0))**0.5
-
-        print "\nTrain RMSE with Averages for predictions:", train_rmse
-
-
-        #######################3
-        #########   Eval test model RMSE like normal
-        ########################
+                    print "\nTrain RMSE with Average:", train_rmse
 
 
-        test_predictions = self.recommender.transform(self.test_data)
+                #######################3
+                #########   Eval test model RMSE like normal
+                ########################
 
-        print "\ntest_predictions DF:"
-        print test_predictions.show(5)
 
-        print "\nConvert test_predictions spark to pandas"
-        test_pred_df = test_predictions.toPandas()
+                test_predictions = self.recommender.transform(self.test_data)
 
-        print "\nConvert train_data spark to pandas"
-        train_df = self.train_data.toPandas()
+                print "\ntest_predictions DF:"
+                print test_predictions.show(5)
 
-        print "\nFill missing all values with mean rating"
-        test_pred_df = test_predictions.toPandas()
+                print "\nConvert test_predictions spark to pandas"
+                train_pred_df = test_predictions.toPandas()
 
-        temp_panda = self.test_data.toPandas()
+                print "\nConvert train_data spark to pandas"
+                train_df = self.train_data.toPandas()
 
-        mu = temp_panda[self.column_tag].mean()
+                print "\nFill missing all values with mean rating"
+                train_pred_df = test_predictions.toPandas()
 
-        test_pred_df["predictions"] = mu
-        #test_pred_df = test_predictions.toPandas().fillna(0)
+                mu = train_pred_df["predictions"].mean()
 
-        print "\n\n\n"
-        print test_pred_df.describe()
-        print
-        print
+                train_pred_df["predictions"] = mu
+                #train_pred_df = test_predictions.toPandas().fillna(0)
 
-        test_pred_df["squared_error"] = (test_pred_df[self.column_tag] - test_pred_df["prediction"])**2
+                print "\n\n\n"
+                print train_pred_df.describe()
+                print
+                print
 
-        print "\nDo a describe on the test_predictions df"
-        print test_pred_df.describe()
+                pred_df["squared_error"] = (pred_df[self.column_tag] - pred_df["prediction"])**2
 
-        # calculate the RSME
-        test_rmse = np.sqrt(sum(test_pred_df["squared_error"]) / (len(test_pred_df) * 1.0))
+                print "\nDo a describe on the test_predictions df"
+                print pred_df.describe()
 
-        # print "sum of squared_error", sum(pred_df["squared_error"])
-        # print "sum of s_e / len(pred_Df)", sum(pred_df["squared_error"]) / (len(pred_df) * 1.0)
-        # print "other rmse", (sum(pred_df["squared_error"]) / (len(pred_df) * 1.0))**0.5
+                # calculate the RSME
+                test_rmse = np.sqrt(sum(pred_df["squared_error"]) / (len(pred_df) * 1.0))
 
-        print "\nTest RMSE with Averages for predictions:", test_rmse
+                # print "sum of squared_error", sum(pred_df["squared_error"])
+                # print "sum of s_e / len(pred_Df)", sum(pred_df["squared_error"]) / (len(pred_df) * 1.0)
+                # print "other rmse", (sum(pred_df["squared_error"]) / (len(pred_df) * 1.0))**0.5
 
-        return train_rmse, test_rmse
+                print "\nRMSE:", test_rmse
+
+                if train_predict == 1:
+                    return train_rmse, test_rmse
+                else:
+                    return test_rmse
+
+                # totally untuned with rank 10, average values replacing nan
+                # RMSE: 0.889612280955
+
+                # rank 10 default others mean values into nans
+                # rmse 0.889249337621
+
+                # rank 10 zeros replacing nan
+                # other rmse 0.888550601469
+
+                # just changed rank to 75
+                # RMSE: 0.876617437231  (-0.013)
+
+                # ran rank 75 again
+                # RMSE: 0.877823176352
+
+                # ran with rank 10, maxIter=20, regParam=0.2 and got the horrible
+                # RMSE: 0.931727052283
+
+                # ran with rank 10, maxIter=20, regParam=0.1 and nan replaced by 0
+                # RMSE: 0.887799907012
+
+                # rank with rank 100, maxIter=20, regparam=0.1 and nan replaced by 0
+
+
+                # evaluator = RegressionEvaluator(metricName="rmse",
+                #                                 labelCol="log_playtime_m",
+                #                                 predictionCol="prediction")
+                #
+                # rmse = evaluator.evaluate(predictions)
+
+                print "RMSE:", rmse
+
+                return rmse

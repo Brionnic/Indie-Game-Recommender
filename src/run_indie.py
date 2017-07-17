@@ -16,17 +16,28 @@ from IndieGR import IndieGR
 if __name__ == '__main__':
     # appind  lpm_b0_s0  lpm_b0_s1  lpm_b0_s2  lpm_b0_s3  user
     columns = ["lpm_b0_s0", "lpm_b0_s1", "lpm_b0_s2", "lpm_b0_s3"]
-    column = columns[3]
+    column = columns[0]
 
     # try to load test matrix
     file_name = "v_matrix_{}.parquet".format(column)
 
     # log RMSE filename
-    rmse_file = "rmse_{}.csv".format(column)
+    rmse_file = "nan_to_mean_rmse_{}.csv".format(column)
     first_row = "rmse_train, rmse_test, rank\n"
 
     with open(rmse_file, "w") as outfile:
         outfile.write(first_row)
+
+    print "\nFind the score of the mean as a 'model' first"
+    igr = IndieGR(column, 1, file_name)
+    igr.split_train_test_eval()
+    igr.train_model()
+    av_train_rmse, av_test_rmse = igr.evaluate_average_RMSE()
+
+    # write the average RMSEs to a file
+    with open("baseline_RMSEs.csv", "a") as rmse_outfile:
+        _output = "{}, {}, {}\n".format(column, av_train_rmse, av_test_rmse)
+        rmse_outfile.write(_output)
 
     for x in range(1, 11, 1):
         rank = x
