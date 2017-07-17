@@ -245,19 +245,20 @@ def load_game_reviews_into_table(collection):
 
     print df.head()
 
-    mu = df["lbm_b0_s0"].mean()
+    mu = df["lpm_b0_s0"].mean()
     print "mu", mu
 
-
+    print "\ncreate original user column"
     df["o_user"] = df["user"].apply(lambda x: user_lookup_table[x])
 
     #import pdb; pdb.set_trace()
+    print "\nCreate alice column"
+    df["annie"] = df["o_user"].apply(lambda x: try_dict(user_avg_dict, int(x), mu))
 
-    df["annie"] = df["o_user"].apply(lambda x: mu - try_dict(user_avg_dict, int(x), mu))
-
-    df["b1_s0"] = df["lbm_b0_s0"] - \
-            df["o_user"].apply(lambda x: user_avg_dict[x) -\
-            df["appind"].apply(lambda y: game_avg_dict[y])
+    print "\nattempt to make residual column"
+    df["lpm_b1_s0"] = df["lpm_b0_s0"] - \
+            df["o_user"].apply(lambda x: user_avg_dict[int(x)]-mu) -\
+            df["appind"].apply(lambda y: game_avg_dict[y]-mu)
 
 
     print

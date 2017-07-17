@@ -3,9 +3,6 @@ import pandas as pd
 
 import numpy as np
 
-# import MongoDB modules
-from pymongo import MongoClient
-
 # we can always use more time
 import time
 
@@ -33,7 +30,12 @@ class GameRecommenderModel():
 
     # this should be done by the calling context/class
     # def __init__(self, parquet_path="game_user_log_playtimes.parquet"):
-    def __init__(self, spark, rank=10):
+    def __init__(self, spark, rating_col="lpm_b0_s0", rank=10):
+        '''
+        Latest model ingest data frame schema
+        appind  lpm_b0_s0  lpm_b0_s1  lpm_b0_s2  lpm_b0_s3  user
+
+        '''
         # initialize spark stuff
         self.spark = spark
         self.sc = self.spark.sparkContext
@@ -42,8 +44,8 @@ class GameRecommenderModel():
                     maxIter=10,
                     regParam=0.01,
                     userCol="user",
-                    itemCol="app_id",
-                    ratingCol="log_playtime_m")
+                    itemCol="appind",
+                    ratingCol=rating_col)
 
         # start the model at None so if we try to transform before training
         # the model we can detect and throw an error

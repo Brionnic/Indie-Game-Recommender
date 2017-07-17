@@ -14,68 +14,94 @@ from game_indexer import GameIndexer
 from IndieGR import IndieGR
 
 if __name__ == '__main__':
-    columns = ["log_playtime_m", "lpm_b0s1", "lpm_b0s2", "lpm_b0s3"]
-    column = columns[1]
+    # appind  lpm_b0_s0  lpm_b0_s1  lpm_b0_s2  lpm_b0_s3  user
+    columns = ["lpm_b0_s0", "lpm_b0_s1", "lpm_b0_s2", "lpm_b0_s3"]
+    column = columns[3]
 
     # try to load test matrix
-    igr = IndieGR(column, "test_v_matrix_b0s1.parquet")
-    # igr = IndieGR(column, "v_matrix_b0s1.parquet")
+    file_name = "v_matrix_{}.parquet".format(column)
 
-    # shard for cross validation
-    igr.split_train_test_eval()
+    # log RMSE filename
+    rmse_file = "rmse_{}.csv".format(column)
+    first_row = "rmse_train, rmse_test, rank\n"
 
-    # train the model on the training data
-    igr.train_model()
+    with open(rmse_file, "w") as outfile:
+        outfile.write(first_row)
 
-    # comment out when we don't care
-    rmse = igr.evaluate_RMSE()
+    for x in range(1, 11, 1):
+        rank = x
+        print "##################################"
+        print "####  Test model for rank: {}".format(rank)
+        print "##################################"
 
-    get_more = True
+        igr = IndieGR(column, rank, file_name)
+        # igr = IndieGR(column, "v_matrix_b0s1.parquet")
 
-    while get_more == True:
+        # shard for cross validation
+        igr.split_train_test_eval()
 
-        print "Enter user_id to get data on: (ex: 104)"
-        print "if you enter other stuff it's going to hang, you break it you bought it"
-        user_id = int(raw_input("user_id="))
+        # train the model on the training data
+        igr.train_model()
 
-        print "##############################################"
-        print
-        print "User_ID:", repr(user_id)
-        print
-        print "##############################################"
+        # comment out when we don't care
+        train_rmse, test_rmse = igr.evaluate_RMSE(1)
 
-        print "\nGet predictions on user_id {}".format(user_id)
-        results = igr.predict_existing_user(user_id)
-        test = igr.grab_existing_user_test(user_id)
-        train = igr.grab_existing_user_train(user_id)
+        add_line = "{}, {}, {}\n".format(train_rmse, test_rmse, rank)
 
-        print "\nconverting results to Pandas DF"
-        # prepare for looking at test/train/predicted data
-        test_pd = test.toPandas()
-        train_pd = train.toPandas()
-        lookup = GameIndexer()
+        with open(rmse_file, "a") as outfile:
+            outfile.write(add_line)
 
-        print "\nmake new column for the title of the games so it's human readable"
-        test_pd["title"] = [lookup.return_game_title(app, 30).replace("_", " ") for app in test_pd["app_id"]]
-        train_pd["title"] = [lookup.return_game_title(app, 30).replace("_", " ") for app in train_pd["app_id"]]
+    ###################################################
+    ##### Block out to try to do a bit of grid search
+    ###################################################
 
-        # sort the data so it makes more sense for humans
-        print "\nsorting dataframes by playtimes"
-        sort_train_df = train_pd.sort_values(column, ascending=False)
-        test_pd = test_pd.sort_values(column, ascending=False)
 
-        print "\nSorted Train DataFrame:"
-        print sort_train_df.head(20)
-        print
-        print
-        print "\nSorted Test DataFrame:"
-        print test_pd.head(20)
-        print
-        igr.print_sorted_predictions()
-
-        result = raw_input("Do another? (y/n)")
-
-        if result.lower() == "n":
-            get_more = False
-        elif result.lower() == "y":
-            get_more = True
+    # get_more = True
+    #
+    # while get_more == True:
+    #
+    #     print "Enter user_id to get data on: (ex: 104)"
+    #     print "if you enter other stuff it's going to hang, you break it you bought it"
+    #     user_id = int(raw_input("user_id="))
+    #
+    #     print "##############################################"
+    #     print
+    #     print "User_ID:", repr(user_id)
+    #     print
+    #     print "##############################################"
+    #
+    #     print "\nGet predictions on user_id {}".format(user_id)
+    #     results = igr.predict_existing_user(user_id)
+    #     test = igr.grab_existing_user_test(user_id)
+    #     train = igr.grab_existing_user_train(user_id)
+    #
+    #     print "\nconverting results to Pandas DF"
+    #     # prepare for looking at test/train/predicted data
+    #     test_pd = test.toPandas()
+    #     train_pd = train.toPandas()
+    #     lookup = GameIndexer()
+    #
+    #     print "\nmake new column for the title of the games so it's human readable"
+    #     test_pd["title"] = [lookup.game_index_to_title(app, 30) for app in test_pd["appind"]]
+    #     train_pd["title"] = [lookup.game_index_to_title(app, 30) for app in train_pd["appind"]]
+    #
+    #     # sort the data so it makes more sense for humans
+    #     print "\nsorting dataframes by playtimes"
+    #     sort_train_df = train_pd.sort_values(column, ascending=False)
+    #     test_pd = test_pd.sort_values(column, ascending=False)
+    #
+    #     print "\nSorted Train DataFrame:"
+    #     print sort_train_df.head(20)
+    #     print
+    #     print
+    #     print "\nSorted Test DataFrame:"
+    #     print test_pd.head(20)
+    #     print
+    #     igr.print_sorted_predictions()
+    #
+    #     result = raw_input("Do another? (y/n)")
+    #
+    #     if result.lower() == "n":
+    #         get_more = False
+    #     elif result.lower() == "y":
+    #         get_more = True

@@ -14,11 +14,11 @@ from game_indexer import GameIndexer
 
 class IndieGR():
 
-    def __init__(self, column, path="v_matrix_b0s1.parquet"):
+    def __init__(self, column, rank=50, path="v_matrix_lpm_b0_s1.parquet"):
         # sort of like __name__ == "__main__":
 
         self.spark = ps.sql.SparkSession.builder \
-                    .master("local[4]") \
+                    .master("local[14]") \
                     .appName("df lecture") \
                     .getOrCreate()
 
@@ -35,7 +35,7 @@ class IndieGR():
         self.test_data = None
         self.eval_data = None
 
-        self.model = GameRecommenderModel(self.spark, 50)
+        self.model = GameRecommenderModel(self.spark, column, rank)
         self.recommender = None
 
         self.predictions = None
@@ -50,7 +50,7 @@ class IndieGR():
         # in the calling method but just for testing)
         self.sorted_predictions = None
 
-        self.column_tag = "lpm_b0s1"
+        self.column_tag = column
 
 
     def split_train_test_eval(self):
@@ -107,7 +107,7 @@ class IndieGR():
         print "\nPulling V matrix out of trained model and storing in memory..."
         self.V = np.array([row["features"] for row in self.recommender.itemFactors.collect()])
 
-        print "\nSeems successful, now pull and store indices so we can lookup app_id -> game titles"
+        print "\nSeems successful, now pull and store indices so we can lookup appind -> game titles"
         self.V_indices = np.array([row["id"] for row in self.recommender.itemFactors.collect()])
 
     def predict_existing_user(self, user_id=100, num_preds=10):
@@ -176,7 +176,7 @@ class IndieGR():
         # new_user_df = self.spark.sql(
         #     '''
         #     SELECT user,
-        #         app_id,
+        #         appind,
         #         log_playtime_m
         #     FROM train
         #     WHERE user = {}
@@ -185,7 +185,7 @@ class IndieGR():
         new_user_df = self.spark.sql(
             '''
             SELECT user,
-                app_id,
+                appind,
                 {}
             FROM train
             WHERE user = {}
@@ -205,7 +205,7 @@ class IndieGR():
         # new_user_df = self.spark.sql(
         #     '''
         #     SELECT user,
-        #         app_id,
+        #         appind,
         #         log_playtime_m
         #     FROM test
         #     WHERE user = {}
@@ -214,7 +214,7 @@ class IndieGR():
         new_user_df = self.spark.sql(
             '''
             SELECT user,
-                app_id,
+                appind,
                 {}
             FROM test
             WHERE user = {}
@@ -229,7 +229,7 @@ class IndieGR():
 
         item_factors_df = self.recommender.itemFactors
 
-        filtered_item_factors_df = item_factors_df.join(new_user_df, F.col("id") == new_user_df["app_id"])
+        filtered_item_factors_df = item_factors_df.join(new_user_df, F.col("id") == new_user_df["appind"])
 
         filtered_item_factors = []
         item_ratings = []
@@ -247,7 +247,7 @@ class IndieGR():
         lookup = GameIndexer()
 
         for idx, result in enumerate(self.sorted_predictions):
-            title = lookup.return_game_title(int(result[1]), 40).replace("_", " ")
+            title = lookup.game_index_to_title(int(result[1]), 40)
             print "Rank: {:2d} Prediction: {:2.2f} Game: {}".format(idx +1, result[0], title)
 
     def get_squared_error(self):
@@ -279,7 +279,7 @@ class IndieGR():
 
         return pred_df.pop("squared_error")
 
-    def evaluate_RMSE(self):
+    def evaluate_RMSE(self, train_predict=0):
         """
         Attempt to score the model using the RSME method
 
@@ -288,36 +288,79 @@ class IndieGR():
         Returns:
         RSME as float val
         """
-        predictions = self.recommender.transform(self.test_data)
 
-        print "\nPredictions DF:"
-        print predictions.show(5)
+        if train_predict==1:
+            #######################3
+            #########   Eval train model RMSE for overfitting examination
+            ########################
+            train_predictions = self.recommender.transform(self.train_data)
 
-        print "\nConvert predictions spark to pandas"
-        pred_df = predictions.toPandas()
+            print "\ntrain_predictions DF:"
+            print train_predictions.show(5)
+
+            print "\nConvert train_predictions spark to pandas"
+            train_pred_df = train_predictions.toPandas()
+
+            print "\nConvert train_data spark to pandas"
+            train_df = self.train_data.toPandas()
+
+            print "\nFill missing values with mean rating"
+            #train_pred_df = train_predictions.toPandas().fillna(train_df["log_playtime_m"].mean())
+            train_pred_df = train_predictions.toPandas().fillna(0)
+
+            train_pred_df["squared_error"] = (train_pred_df[self.column_tag] - train_pred_df["prediction"])**2
+
+            print "\nDo a describe on the train_predictions df"
+            print train_pred_df.describe()
+
+            # calculate the RSME
+            train_rmse = np.sqrt(sum(train_pred_df["squared_error"]) / (len(train_pred_df) * 1.0))
+
+            # print "sum of squared_error", sum(train_pred_df["squared_error"])
+            # print "sum of s_e / len(train_pred_df)", sum(train_pred_df["squared_error"]) / (len(train_pred_df) * 1.0)
+            # print "other rmse", (sum(train_pred_df["squared_error"]) / (len(train_pred_df) * 1.0))**0.5
+
+            print "\nRMSE:", train_rmse
+
+
+        #######################3
+        #########   Eval test model RMSE like normal
+        ########################
+
+
+        test_predictions = self.recommender.transform(self.test_data)
+
+        print "\ntest_predictions DF:"
+        print test_predictions.show(5)
+
+        print "\nConvert test_predictions spark to pandas"
+        pred_df = test_predictions.toPandas()
 
         print "\nConvert train_data spark to pandas"
         train_df = self.train_data.toPandas()
 
         print "\nFill missing values with mean rating"
-        #pred_df = predictions.toPandas().fillna(train_df["log_playtime_m"].mean())
-        pred_df = predictions.toPandas().fillna(0)
+        #pred_df = test_predictions.toPandas().fillna(train_df["log_playtime_m"].mean())
+        pred_df = test_predictions.toPandas().fillna(0)
 
         pred_df["squared_error"] = (pred_df[self.column_tag] - pred_df["prediction"])**2
 
-        print "\nDo a describe on the predictions df"
+        print "\nDo a describe on the test_predictions df"
         print pred_df.describe()
 
         # calculate the RSME
-        rmse = np.sqrt(sum(pred_df["squared_error"]) / (len(pred_df) * 1.0))
+        test_rmse = np.sqrt(sum(pred_df["squared_error"]) / (len(pred_df) * 1.0))
 
-        print "sum of squared_error", sum(pred_df["squared_error"])
-        print "sum of s_e / len(pred_Df)", sum(pred_df["squared_error"]) / (len(pred_df) * 1.0)
-        print "other rmse", (sum(pred_df["squared_error"]) / (len(pred_df) * 1.0))**0.5
+        # print "sum of squared_error", sum(pred_df["squared_error"])
+        # print "sum of s_e / len(pred_Df)", sum(pred_df["squared_error"]) / (len(pred_df) * 1.0)
+        # print "other rmse", (sum(pred_df["squared_error"]) / (len(pred_df) * 1.0))**0.5
 
-        print "\nRMSE:", rmse
+        print "\nRMSE:", test_rmse
 
-        return rmse
+        if train_predict == 1:
+            return train_rmse, test_rmse
+        else:
+            return test_rmse
 
         # totally untuned with rank 10, average values replacing nan
         # RMSE: 0.889612280955

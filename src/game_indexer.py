@@ -58,7 +58,7 @@ class GameIndexer(object):
         # game[0] = index, game[1] = app_id
         return {game[1]:game[0] for game in self.game_indices}
 
-    def load_game_indices(self, path="wrangling/app_indices.csv"):
+    def load_game_indices(self, path="app_indices.csv"):
         '''
         Load in a dataframe from CSV and convert it to a numpy array
         as well as a dictionary for reverse lookup
@@ -81,7 +81,7 @@ class GameIndexer(object):
 
         _title = self.game_info_dict[app_id]["title"].replace("_", " ")
 
-        if limit_len != 0:
+        if limit_len != 0 and limit_len < len(_title):
             return _title[limit_len]
         else:
             return _title
