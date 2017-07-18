@@ -16,7 +16,7 @@ from IndieGR import IndieGR
 if __name__ == '__main__':
     # appind  lpm_b0_s0  lpm_b0_s1  lpm_b0_s2  lpm_b0_s3  user
     columns = ["lpm_b0_s0", "lpm_b0_s1", "lpm_b0_s2", "lpm_b0_s3"]
-    column = columns[0]
+    column = columns[3]
 
     # try to load test matrix
     file_name = "v_matrix_{}.parquet".format(column)
