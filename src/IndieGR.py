@@ -67,7 +67,7 @@ class IndieGR():
         train_test, final_eval = self.data.randomSplit([0.9, 0.1], seed=1337)
 
         # break the non-held back into train/test split
-        train, test = train_test.randomSplit([0.8, 0.2])
+        train, test = train_test.randomSplit([0.8, 0.2], seed=1337)
 
         self.train_data = train
         self.test_data = test

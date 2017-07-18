@@ -42,7 +42,8 @@ class GameRecommenderModel():
 
         self.model = ALS(rank=rank,
                     maxIter=10,
-                    regParam=0.01,
+                    regParam=0.1,
+                    implicitPrefs=True,
                     userCol="user",
                     itemCol="appind",
                     ratingCol=rating_col)
