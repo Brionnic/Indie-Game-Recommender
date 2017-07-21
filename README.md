@@ -6,7 +6,7 @@ This the capstone project of Brian Hardenstein.  I'm currently finishing up a Da
 
 In the course of this project the following project pipeline is being implemented:
 
-Establish business case -> Gather Data -> Wrangle Data into a Usable Format -> Feed Data into a Model -> Make Predictions from Model -> Convert into a Data Product -> Dynamic Website Where Recommendations can be Made
+![Process Pipeline](/imgs/process.png)
 
 ## Who are you and why are you making a Indie Game Recommender?
 My name is Brian Hardenstein and I am currently transitioning from being a Network Engineer to being a Data Scientist. In my previous job I was a consultant who analyzed a lot of client data and then tried to determine what information and take-aways were most useful and insightful through the lens of business utility and adding value. Over time I came to realize that I enjoyed the analysis and search for insight more than the engineering aspect. Through self studuy I started to learn about statistics and probability and I eventually applied to Galvanize's Data Science 3 month bootcamp in Seattle. This project is the culmination of that program. 
@@ -73,7 +73,23 @@ Currently the model is scoring at ~0.87 for the RSME, down from ~0.89 initially.
 
 For more of a subjective, but probably more important, evaluation one simply eyeballs the predictions versus the reality relative to a given user. A method was written which pulls out the data for a particular anonymized user from the training set, and the testing set.  Those are then compared to what the model is predicting for that particular user.
 
-ex
+![Results Example](/imgs/results_example.png)
+
+#### Subjective evaluation triggered two major rounds of model revisions
+
+The first major revision was going from explicit reviews to implicit reviews.
+
+The second major revision was triggered because the model was frequently recommending games that were still under development. Upon investigating this issue I found that the games being recommended were games still in development. This lead to me hypothesizing that the weird recommendations were coming from games that were under development. This lead to further EDA to investigate if that was true.
+
+![Average Game Play EDA](/imgs/EDA.png)
+
+This helped to identify two key clusters. The red cluster on the lower right are games with very high average playtimes and very low unique player counts. This was handled by implementing a weighting system that penalizes low unique player counts. The weighting penalty is applied to a user rating based on how many unique players the game has.
+
+![Base Weighting](/imgs/weighting_s1.png)
+
+The bright green cluster in the top middle of the diagram are games that had very high unique player counts. That cluster of games was also very frequently recommended. In the case where a gamer might want to find more obscure games an optional weighting was also developed that penalizes games with high player counts. 
+
+![Optional Weighting](/imgs/weighting_s3.png)
 
 
 
