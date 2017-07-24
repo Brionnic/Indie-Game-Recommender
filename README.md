@@ -2,7 +2,11 @@
 Find refuge from the Indiepocalypse with the Indie Game Recommender
 
 #### About this readme
-This readme is still a work in progress. Many more diagrams and editorial polishing will be performed but this should give a good initial overview.  Thank you, Brian pixelatedbrian@gmail.com
+This readme is still a work in progress. Many more diagrams and editorial polishing will be performed but this should give a good initial overview.  
+
+Thank you, 
+Brian 
+pixelatedbrian@gmail.com
 
 ## What is this project?
 This the capstone project of Brian Hardenstein.  I'm currently finishing up a Data Science bootcamp with Galvanize at the Seattle campus. The goal of this project is to demonstrate the skills that I have acquired in the course of this program. Ideally it will demonstrate a good business understanding of the needs of those that the project will serve, ie players and developers. It will also show the combination of skills required to go from a business question, "how do we get more great games discovered by people who will like them?", to an end product that recommends undiscovered games to new players.
