@@ -5,7 +5,9 @@ Find refuge from the Indiepocalypse with the Indie Game Recommender
 This readme is still a work in progress. Many more diagrams and editorial polishing will be performed but this should give a good initial overview.  
 
 Thank you, 
+
 Brian 
+
 pixelatedbrian@gmail.com
 
 ## What is this project?
