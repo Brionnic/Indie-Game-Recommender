@@ -55,25 +55,43 @@ For example if I had played Stardew Valley for 1000 minutes then my implicit rat
 
 After this very basic initial processing a sparse 2d matrix is created of M x N dimensions. M being the number of rows, one row for each user in the sample. N is the number of columns and corresponds to one column for each game. If I was User_1 and Stardew Valley was the first column then:
 
-(replace w diagram)
-       Stardew Valley     App_id_2    App_id_3  ....   App_id_N
-User_1      3.0               0           0.0             1.2
-User_2      4.5               1.2         0.0             0.0
-...
-User_M      0.0               3.4         0.0             0.0
+User | Game 0 | Game 1 | Game 2 | ... | Game N | 
+--- | --- | --- | --- | --- | --- 
+User 0 | 2.34 | 0 | 0| ... | 4.92
+User 1 | 0 | 3.84 | 2.99 | ... | 0
+User 2 | 0 | 4.73 | 4.20 | ... | 2.43
+... | ... | ... | ... | ... | ...
+User M | 3.65 | 2.14 | 0| ... | 4.12
 
 Altogether there are ~130K users in the sample (M) and 8200-8700 indie game app_ids (N).  Altogether this means that there are just under 1.1B potential datum. There's ~9M games with playtime.  Therefore the M x N matrix is ~0.8% populated by data.
 
 #### Fitting the model
-After fitting the ALS model there are two matrices created. Frequently called the UserFactors and ItemFactors, or U/V. Currently most effort is being focused on the V matrix/ItemFactors.  The dimensions of this matrix is (k, N) where k is the "rank" hyperparameter.  
+After fitting the ALS model there are two matrices created. Frequently called the UserFactors and ItemFactors, or U/V. Currently most effort is being focused on the V matrix/ItemFactors.  The dimensions of this matrix is (k, N) where k is the "rank" hyperparameter. 
+
+###### Example using rank of 3:
+
+Item Factors **(V)**:
+
+Rank | Game 0 | Game 1 | Game 2 | ... | Game N | 
+--- | --- | --- | --- | --- | --- 
+Rank 0 | 2.34 | 0 | 0| ... | 4.92
+Rank 1 | 0 | 3.84 | 2.99 | ... | 0
+Rank 2 | 0 | 4.73 | 4.20 | ... | 2.43
+
+
+User Factors **(U)**:
+
+User | Rank 0 | Rank 1 | Rank 2 |
+--- | --- | --- | --- | 
+User 0 | 2.34 | 0 | 0| 
+User 1 | 0 | 3.84 | 2.99 | 
+User 2 | 0 | 4.73 | 4.20 |
+... | ... | ... | ... | 
+User M | 3.65 | 2.14 | 0| 
 
 The main reason that we care about rank is because that is the number of latent features that we are looking for when the model is trained.  The simplest way to think about latent features is sort of derived categories that the ALS algorithm is finding in the data of the initial M x N matrix. One can sort of think about latent features as being things like "FPS", "farming simulator", etc.  However it is important to realize that these latent features represent patterns in the data and not exactly genres or intelligible features for us humans.  
 
 The rank is a very important hyperparameter in this model. If the rank is too low then the latent features won't be granular enough to capture the differences of the games being categorized. The higher the rank the more latent features are available to help predict if a player will enjoy a game but then the risk of "overfitting" to the training data is higher.
-
-For example if I asked you to create features to differentiate fruit, it would be very hard to do with 2 features.  Perhaps large and small? But there's a lot of overlap between fruit types. Large might be pineapples, melons, grapefruits, etc. Small would be a ton of things, cherries, all berries, apples, citrus, peaches, etc.  So having only two categories wouldn't be very useful because the distinction of each isn't really captured at all.  On the other hand if we had 10,000 categories to classify fruit then it's pretty likely that most fruit is in it's own category. (Overfitting) That's great if we've seen every fruit but it's not going to be useful when we see a new fruit. 
-
-Another issue with having a really high rank is that the quality of the predictions typically plateaus while the work involved in calculating all of the ranks increases. From a cost/benefit point of view the model can be evaluated and ideal hyperparameters, given the constraints of reality, can be chosen.
 
 #### How is the model evaluated?
 For algorithmic and objective validation RSME is being calculated using cross-validation. The ALS model is trained on a train set of the data (~60%) and then scored on a test set of the data (~30%).  10% of the data is being held in reserve for the final evaluation. The final evaluation set probably isn't needed in this case but has been done in an attempt to keep to best practices.
