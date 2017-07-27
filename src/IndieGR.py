@@ -50,6 +50,7 @@ class IndieGR():
         # in the calling method but just for testing)
         self.sorted_predictions = None
 
+        # which column of the dataframe do we use for these predictions?
         self.column_tag = column
 
 

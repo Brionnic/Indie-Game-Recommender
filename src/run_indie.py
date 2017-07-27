@@ -67,8 +67,10 @@ def get_predictions(column):
     # try to load test matrix
     file_name = "v_matrix_{}.parquet".format(column)
 
+    print "Loading {}....".format(file_name)
+
     # column to use, 3 is the rank, which file to use
-    igr = IndieGR(column, 10, file_name)
+    igr = IndieGR(column, 25, file_name)
     igr.split_train_test_eval()
     igr.train_model()
 
@@ -130,4 +132,4 @@ if __name__ == '__main__':
 
     score(column)
 
-    # get_predictions(column)
+    #get_predictions(column)

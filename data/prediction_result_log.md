@@ -32,7 +32,7 @@ Sorted Test DataFrame:
 Rank:  1 Prediction: 4.13 Game: Star Sonata 2
 Rank:  2 Prediction: 4.12 Game: Terraria
 Rank:  3 Prediction: 3.78 Game: Starbound
-Rank:  4 Prediction: 3.57 Game: The Binding of Isaac Rebirth
+Rank:  4 Prediction: 3.57 Game: Superkus
 Rank:  5 Prediction: 3.52 Game: Don Bradman Cricket 14
 Rank:  6 Prediction: 3.51 Game: Factorio
 Rank:  7 Prediction: 3.50 Game: RimWorld

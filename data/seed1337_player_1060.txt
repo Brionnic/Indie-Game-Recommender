@@ -1,0 +1,60 @@
+########################################
+############# Model 0: rank 10
+########################################
+
+Sorted Train DataFrame:
+    user  appind  lpm_b0_s0                         title
+96  1060    8612   3.295567          Legend of Grimrock 2
+69  1060    6797   3.124830        Euro Truck Simulator 2
+54  1060    5416   3.089905         Pixel Puzzles 2 Anime
+0   1060      12   2.812245                         LIMBO
+32  1060    2637   2.752049                   Dont Starve
+17  1060     749   2.751279         Pixel Puzzles UndeadZ
+80  1060    7596   2.683047          AdVenture Capitalist
+1   1060      27   2.609595      Crypt of the NecroDancer
+83  1060    7721   2.585461        Asteroid Bounty Hunter
+91  1060    8350   2.559907                  POSTAL Redux
+2   1060      53   2.556303                             i
+37  1060    3251   2.535294  Brothers  A Tale of Two Sons
+45  1060    4355   2.526339                  The 39 Steps
+3   1060      61   2.463893                  The Room Two
+7   1060     115   2.454845      Ori and the Blind Forest
+63  1060    6268   2.448706                       Magicka
+50  1060    4647   2.429752                      The Fall
+74  1060    6993   2.414974                     Sine Mora
+6   1060      97   2.389166         FTL Faster Than Light
+14  1060     656   2.315971                   Pool Nation
+
+
+
+Sorted Test DataFrame:
+    user  appind  lpm_b0_s0                                 title
+8   1060    4273   2.957128                                UnEpic
+13  1060    6226   2.220108                          A Bird Story
+1   1060     441   2.161368                Tiny Bridge Ratventure
+6   1060    2272   2.155336             Chivalry Medieval Warfare
+15  1060    8354   2.113944            Life is Strange  Episode 1
+12  1060    4887   1.968483                 Anomaly Warzone Earth
+7   1060    2998   1.755876                                Serena
+0   1060      22   1.707571                         Hotline Miami
+4   1060    1058   1.690197                             BARRIER X
+2   1060     619   0.000000         Never Alone Kisima Ingitchuna
+3   1060    1021   0.000000                         Brilliant Bob
+5   1060    2250   0.000000                   Penumbra Necrologue
+9   1060    4390   0.000000                          Original War
+10  1060    4638   0.000000                                Faeria
+11  1060    4713   0.000000    Journey To The Center Of The Earth
+14  1060    7964   0.000000  Unforgiving Trials The Space Crusade
+
+attemping to load game data...
+loaded 8720 games into index.
+Rank:  1 Prediction: 0.53 Game: Chivalry Medieval Warfare
+Rank:  2 Prediction: 0.53 Game: Terraria
+Rank:  3 Prediction: 0.51 Game: Life is Strange  Episode 1
+Rank:  4 Prediction: 0.49 Game: Torchlight II
+Rank:  5 Prediction: 0.49 Game: Hotline Miami
+Rank:  6 Prediction: 0.48 Game: Insurgency
+Rank:  7 Prediction: 0.48 Game: Trine 2 Complete Story
+Rank:  8 Prediction: 0.48 Game: Magicka
+Rank:  9 Prediction: 0.48 Game: Bastion
+Rank: 10 Prediction: 0.47 Game: The Binding of Isaac

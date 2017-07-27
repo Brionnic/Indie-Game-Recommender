@@ -1,0 +1,57 @@
+####################################
+########## Model 0: rank 25
+####################################
+
+user  appind  lpm_b0_s0                           title
+47  73138    8295   3.992288                       Robocraft
+18  73138    2142   3.831806                   Town of Salem
+43  73138    7596   3.759743            AdVenture Capitalist
+23  73138    2718   3.658202                            DayZ
+29  73138    3880   3.243782                        Spelunky
+42  73138    7506   3.129368    Ace of Spades Battle Builder
+21  73138    2671   2.887617          Trine 2 Complete Story
+16  73138    1753   2.741152         Trine Enchanted Edition
+27  73138    3732   2.729165              PULSAR Lost Colony
+22  73138    2679   2.676694  Trine 3 The Artifacts of Power
+14  73138    1377   2.637490                     Democracy 3
+32  73138    4531   2.587711    Contradiction  Spot The Liar
+7   73138     579   2.482874                  Layers of Fear
+26  73138    3543   2.424882                               e
+38  73138    6580   2.376577                        Contrast
+9   73138     773   2.371068                     Cry of Fear
+35  73138    5689   2.350248                    Race The Sun
+41  73138    7175   2.296665                   Alien Shooter
+31  73138    4161   2.260072                      The Howler
+45  73138    7926   2.217484                     Audioshield
+
+
+
+Sorted Test DataFrame:
+user  appind  lpm_b0_s0                               title
+10  73138    7267   3.248219                                Rust
+3   73138    2313   3.059942                     Space Engineers
+12  73138    7785   2.841985  Hot Dogs Horseshoes  Hand Grenades
+5   73138    4526   2.392697                          Hero Siege
+4   73138    3251   2.235529        Brothers  A Tale of Two Sons
+7   73138    5054   2.071882                      SteamWorld Dig
+2   73138    1393   1.863323                              Onward
+1   73138    1380   1.770853        Giana Sisters Twisted Dreams
+6   73138    4600   1.633469                          Brawlhalla
+9   73138    6797   1.612785              Euro Truck Simulator 2
+0   73138     363   1.544069                      Floating Point
+13  73138    7803   1.342425                                   e
+11  73138    7634   0.602071             VRSailing by BeTomorrow
+8   73138    6127   0.000000                         Hammerwatch
+
+attemping to load game data...
+loaded 8720 games into index.
+Rank:  1 Prediction: 0.57 Game: Rust
+Rank:  2 Prediction: 0.54 Game: Terraria
+Rank:  3 Prediction: 0.51 Game: Euro Truck Simulator 2
+Rank:  4 Prediction: 0.50 Game: Space Engineers
+Rank:  5 Prediction: 0.50 Game: Insurgency
+Rank:  6 Prediction: 0.47 Game: Chivalry Medieval Warfare
+Rank:  7 Prediction: 0.46 Game: The Forest
+Rank:  8 Prediction: 0.45 Game: 7 Days to Die
+Rank:  9 Prediction: 0.43 Game: Robocraft
+Rank: 10 Prediction: 0.41 Game: DayZ

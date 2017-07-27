@@ -1,0 +1,109 @@
+####################################
+########## Model 0: rank 10
+####################################
+
+Sorted Train DataFrame:
+    user  appind  lpm_b0_s0                         title
+2   2828       5   3.857996                      Terraria
+3   2828       6   3.678336                     Starbound
+4   2828       9   3.557026  Shovel Knight Treasure Trove
+31  2828    7344   3.376029        One Finger Death Punch
+12  2828    1300   3.256718                     CrossCode
+29  2828    7137   3.228913                        Owlboy
+15  2828    1739   3.228144              100 Orange Juice
+6   2828      69   3.167022                      SUPERHOT
+1   2828       4   3.097604           Hyper Light Drifter
+19  2828    3148   3.038223                 The Escapists
+21  2828    4010   2.906874                   Audiosurf 2
+23  2828    4062   2.879096                          Furi
+16  2828    2623   2.838219                      Tokyo 42
+14  2828    1644   2.729974                       Besiege
+7   2828      91   2.710117                 Slime Rancher
+0   2828       2   2.692847            Tabletop Simulator
+27  2828    5345   2.691965                          LISA
+8   2828     214   2.643453                      Broforce
+28  2828    5839   2.637490      Armed with Wings Rearmed
+10  2828     827   2.575188           BattleBlock Theater
+
+
+
+Sorted Test DataFrame:
+    user  appind  lpm_b0_s0                           title
+3   2828     547   3.989316    The Binding of Isaac Rebirth
+0   2828       0   3.754042                  Stardew Valley
+4   2828    1318   3.391641            Dont Starve Together
+12  2828    6662   3.318689                         Outland
+6   2828    2313   2.922206                 Space Engineers
+11  2828    4962   2.908485                     Gang Beasts
+1   2828      52   2.824777                 Castle Crashers
+2   2828      95   2.727541                       Undertale
+8   2828    2949   2.642465  Diaries of a Spaceport Janitor
+14  2828    8697   2.593286                       Ether One
+7   2828    2821   1.653213                        Polarity
+13  2828    6906   1.643454                           Dream
+9   2828    4070   1.041397      Thinking with Time Machine
+10  2828    4833   0.778158                    Pixel Galaxy
+5   2828    1497   0.698979                      Skullgirls
+
+attemping to load game data...
+loaded 8720 games into index.
+Rank:  1 Prediction: 0.77 Game: Terraria
+Rank:  2 Prediction: 0.71 Game: Dont Starve Together
+Rank:  3 Prediction: 0.67 Game: Dont Starve
+Rank:  4 Prediction: 0.67 Game: Stardew Valley
+Rank:  5 Prediction: 0.65 Game: Starbound
+Rank:  6 Prediction: 0.65 Game: Undertale
+Rank:  7 Prediction: 0.62 Game: BattleBlock Theater
+Rank:  8 Prediction: 0.60 Game: Castle Crashers
+Rank:  9 Prediction: 0.59 Game: The Binding of Isaac Rebirth
+Rank: 10 Prediction: 0.56 Game: The Binding of Isaac
+
+####################################
+########## Model 1: rank 10
+####################################
+
+Sorted Train DataFrame:
+    user  appind  lpm_b0_s1                   title
+4   2828       5   3.857996                Terraria
+0   2828       0   3.754042          Stardew Valley
+5   2828       6   3.678336               Starbound
+19  2828    1754   3.646698    The Binding of Isaac
+15  2828    1318   3.391641    Dont Starve Together
+37  2828    7344   3.376029  One Finger Death Punch
+1   2828       1   3.328991           Hollow Knight
+34  2828    6662   3.318689                 Outland
+14  2828    1300   3.256718               CrossCode
+36  2828    7137   3.228913                  Owlboy
+18  2828    1739   3.228144        100 Orange Juice
+8   2828      69   3.167022                SUPERHOT
+3   2828       4   3.097604     Hyper Light Drifter
+20  2828    2313   2.922206         Space Engineers
+31  2828    4962   2.908485             Gang Beasts
+24  2828    4010   2.906874             Audiosurf 2
+26  2828    4062   2.879096                    Furi
+6   2828      52   2.824777         Castle Crashers
+17  2828    1644   2.729974                 Besiege
+10  2828      95   2.727541               Undertale
+
+
+
+Sorted Test DataFrame:
+   user  appind  lpm_b0_s1                         title
+0  2828     547   3.989316  The Binding of Isaac Rebirth
+1  2828    3148   3.038223                 The Escapists
+4  2828    8645   1.732395      Sir You Are Being Hunted
+3  2828    7183   1.633469        Dungeon of the Endless
+2  2828    4070   1.041397    Thinking with Time Machine
+
+attemping to load game data...
+loaded 8720 games into index.
+Rank:  1 Prediction: 0.93 Game: Terraria
+Rank:  2 Prediction: 0.89 Game: The Binding of Isaac Rebirth
+Rank:  3 Prediction: 0.88 Game: Starbound
+Rank:  4 Prediction: 0.87 Game: Undertale
+Rank:  5 Prediction: 0.85 Game: Stardew Valley
+Rank:  6 Prediction: 0.84 Game: Dont Starve
+Rank:  7 Prediction: 0.78 Game: Dont Starve Together
+Rank:  8 Prediction: 0.78 Game: Risk of Rain
+Rank:  9 Prediction: 0.75 Game: Rogue Legacy
+Rank: 10 Prediction: 0.74 Game: Enter the Gungeon
