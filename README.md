@@ -22,16 +22,8 @@ My name is Brian Hardenstein and I am currently transitioning from being a Netwo
 
 With regards to why an Indie Game Recommender, I've always been a pretty big fan of games. The Indie Wave with some really classic games really got me interested in the Indie scene. (Spelunky, Terraria, The Binding of Isaac, etc) A lot of gamers, myself included, have daydreamed of making their own game. I've actually worked on many little projects of my own, mostly in Unity using C#. 
 
-<dl>
-  <tr>
-    <td>
-      <img src="/imgs/brick_proto.gif" alt="Brickbreaking Prototype, Brian Hardenstein 2015" style="width:200px;height:150px;">
-    </td>
-    <td>
-      <img src="/imgs/airplane_proto.gif" alt="Airplane Game Prototype, Brian Hardenstein 2016" style="width:200px;height:150px;">
-    <td>
-  </tr>
-</dl>
+![Brickbreaking Prototype, Brian Hardenstein 2015](/imgs/brick_proto.gif)
+![Airplane Prototype, Brian Hardenstein 2016](/imgs/airplane_proto.gif)
 
 I don't really have dreams of making it big as a game dev but I do think that it's a great creative outlet and that the bar of entry is getting lower and lower. This is great in that it helps democratize games and get many new viewpoints and visions out there that would have never existed otherwise. On the other hand it also means that there is a complete saturation of the gaming environment. A lot of indie games aren't that great and it's a bit hard to find great new ones. (With limited experience and resources it's understandable that some games aren't quite as good.  However, that still doesn't mean that people should buy them, per say.) I figured that a project like this would help some of the struggling game devs who haven't gone viral but have managed to create a fun game to play.
 
