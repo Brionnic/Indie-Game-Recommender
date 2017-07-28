@@ -1,0 +1,190 @@
+#################################################
+###### Model set to explicit mode
+#################################################
+
+Sorted Train DataFrame:
+    user  appind  lpm_b0_s0                         title
+1    100      17   3.987577                      RimWorld
+38   100    6145   3.978728              Tales of MajEyal
+52   100    8295   3.864808                     Robocraft
+43   100    6798   3.560624                Clicker Heroes
+0    100      10   3.530712                      Factorio
+6    100     422   3.436481                   Endless Sky
+7    100     547   3.417970  The Binding of Isaac Rebirth
+39   100    6210   3.414472                       Duelyst
+35   100    5777   3.054230               Darkest Dungeon
+12   100    1644   2.935003                       Besiege
+3    100      81   2.933993              This War of Mine
+4    100      97   2.916454         FTL Faster Than Light
+16   100    2207   2.872739           The Talos Principle
+51   100    8237   2.721811         Guns of Icarus Online
+17   100    2272   2.697229     Chivalry Medieval Warfare
+53   100    8354   2.679428    Life is Strange  Episode 1
+13   100    1754   2.679428          The Binding of Isaac
+49   100    7982   2.647383     Sunrider Mask of Arcadius
+10   100    1276   2.610660                 Path of Exile
+48   100    7596   2.595496          AdVenture Capitalist
+
+
+
+Sorted Test DataFrame:
+    user  appind  lpm_b0_s0                      title
+10   100    4600   3.628082                 Brawlhalla
+2    100      95   3.118265                  Undertale
+11   100    4838   2.574031       Dungeon Defenders II
+3    100     147   2.569374                   Istrolid
+15   100    8153   2.546543  Endless Space  Collection
+6    100    2883   2.471292                    AirMech
+8    100    4067   2.426511         Portal Stories Mel
+13   100    5361   2.225310                 Iron Snout
+12   100    5237   1.897628  Transmissions Element 120
+4    100     891   1.462399                   Toribash
+9    100    4303   1.255275                   MANDAGON
+14   100    5705   0.698979                     Moirai
+7    100    2998   0.301052                     Serena
+0    100       4   0.000000        Hyper Light Drifter
+1    100      53   0.000000                          i
+5    100    1246   0.000000                  Pink Hour
+
+attemping to load game data...
+loaded 8720 games into index.
+Rank:  1 Prediction: 3.10 Game: Star Sonata 2
+Rank:  2 Prediction: 2.76 Game: Terraria
+Rank:  3 Prediction: 2.61 Game: Starbound
+Rank:  4 Prediction: 2.59 Game: Factorio
+Rank:  5 Prediction: 2.52 Game: Superku
+Rank:  6 Prediction: 2.49 Game: The Binding of Isaac Rebirth
+Rank:  7 Prediction: 2.48 Game: RimWorld
+Rank:  8 Prediction: 2.41 Game: No Mans Sky
+Rank:  9 Prediction: 2.36 Game: Stardew Valley
+Rank: 10 Prediction: 2.36 Game: Don Bradman Cricket 14
+Do another? (y/n)
+
+
+
+
+Sorted Train DataFrame:
+    user  appind  lpm_b0_s1                                     title
+1    100      17   3.987577                                  RimWorld
+44   100    6145   3.978728                          Tales of MajEyal
+59   100    8295   3.864808                                 Robocraft
+32   100    4600   3.628082                                Brawlhalla
+51   100    6798   3.560624                            Clicker Heroes
+0    100      10   3.530712                                  Factorio
+7    100     547   3.417970              The Binding of Isaac Rebirth
+45   100    6210   3.414472                                   Duelyst
+3    100      95   3.118265                                 Undertale
+13   100    1644   2.935003                                   Besiege
+46   100    6461   2.918555  Infinity Wars Animated Trading Card Game
+4    100      97   2.916454                     FTL Faster Than Light
+17   100    2207   2.872739                       The Talos Principle
+30   100    4183   2.815578               Creeper World 3 Arc Eternal
+58   100    8237   2.721811                     Guns of Icarus Online
+18   100    2272   2.697229                 Chivalry Medieval Warfare
+14   100    1754   2.679428                      The Binding of Isaac
+60   100    8354   2.679428                Life is Strange  Episode 1
+55   100    7982   2.647383                 Sunrider Mask of Arcadius
+48   100    6571   2.609595                    The Flame in the Flood
+
+
+
+Sorted Test DataFrame:
+    user  appind  lpm_b0_s1                         title
+12   100    5777   3.054230               Darkest Dungeon
+1    100      81   2.933993              This War of Mine
+2    100      84   2.638489                   The Culling
+5    100    1276   2.610660                 Path of Exile
+18   100    7596   2.595496          AdVenture Capitalist
+8    100    4838   2.574031          Dungeon Defenders II
+15   100    6626   2.534026               Fractured Space
+3    100     614   2.510545          Kerbal Space Program
+6    100    2322   2.301030            Relic Hunters Zero
+10   100    5689   2.037427                  Race The Sun
+9    100    5237   1.897628     Transmissions Element 120
+17   100    7181   1.556304      The Banner Saga Factions
+4    100    1108   1.113947  The Way of Life Free Edition
+11   100    5705   0.698979                        Moirai
+7    100    4674   0.698979                        RPG MO
+13   100    5858   0.000000              Fistful of Frags
+14   100    6233   0.000000             Mark of the Ninja
+16   100    7170   0.000000                       OneShot
+0    100      53   0.000000                             i
+
+attemping to load game data...
+loaded 8720 games into index.
+Rank:  1 Prediction: 3.26 Game: Don Bradman Cricket 14
+Rank:  2 Prediction: 3.11 Game: Starbound
+Rank:  3 Prediction: 3.08 Game: Terraria
+Rank:  4 Prediction: 3.07 Game: No Mans Sky
+Rank:  5 Prediction: 3.02 Game: Factorio
+Rank:  6 Prediction: 3.01 Game: RimWorld
+Rank:  7 Prediction: 2.94 Game: DayZ
+Rank:  8 Prediction: 2.94 Game: The Binding of Isaac Rebirth
+Rank:  9 Prediction: 2.84 Game: Stardew Valley
+Rank: 10 Prediction: 2.82 Game: Grim Dawn
+
+
+
+
+Sorted Train DataFrame:
+    user  appind  lpm_b0_s3                                     title
+7    100     422   3.436481                               Endless Sky
+42   100    6210   3.414472                                   Duelyst
+44   100    6461   2.918555  Infinity Wars Animated Trading Card Game
+16   100    2207   2.872739                       The Talos Principle
+52   100    7982   2.647383                 Sunrider Mask of Arcadius
+3    100      84   2.638489                               The Culling
+46   100    6571   2.609595                    The Flame in the Flood
+5    100     147   2.569374                                  Istrolid
+25   100    4067   2.426511                        Portal Stories Mel
+24   100    4041   2.344392                                BRAIN  OUT
+18   100    2322   2.301030                        Relic Hunters Zero
+35   100    5361   2.225310                                Iron Snout
+37   100    5689   2.037427                              Race The Sun
+58   100    8431   2.008601                                      Chip
+33   100    5237   1.897628                 Transmissions Element 120
+6    100     363   1.838850                            Floating Point
+39   100    5744   1.785331                              Clustertruck
+51   100    7181   1.556304                  The Banner Saga Factions
+36   100    5580   1.518515                    Doorways Old Prototype
+9    100     807   1.397942                                    TOXIKK
+
+
+
+Sorted Test DataFrame:
+    user  appind  lpm_b0_s3                         title
+1    100      17   3.715980                      RimWorld
+0    100      10   2.606787                      Factorio
+8    100    2883   2.471292                       AirMech
+11   100    4638   1.919079                        Faeria
+7    100    2464   1.908486                 Eternal Senia
+12   100    5401   1.869232           You Have 10 Seconds
+4    100    1141   1.531480               Sisyphus Reborn
+9    100    4303   1.255275                      MANDAGON
+16   100    7837   1.232845                 Emily is Away
+2    100     547   1.161278  The Binding of Isaac Rebirth
+3    100    1108   1.113947  The Way of Life Free Edition
+14   100    6798   0.994997                Clicker Heroes
+13   100    5791   0.975371          Realm of the Mad God
+10   100    4600   0.671803                    Brawlhalla
+6    100    1754   0.405483          The Binding of Isaac
+15   100    7037   0.352611               The Expendabros
+5    100    1246   0.000000                     Pink Hour
+
+attemping to load game data...
+loaded 8720 games into index.
+Rank:  1 Prediction: 2.80 Game: No Mans Sky
+Rank:  2 Prediction: 2.74 Game: RimWorld
+Rank:  3 Prediction: 2.69 Game: Don Bradman Cricket 14
+Rank:  4 Prediction: 2.48 Game: Stonehearth
+Rank:  5 Prediction: 2.48 Game: Battle Brothers
+Rank:  6 Prediction: 2.46 Game: Secrets of Grindea
+Rank:  7 Prediction: 2.45 Game: Football Tactics
+Rank:  8 Prediction: 2.44 Game: Geo
+Rank:  9 Prediction: 2.44 Game: Puzzle Quest 2
+Rank: 10 Prediction: 2.42 Game: Godus
+
+
+#################################################
+###### Model set to implicit mode
+#################################################

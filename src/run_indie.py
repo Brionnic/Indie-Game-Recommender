@@ -76,7 +76,7 @@ def get_predictions(column):
 
     print "Loading {}....".format(file_name)
 
-    # column to use, 3 is the rank, which file to use
+    # column to use, 2nd argument is the rank, finally which file to use
     igr = IndieGR(column, 25, file_name)
     igr.split_train_test_eval()
     igr.train_model()
@@ -144,7 +144,10 @@ def serialize(column):
     # try to load test matrix
     file_name = "v_matrix_{}.parquet".format(column)
 
+    # column to use, 2nd argument is the rank, finally which file to use
+    igr = IndieGR(column, 25, file_name)
 
+    igr.serialize_V()
 
 
 
@@ -153,6 +156,11 @@ if __name__ == '__main__':
     columns = ["lpm_b0_s0", "lpm_b0_s1", "lpm_b0_s2", "lpm_b0_s3"]
     column = columns[1]
 
+    # evaluate RSME ranges for hyperparameter tuning
     #score(column)
 
-    get_predictions(column)
+    # get predictions on existing users
+    #get_predictions(column)
+
+    # write out V matrix
+    serialize(column)

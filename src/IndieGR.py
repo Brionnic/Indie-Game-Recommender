@@ -17,18 +17,20 @@ class IndieGR():
     def __init__(self, column, rank=50, path="v_matrix_lpm_b0_s1.parquet", split_seed=None):
         # sort of like __name__ == "__main__":
 
+        # local[60] to use 60 of 64 cores. (leave a few for housekeeping)
         self.spark = ps.sql.SparkSession.builder \
                     .master("local[60]") \
                     .appName("Indie Game Recommender (IGR)") \
                     .getOrCreate()
 
-        # load datas
+        # load data
         self.data = self.spark.read.parquet(path)
 
         # make sure that the data seems ok
         print self.data.printSchema()
         print
         print self.data.show()
+        print
 
         self.split_seed = split_seed
 
@@ -79,6 +81,48 @@ class IndieGR():
         print "Train set count:", self.train_data.count()
         print "Test set count:", self.test_data.count()
         print "Eval set count:", self.eval_data.count()
+
+    def serialize_V(self):
+        """
+        Trains model on all data, then takes the V (item factors) matrix and
+        serializes it to CSV in order to be used by the web backend
+        """
+
+        print "Starting to train on all data..."
+        # train on all of the data
+        self.train_full_data()
+
+        print "\nOperation complete, starting to process V matrix..."
+
+        # prepare the V matrix
+        self.process_V_matrix()
+
+        print "\nOperation complete, converting to pandas dataframe..."
+
+        pdata = pd.DataFrame(self.V)
+        pdata["indices"] = self.V_indices
+
+        print "pdata.head:"
+        print pdata.head(10)
+
+        print "\npdata info:"
+        print pdata.info()
+
+        print "Writing CSV..."
+        file_name = "v_matrix_{}.csv".format(self.column_tag)
+
+        pdata.to_csv(file_name)
+
+        print "Appears that operation has completed"
+
+
+
+    def train_full_data(self):
+        """
+        Train the model on the full data in order to serialize it for
+        delivering predictions via CSV
+        """
+        self.recommender = self.model.fit(self.data)
 
     def train_model(self):
         """
@@ -308,12 +352,8 @@ class IndieGR():
                         title,
                         hit)
 
-
             if printed == num_items:
                 break
-
-
-
 
     def get_squared_error(self):
         """
@@ -347,6 +387,7 @@ class IndieGR():
     def evaluate_RMSE(self, train_predict=0):
         """
         Attempt to score the model using the RSME method
+        train_predict is boolean so of course 0 is 'false'
 
         prints out RSME
 
@@ -355,9 +396,9 @@ class IndieGR():
         """
 
         if train_predict==1:
-            #######################3
-            #########   Eval train model RMSE for overfitting examination
-            ########################
+            ###################################################################
+            #########   Eval train model RMSE for overfitting examination #####
+            ###################################################################
             train_predictions = self.recommender.transform(self.train_data)
 
             print "\ntrain_predictions DF:"
@@ -387,11 +428,9 @@ class IndieGR():
 
             print "\nRMSE:", train_rmse
 
-
         #######################3
         #########   Eval test model RMSE like normal
         ########################
-
 
         test_predictions = self.recommender.transform(self.test_data)
 
