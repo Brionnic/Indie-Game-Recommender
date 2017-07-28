@@ -39,6 +39,7 @@ def score(column):
         _output = "{}, {}, {}\n".format(column, av_train_rmse, av_test_rmse)
         rmse_outfile.write(_output)
 
+    # loop for however many steps that are desired
     for x in range(1, 11, 1):
         rank = x
         print "##################################"
@@ -63,6 +64,12 @@ def score(column):
             outfile.write(add_line)
 
 def get_predictions(column):
+    '''
+    Load data from parquet format and show predictions of existing users.
+    Make a while loop so multiple users can be looked at.
+    Column specifies which parquet file to load in order to access different
+    types of weighting and/or model iterations.
+    '''
 
     # try to load test matrix
     file_name = "v_matrix_{}.parquet".format(column)
@@ -89,7 +96,9 @@ def get_predictions(column):
         print "##############################################"
 
         print "\nGet predictions on user_id {}".format(user_id)
-        results = igr.predict_existing_user(user_id)
+        # get 25 predictions so we can remove the duplicates from train
+        # and still have ~10 predictions
+        results = igr.predict_existing_user(user_id, 25)
         test = igr.grab_existing_user_test(user_id)
         train = igr.grab_existing_user_train(user_id)
 
@@ -114,7 +123,9 @@ def get_predictions(column):
         print "\nSorted Test DataFrame:"
         print test_pd.head(20)
         print
-        igr.print_sorted_predictions()
+        #igr.print_sorted_predictions()
+
+        igr.print_filtered_predictions(train_pd, test_pd, 10)
 
         result = raw_input("Do another? (y/n)")
 
@@ -124,12 +135,24 @@ def get_predictions(column):
             get_more = True
 
 
+def serialize(column):
+    '''
+    Write CSV files for the U/V matrix decompositions in order
+    to make fast predictions for webpage/user interface
+    '''
+
+    # try to load test matrix
+    file_name = "v_matrix_{}.parquet".format(column)
+
+
+
+
 
 if __name__ == '__main__':
     # appind  lpm_b0_s0  lpm_b0_s1  lpm_b0_s2  lpm_b0_s3  user
     columns = ["lpm_b0_s0", "lpm_b0_s1", "lpm_b0_s2", "lpm_b0_s3"]
-    column = columns[0]
+    column = columns[1]
 
-    score(column)
+    #score(column)
 
-    #get_predictions(column)
+    get_predictions(column)

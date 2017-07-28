@@ -14,12 +14,12 @@ from game_indexer import GameIndexer
 
 class IndieGR():
 
-    def __init__(self, column, rank=50, path="v_matrix_lpm_b0_s1.parquet"):
+    def __init__(self, column, rank=50, path="v_matrix_lpm_b0_s1.parquet", split_seed=None):
         # sort of like __name__ == "__main__":
 
         self.spark = ps.sql.SparkSession.builder \
-                    .master("local[14]") \
-                    .appName("df lecture") \
+                    .master("local[60]") \
+                    .appName("Indie Game Recommender (IGR)") \
                     .getOrCreate()
 
         # load datas
@@ -29,6 +29,8 @@ class IndieGR():
         print self.data.printSchema()
         print
         print self.data.show()
+
+        self.split_seed = split_seed
 
         # split data for cross validation
         self.train_data = None
@@ -54,7 +56,7 @@ class IndieGR():
         self.column_tag = column
 
 
-    def split_train_test_eval(self):
+    def split_train_test_eval(self, seed=None):
         """
         Take in the core data frame and split into:
         train, test, and evaluate sets
@@ -65,10 +67,10 @@ class IndieGR():
         # set seed so we keep these out of the pool
         # (prob won't help as more data is added in the future and
         # the pool changes but this is paranoia anyways)
-        train_test, final_eval = self.data.randomSplit([0.9, 0.1], seed=1337)
+        train_test, final_eval = self.data.randomSplit([0.9, 0.1], seed=seed)
 
         # break the non-held back into train/test split
-        train, test = train_test.randomSplit([0.8, 0.2], seed=1337)
+        train, test = train_test.randomSplit([0.8, 0.2], seed=seed)
 
         self.train_data = train
         self.test_data = test
@@ -249,7 +251,69 @@ class IndieGR():
 
         for idx, result in enumerate(self.sorted_predictions):
             title = lookup.game_index_to_title(int(result[1]), 40)
-            print "Rank: {:2d} Prediction: {:2.2f} Game: {}".format(idx +1, result[0], title)
+            if idx == 0:
+                print "Rank:    Prediction:  Appind:      Title:"
+            print "{:2d}       {:2.2f}           {:5d}      {}".format(idx +1, result[0], int(result[1]), title)
+
+    def print_filtered_predictions(self, train, test, num_items=10):
+        '''
+        Remove the matches that are also in the train set
+        Add *** HIT *** to predictions that match test set
+        Limit printing to num_items lines
+        '''
+        # keep track of how many lines have been printed
+        printed = 0
+
+        # used for resolving appind to title names
+        lookup = GameIndexer()
+
+        train_apps = train.pop("appind")
+
+        train_apps = [int(x) for x in train_apps]
+
+        test_apps = test.pop("appind")
+        test_apps = [int(x) for x in test_apps]
+
+        for idx, result in enumerate(self.sorted_predictions):
+            title = lookup.game_index_to_title(int(result[1]), 40)
+            appind = int(result[1])
+            # print "\n\n**********************************************"
+            # print "result", result[0], appind
+            # print "train", sorted(list(train_apps))
+            # print " test", sorted(list(test_apps))
+            # print "**************************************************"
+
+            if idx == 0:
+                print "Rank:    Prediction:  Appind:      Title:"
+
+            hit = ""
+
+            # import ipdb; ipdb.set_trace()
+
+            # if the appind is not in the list of train apps then print it
+            # there's no point in printing things from the train set!
+            if appind not in train_apps:
+
+                # if we got a match on the test set then we should make that
+                # more obvious
+                if appind in test_apps:
+                    hit = "<--- HIT *****"
+
+                # make sure that we don't print more than we want
+                printed += 1
+                print "{:2d}       {:2.2f}           {:5d}      {:<40}         {}". \
+                format(idx +1,
+                        result[0],
+                        int(result[1]),
+                        title,
+                        hit)
+
+
+            if printed == num_items:
+                break
+
+
+
 
     def get_squared_error(self):
         """
