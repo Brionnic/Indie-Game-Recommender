@@ -96,7 +96,11 @@ The rank is a very important hyperparameter in this model. If the rank is too lo
 #### How is the model evaluated?
 For algorithmic and objective validation RSME is being calculated using cross-validation. The ALS model is trained on a train set of the data (~60%) and then scored on a test set of the data (~30%).  10% of the data is being held in reserve for the final evaluation. The final evaluation set probably isn't needed in this case but has been done in an attempt to keep to best practices.
 
-Currently the model is scoring at ~0.87 for the RSME, down from ~0.89 initially.  The RSME from this model isn't really directly comparible to the RSME of other models so comparison to say Netflix Prize models wouldn't really be useful. Some effort will be made to reduce this score but really the evaluation that matters is the actual presented predictions and how well those seem to conform to reality. 
+I did some light hyperparameter tuning and was able to determine that a rank of 25 was optimal with regards to minimizing the objective error.  Please see the following diagram:
+
+![RMSE vs Rank](/imgs/rmse_vs_rank.png)
+
+As we can generally only use RMSE to evaluate a particular model I used a sort of "worst case recommendation" in order to set the bar. The bar is at RMSE of ~1.78 and was determined by using the mean of all of the rankings in the original utility matrix.  Relative to this worst case scenario the current model RMSE is ~1.68.
 
 For more of a subjective, but probably more important, evaluation one simply eyeballs the predictions versus the reality relative to a given user. A method was written which pulls out the data for a particular anonymized user from the training set, and the testing set.  Those are then compared to what the model is predicting for that particular user.
 
