@@ -3,6 +3,9 @@
 ###### Brian's most frequently used snippets
 `ssh -NfL localhost:9000:localhost:8888 tombstone`
 
+###### Intelligently copy files from a remote server, not copying redundant data:
+rsync -av /local/dir/ server:/remote/dir/
+
 ###### open notebook using port 9000!
 
 `http://localhost:9000/?token=15a3ecc24a52ce62e21cd4879fbb2ca20ad089662c7298b3`
