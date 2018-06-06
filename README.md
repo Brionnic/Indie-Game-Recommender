@@ -68,7 +68,7 @@ User 2 | 0 | 4.73 | 4.20 | ... | 2.43
 ... | ... | ... | ... | ... | ...
 User M | 3.65 | 2.14 | 0| ... | 4.12
 
-Altogether there are ~130K users in the sample (M) and 8200-8700 indie game app_ids (N).  Altogether this means that there are just under 1.1B potential datum. There's ~9M games with playtime.  Therefore the M x N matrix is ~0.8% populated by data.
+Altogether there are ~130K users in the sample (M) and 8200-8700 indie game app_ids (N).  Altogether this means that there are just under 1.1B points of data. There's ~9M games with playtime.  Therefore the M x N matrix is ~0.8% populated by data.
 
 #### Fitting the model
 After fitting the ALS model there are two matrices created. Frequently called the UserFactors and ItemFactors, or U/V. Currently most effort is being focused on the V matrix/ItemFactors.  The dimensions of this matrix is (k, N) where k is the "rank" hyperparameter. 
