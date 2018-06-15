@@ -62,11 +62,13 @@ wd+j6gKh4/sseCBN ubuntu@ip-172-31-14-145`
 
 ## Anaconda installer  ###########
 
-#### Python 3
+#### Python 3:
 
 `sudo wget https://repo.anaconda.com/archive/Anaconda3-5.2.0-Linux-x86_64.sh`
 
 `sudo bash Anaconda3-5.2.0-Linux-x86_64.sh`
+
+#### Python 2:
 
 `sudo wget https://repo.continuum.io/archive/Anaconda2-4.4.0-Linux-x86_64.sh`
 
